@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,6 +12,7 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
+import { getRecipe } from "../store/actions/recipeAction";
 import { removeFromFavourites } from "../store/actions/favouritesAction";
 
 const FavouritesScreen = () => {
@@ -23,6 +24,30 @@ const FavouritesScreen = () => {
     navigation.navigate("Recipe", { recipeId });
   };
 
+  const recipeInStore = useSelector((state) => state.recipe.recipe);
+
+  const dispatchRecipe = (recipeId) => {
+    dispatch(getRecipe(recipeId));
+  };
+
+  let dispatchedId = recipeInStore.id;
+
+  const goToRecipe = (id) => {
+    if (dispatchedId === id) {
+      navigation.navigate("Recipe", { dispatchedId });
+    }
+  };
+
+  const mounted = useRef();
+
+  useEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true;
+    } else {
+      goToRecipe(dispatchedId);
+    }
+  }, [dispatchedId]);
+
   return (
     <ScrollView>
       {recipes.map((recipe) => {
@@ -33,7 +58,10 @@ const FavouritesScreen = () => {
             key={recipe.id}
             activeOpacity={0.8}
             style={styles.card}
-            onPress={() => handlePress(recipe.id)}
+            onPress={() => {
+              dispatchRecipe(recipe.id.toString());
+              goToRecipe(recipe.id);
+            }}
           >
             <ImageBackground source={image} style={styles.image}>
               <TouchableOpacity style={styles.deleteButton}>

@@ -4,6 +4,10 @@ import { AsyncStorage } from "react-native";
 import { API_KEY } from "../../env";
 
 export const getRecipe = (recipeId) => async (dispatch) => {
+  dispatch({
+    type: "SET_LOADING",
+  });
+
   const value = await AsyncStorage.getItem(recipeId);
   const parsedRecipe = JSON.parse(value);
 

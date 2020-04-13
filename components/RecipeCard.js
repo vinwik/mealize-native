@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
   StyleSheet,
@@ -7,29 +7,56 @@ import {
   TouchableOpacity,
   Dimensions,
   ImageBackground,
+  ActivityIndicator,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { getRecipe } from "../store/actions/recipeAction";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 const RecipeCard = ({ recipe }) => {
   const image = { uri: `https://spoonacular.com/recipeImages/${recipe.image}` };
 
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
-  const recipeInFavourites = useSelector((state) => state.recipe.recipe);
+  const recipeInStore = useSelector((state) => state.recipe.recipe);
   const favourites = useSelector((state) =>
     state.favourites.recipes.find(
-      (recipeInFavourites) => recipeInFavourites.id === recipe.id
+      (recipeInStore) => recipeInStore.id === recipe.id
     )
   );
+  const isLoading = useSelector((state) => state.recipe.loading);
+
+  const dispatchRecipe = (recipeId) => {
+    dispatch(getRecipe(recipeId));
+  };
+
+  let dispatchedId = recipeInStore.id;
+
+  const goToRecipe = (id) => {
+    if (id === recipe.id) {
+      navigation.navigate("Recipe", { recipeId: id });
+    }
+  };
+
+  const mounted = useRef();
+
+  useEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true;
+    } else {
+      goToRecipe(dispatchedId);
+    }
+  }, [dispatchedId]);
 
   return (
     <TouchableOpacity
       style={styles.card}
       activeOpacity={0.8}
       onPress={() => {
-        navigation.navigate("Recipe", { recipeId: recipe.id });
+        dispatchRecipe(recipe.id.toString());
+        goToRecipe(dispatchedId);
       }}
     >
       <ImageBackground source={image} style={styles.image}>
@@ -41,7 +68,7 @@ const RecipeCard = ({ recipe }) => {
             style={styles.icon}
           />
         )}
-
+        {isLoading && <ActivityIndicator size="large" />}
         <View style={styles.titleWrapper}>
           <Text style={styles.title}>
             {recipe.title.length < 40

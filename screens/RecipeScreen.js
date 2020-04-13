@@ -7,6 +7,7 @@ import {
   ImageBackground,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
@@ -20,6 +21,7 @@ const RecipeScreen = ({ route, navigation }) => {
   const { recipeId } = route.params;
 
   const recipe = useSelector((state) => state.recipe.recipe);
+  const loading = useSelector((state) => state.recipe.loading);
   const favourites = useSelector((state) =>
     state.favourites.recipes.find((recipe) => recipe.id === recipeId)
   );
@@ -29,9 +31,7 @@ const RecipeScreen = ({ route, navigation }) => {
   const { extendedIngredients, steps } = recipe;
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getRecipe(recipeId.toString()));
-  }, []);
+  const [isRendered, setIsRendered] = useState(false);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -39,7 +39,6 @@ const RecipeScreen = ({ route, navigation }) => {
         <TouchableOpacity
           disabled={favourites && favourites.inFavourites === true}
           onPress={() => dispatch(addToFavourites(recipe))}
-          // style={{ marginRight: 20 }}
         >
           <AntDesign
             name={favourites ? "heart" : "hearto"}
@@ -157,15 +156,12 @@ const RecipeScreen = ({ route, navigation }) => {
       </View>
     </ScrollView>
   );
-  // }
-  // else {
-  //   return (
-  //     <View>
-  //       <Text>loading</Text>
-  //     </View>
-  //   );
-  // }
 };
+// }
+//   else {
+//     return <ActivityIndicator size="large" style={{ flex: 1 }} />;
+//   }
+// };
 
 export default RecipeScreen;
 
