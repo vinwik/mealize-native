@@ -1,7 +1,15 @@
-import { GET_RECIPE } from "../actions/types";
+import {
+  GET_RECIPE,
+  GET_RECIPE_FROM_FAVOURITES,
+  SET_LOADING,
+} from "../actions/types";
 
 const intitalState = {
   recipe: {
+    extendedIngredients: [],
+    steps: [],
+  },
+  favouriteRecipe: {
     extendedIngredients: [],
     steps: [],
   },
@@ -12,7 +20,7 @@ export default function (state = intitalState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case "SET_LOADING":
+    case SET_LOADING:
       return {
         ...state,
         loading: true,
@@ -21,6 +29,13 @@ export default function (state = intitalState, action) {
       return {
         ...state,
         recipe: payload,
+
+        loading: false,
+      };
+    case GET_RECIPE_FROM_FAVOURITES:
+      return {
+        ...state,
+        favouriteRecipe: payload,
         loading: false,
       };
     default:
