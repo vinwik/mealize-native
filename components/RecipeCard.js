@@ -9,6 +9,7 @@ import {
   ImageBackground,
   ActivityIndicator,
 } from "react-native";
+import { FadeIn } from "../animations/FadeIn";
 import { AntDesign } from "@expo/vector-icons";
 import { getRecipe } from "../store/actions/recipeAction";
 
@@ -75,15 +76,17 @@ const RecipeCard = ({ recipe }) => {
           />
         )}
         {isLoading && card === recipe.id && (
-          <ActivityIndicator
-            size="large"
-            color="#77d477"
-            style={{
-              flex: 1,
-              transform: [{ scale: 2 }],
-              backgroundColor: "#00000080",
-            }}
-          />
+          <FadeIn delay={600} duration={400}>
+            <ActivityIndicator
+              size="large"
+              color="#77d477"
+              style={{
+                flex: 1,
+                transform: [{ scale: 2 }],
+                backgroundColor: "#00000080",
+              }}
+            />
+          </FadeIn>
         )}
         <View style={styles.titleWrapper}>
           <Text style={styles.title}>
