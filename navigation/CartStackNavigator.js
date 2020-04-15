@@ -16,6 +16,10 @@ const CartStackNavigator = () => {
           headerStyle: {
             // backgroundColor: "#276582",
             backgroundColor: "#2ca52c",
+            backgroundColor: "#2CA52C",
+            // borderBottomColor: "#168916",
+            // borderBottomWidth: 1,
+            elevation: 10,
           },
           headerTintColor: "#fff",
           headerTitleAlign: "center",

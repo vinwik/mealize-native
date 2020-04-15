@@ -1,8 +1,8 @@
 import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 
-import SearchRecipeScreen from "../screens/SearchRecipeScreen";
-import FavouritesScreen from "../screens/FavouritesScreen";
+import SearchRecipeScreen from "../screens/SearchRecipeScreen/SearchRecipeScreen";
+import FavouritesScreen from "../screens/FavouritesScreen/FavouritesScreen";
 import CartScreen from "../screens/CartScreen";
 
 import MainStackNavigator from "./MainStackNavigator";

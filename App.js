@@ -2,12 +2,11 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { AsyncStorage } from "react-native";
 
-import SearchRecipeScreen from "./screens/SearchRecipeScreen";
-import NavBar from "./navigation/NavBar";
 // REACT NAVIGATOR
 import { createAppContainer } from "@react-navigation/bottom-tabs";
 import MainStackNavigator from "./navigation/MainStackNavigator";
 import BottomTabNavigator from "./navigation/BottomTabNavigator";
+
 // REDUX
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
@@ -40,16 +39,10 @@ export default function App() {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={null}>
-        {/* <View style={styles.container}> */}
         <BottomTabNavigator />
-        {/* </View> */}
       </PersistGate>
     </Provider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+const styles = StyleSheet.create({});

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import SearchInput from "../components/SearchInput";
-import RecipeCardList from "../components/RecipeCardList";
-import { API_KEY } from "../env";
+import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
+import SearchInput from "../../components/SearchInput";
+import RecipeCardList from "../../components/RecipeCardList";
+import { API_KEY } from "../../env";
 
 const SearchRecipeScreen = ({ navigation }) => {
   const [recipes, setRecipes] = useState([]);
@@ -35,5 +35,8 @@ const styles = StyleSheet.create({
     // backgroundColor: "#e6e6e6",
     // height: "100%",
     // width: "100%"
+  },
+  suspense: {
+    flex: 1,
   },
 });
