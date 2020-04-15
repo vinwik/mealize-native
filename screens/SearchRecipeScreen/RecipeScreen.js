@@ -9,10 +9,10 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
+import Ingredients from "../../components/Ingredients";
 import { AntDesign } from "@expo/vector-icons";
 
 import { getRecipe } from "../../store/actions/recipeAction";
-import { addToCart } from "../../store/actions/cartAction";
 import { addToFavourites } from "../../store/actions/favouritesAction";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -26,28 +26,8 @@ const RecipeScreen = ({ route, navigation }) => {
   const favourites = useSelector((state) =>
     state.favourites.recipes.find((recipe) => recipe.id === recipeId)
   );
-  const cart = useSelector((state) => state.cart.ingredients);
 
   const dispatch = useDispatch();
-
-  const filterDuplicates = (ingredients) => {
-    if (!ingredients.length) {
-      return ingredients;
-    }
-
-    const list = [];
-
-    ingredients.forEach((ingredient) => {
-      const duplicate = list.find((l) => l.id === ingredient.id);
-      if (!duplicate) {
-        list.push(ingredient);
-      }
-    });
-
-    return list;
-  };
-
-  const ingredients = filterDuplicates(extendedIngredients);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -93,52 +73,7 @@ const RecipeScreen = ({ route, navigation }) => {
           <Text>{recipe.readyInMinutes && recipe.readyInMinutes + " min"}</Text>
         </View>
       </View>
-      <View style={ingredientSection.container}>
-        <View>
-          <Text style={ingredientSection.title}>Ingredients</Text>
-        </View>
-        {ingredients.map((ingredient, i) => {
-          const isInCart = cart.find(
-            (ingredientInCart) => ingredientInCart.id === ingredient.id
-          );
-          return (
-            <View
-              key={(ingredient.id, i)}
-              style={
-                i === ingredient.length - 1
-                  ? ingredientSection.ingredientWrapperNoBorder
-                  : ingredientSection.ingredientWrapper
-              }
-            >
-              <View style={{ flexDirection: "row" }}>
-                <Text>
-                  {ingredient.amount > ingredient.amount.toFixed(2)
-                    ? ingredient.amount.toFixed(2) + " "
-                    : ingredient.amount + " "}
-                </Text>
-                <Text>
-                  {ingredient.measures.us.unitShort &&
-                    ingredient.measures.us.unitShort.toLowerCase() + " "}
-                </Text>
-                <Text style={ingredientSection.ingredient}>
-                  {ingredient.name}
-                </Text>
-              </View>
-              <TouchableOpacity
-                disabled={isInCart && isInCart.inCart === true}
-                onPress={() => dispatch(addToCart(ingredient))}
-              >
-                <AntDesign
-                  name="pluscircle"
-                  size={30}
-                  color={isInCart ? "#888" : "#2ca52c"}
-                  style={ingredientSection.icon}
-                />
-              </TouchableOpacity>
-            </View>
-          );
-        })}
-      </View>
+      <Ingredients extendedIngredients={extendedIngredients} />
       <View style={stepSection.container}>
         <View>
           <Text style={stepSection.title}>Instructions</Text>
