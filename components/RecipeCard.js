@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
   StyleSheet,
@@ -15,10 +15,7 @@ import { getRecipe } from "../store/actions/recipeAction";
 import { useSelector, useDispatch } from "react-redux";
 
 const RecipeCard = ({ recipe }) => {
-  const image = { uri: `https://spoonacular.com/recipeImages/${recipe.image}` };
-
   const navigation = useNavigation();
-  const dispatch = useDispatch();
 
   const recipeInStore = useSelector((state) => state.recipe.recipe);
   const favourites = useSelector((state) =>
@@ -28,6 +25,10 @@ const RecipeCard = ({ recipe }) => {
   );
   const isLoading = useSelector((state) => state.recipe.loading);
 
+  const dispatch = useDispatch();
+
+  const [card, setCard] = useState();
+
   const dispatchRecipe = (recipeId) => {
     dispatch(getRecipe(recipeId));
   };
@@ -36,6 +37,7 @@ const RecipeCard = ({ recipe }) => {
 
   const goToRecipe = (id) => {
     if (id === recipe.id) {
+      setCard("");
       navigation.navigate("Recipe", { recipeId: id });
     }
   };
@@ -55,11 +57,15 @@ const RecipeCard = ({ recipe }) => {
       style={styles.card}
       activeOpacity={0.8}
       onPress={() => {
+        setCard(recipe.id);
         dispatchRecipe(recipe.id.toString());
         goToRecipe(dispatchedId);
       }}
     >
-      <ImageBackground source={image} style={styles.image}>
+      <ImageBackground
+        source={{ uri: `https://spoonacular.com/recipeImages/${recipe.image}` }}
+        style={styles.image}
+      >
         {favourites && (
           <AntDesign
             name="heart"
@@ -68,7 +74,17 @@ const RecipeCard = ({ recipe }) => {
             style={styles.icon}
           />
         )}
-        {isLoading && <ActivityIndicator size="large" />}
+        {isLoading && card === recipe.id && (
+          <ActivityIndicator
+            size="large"
+            color="#77d477"
+            style={{
+              flex: 1,
+              transform: [{ scale: 2 }],
+              backgroundColor: "#00000080",
+            }}
+          />
+        )}
         <View style={styles.titleWrapper}>
           <Text style={styles.title}>
             {recipe.title.length < 40
@@ -91,6 +107,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     top: 78,
     elevation: 8,
+    overflow: "hidden",
     backgroundColor: "#cecece",
   },
   image: {
