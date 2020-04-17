@@ -44,11 +44,11 @@ const RecipeCard = ({ recipe, i, length }) => {
   };
 
   const cardMargin = (i) => {
-    if (i === length - 1) {
-      return styles.lastCard;
-    }
     if (i === 0) {
       return styles.firstCard;
+    }
+    if (i === length - 1) {
+      return styles.lastCard;
     }
 
     return styles.card;
