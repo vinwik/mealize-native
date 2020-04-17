@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     width: "90%",
     borderRadius: 25,
+    alignSelf: "center",
     position: "absolute",
     top: 20,
     elevation: 5,

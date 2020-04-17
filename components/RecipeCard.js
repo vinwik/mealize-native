@@ -15,7 +15,7 @@ import { getRecipe } from "../store/actions/recipeAction";
 
 import { useSelector, useDispatch } from "react-redux";
 
-const RecipeCard = ({ recipe }) => {
+const RecipeCard = ({ recipe, i, length }) => {
   const navigation = useNavigation();
 
   const recipeInStore = useSelector((state) => state.recipe.recipe);
@@ -55,7 +55,7 @@ const RecipeCard = ({ recipe }) => {
 
   return (
     <TouchableOpacity
-      style={styles.card}
+      style={i === length - 1 ? styles.lastCard : styles.card}
       activeOpacity={0.8}
       onPress={() => {
         setCard(recipe.id);
@@ -64,7 +64,17 @@ const RecipeCard = ({ recipe }) => {
       }}
     >
       <ImageBackground
-        source={{ uri: `https://spoonacular.com/recipeImages/${recipe.image}` }}
+        source={
+          // typeof recipe.image !== undefined &&
+          // recipe.image.includes("spoonacular")
+          //   ?
+          // { uri: `${recipe.image}` }
+          // :
+          { uri: `https://spoonacular.com/recipeImages/${recipe.image}` }
+          // {
+          //   uri: `https://spoonacular.com/recipeImages/${recipe.id}-636x393.${recipe.imageType}`,
+          // }
+        }
         style={styles.image}
       >
         {favourites && (
@@ -104,11 +114,29 @@ export default RecipeCard;
 
 const styles = StyleSheet.create({
   card: {
-    marginHorizontal: Dimensions.get("screen").width * 0.05,
+    marginLeft: Dimensions.get("screen").width * 0.05,
+    marginVertical: 20,
     width: Dimensions.get("screen").width * 0.7,
-    height: Dimensions.get("screen").height - 276,
+    height: Dimensions.get("screen").height - 336,
+    // height: Dimensions.get("screen").height * 0.6,
+    // flexGrow: 1,
     borderRadius: 25,
-    top: 78,
+    // top: 40,
+    // top: 78,
+    elevation: 8,
+    overflow: "hidden",
+    backgroundColor: "#cecece",
+  },
+  lastCard: {
+    marginHorizontal: Dimensions.get("screen").width * 0.05,
+    marginVertical: 20,
+    width: Dimensions.get("screen").width * 0.7,
+    height: Dimensions.get("screen").height - 336,
+    // height: Dimensions.get("screen").height * 0.6,
+    // flexGrow: 1,
+    borderRadius: 25,
+    // top: 40,
+    // top: 78,
     elevation: 8,
     overflow: "hidden",
     backgroundColor: "#cecece",

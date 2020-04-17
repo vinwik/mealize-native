@@ -10,7 +10,9 @@ const RecipeCardList = (props) => {
         showsHorizontalScrollIndicator={false}
         style={styles.cardList}
         data={props.recipes}
-        renderItem={({ item }) => <RecipeCard recipe={item} />}
+        renderItem={({ item, index }) => (
+          <RecipeCard recipe={item} i={index} length={props.recipes.length} />
+        )}
         keyExtractor={(item) => item.id.toString()}
       />
     </View>
@@ -22,10 +24,12 @@ export default RecipeCardList;
 const styles = StyleSheet.create({
   cardListContainer: {
     // flexDirection: "row",
-    // height: "70%",
-    height: "100%",
-    width: "100%",
+    // height: "40%",
+    // height: "100%",
+    // width: "100%",
     // paddingLeft: "5%"
+    position: "absolute",
+    top: 58,
   },
   cardList: {
     // flexDirection: "row",
