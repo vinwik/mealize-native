@@ -43,6 +43,17 @@ const RecipeCard = ({ recipe, i, length }) => {
     }
   };
 
+  const cardMargin = (i) => {
+    if (i === length - 1) {
+      return styles.lastCard;
+    }
+    if (i === 0) {
+      return styles.firstCard;
+    }
+
+    return styles.card;
+  };
+
   const mounted = useRef();
 
   useEffect(() => {
@@ -55,7 +66,7 @@ const RecipeCard = ({ recipe, i, length }) => {
 
   return (
     <TouchableOpacity
-      style={i === length - 1 ? styles.lastCard : styles.card}
+      style={cardMargin(i)}
       activeOpacity={0.8}
       onPress={() => {
         setCard(recipe.id);
@@ -64,17 +75,7 @@ const RecipeCard = ({ recipe, i, length }) => {
       }}
     >
       <ImageBackground
-        source={
-          // typeof recipe.image !== undefined &&
-          // recipe.image.includes("spoonacular")
-          //   ?
-          // { uri: `${recipe.image}` }
-          // :
-          { uri: `https://spoonacular.com/recipeImages/${recipe.image}` }
-          // {
-          //   uri: `https://spoonacular.com/recipeImages/${recipe.id}-636x393.${recipe.imageType}`,
-          // }
-        }
+        source={{ uri: `https://spoonacular.com/recipeImages/${recipe.image}` }}
         style={styles.image}
       >
         {favourites && (
@@ -114,7 +115,22 @@ export default RecipeCard;
 
 const styles = StyleSheet.create({
   card: {
+    marginHorizontal: Dimensions.get("screen").width * 0.025,
+    marginVertical: 20,
+    width: Dimensions.get("screen").width * 0.7,
+    height: Dimensions.get("screen").height - 336,
+    // height: Dimensions.get("screen").height * 0.6,
+    // flexGrow: 1,
+    borderRadius: 25,
+    // top: 40,
+    // top: 78,
+    elevation: 8,
+    overflow: "hidden",
+    backgroundColor: "#cecece",
+  },
+  firstCard: {
     marginLeft: Dimensions.get("screen").width * 0.05,
+    marginRight: Dimensions.get("screen").width * 0.025,
     marginVertical: 20,
     width: Dimensions.get("screen").width * 0.7,
     height: Dimensions.get("screen").height - 336,
@@ -128,7 +144,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#cecece",
   },
   lastCard: {
-    marginHorizontal: Dimensions.get("screen").width * 0.05,
+    marginLeft: Dimensions.get("screen").width * 0.025,
+    marginRight: Dimensions.get("screen").width * 0.05,
     marginVertical: 20,
     width: Dimensions.get("screen").width * 0.7,
     height: Dimensions.get("screen").height - 336,
