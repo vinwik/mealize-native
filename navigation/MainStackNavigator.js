@@ -5,12 +5,14 @@ import RecipeScreen from "../screens/SearchRecipeScreen/RecipeScreen";
 import { AntDesign } from "@expo/vector-icons";
 
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+// import { createStackNavigator } from "@react-navigation/stack";
+import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 
 import { useSelector } from "react-redux";
 import { addToFavourites } from "../store/actions/favouritesAction";
 
-const Stack = createStackNavigator();
+// const Stack = createStackNavigator();
+const Stack = createSharedElementStackNavigator();
 
 const MainStackNavigator = () => {
   const isLoading = useSelector((state) => state.recipe.loading);
@@ -20,7 +22,12 @@ const MainStackNavigator = () => {
       <Stack.Screen
         name="Mealize"
         component={SearchRecipeScreen}
+        // sharedElementsConfig={(route, otherRoute, showing) => {
+        //   const { recipeImage } = route.params;
+        //   return ["recipeImage"];
+        // }}
         options={{
+          // animationEnabled: false,
           headerStyle: {
             backgroundColor: "#2CA52C",
             // borderBottomColor: "#168916",
@@ -36,7 +43,20 @@ const MainStackNavigator = () => {
       <Stack.Screen
         name="Recipe"
         component={RecipeScreen}
+        sharedElementsConfig={(route, otherRoute, showing) => {
+          const { recipeImage } = route.params;
+          return [
+            {
+              id: recipeImage,
+              animation: "move",
+              resize: "none",
+              align: "right-top",
+            },
+          ];
+        }}
         options={({ navigation, route }) => ({
+          // animationEnabled: false,
+
           headerTransparent: true,
           headerLeft: () => (
             <AntDesign

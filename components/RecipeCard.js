@@ -7,15 +7,17 @@ import {
   TouchableOpacity,
   Dimensions,
   ImageBackground,
+  Image,
   ActivityIndicator,
 } from "react-native";
 import { FadeIn } from "../animations/FadeIn";
 import { AntDesign } from "@expo/vector-icons";
 import { getRecipe } from "../store/actions/recipeAction";
+import { SharedElement } from "react-navigation-shared-element";
 
 import { useSelector, useDispatch } from "react-redux";
 
-const RecipeCard = ({ recipe }) => {
+const RecipeCard = ({ recipe, i, length }) => {
   const navigation = useNavigation();
 
   const recipeInStore = useSelector((state) => state.recipe.recipe);
@@ -39,8 +41,22 @@ const RecipeCard = ({ recipe }) => {
   const goToRecipe = (id) => {
     if (id === recipe.id) {
       setCard("");
-      navigation.navigate("Recipe", { recipeId: id });
+      navigation.navigate("Recipe", {
+        recipeId: id,
+        recipeImage: recipe.image,
+      });
     }
+  };
+
+  const cardMargin = (i) => {
+    if (i === 0) {
+      return styles.firstCard;
+    }
+    if (i === length - 1) {
+      return styles.lastCard;
+    }
+
+    return styles.card;
   };
 
   const mounted = useRef();
@@ -55,7 +71,7 @@ const RecipeCard = ({ recipe }) => {
 
   return (
     <TouchableOpacity
-      style={styles.card}
+      style={cardMargin(i)}
       activeOpacity={0.8}
       onPress={() => {
         setCard(recipe.id);
@@ -63,39 +79,49 @@ const RecipeCard = ({ recipe }) => {
         goToRecipe(dispatchedId);
       }}
     >
-      <ImageBackground
-        source={{ uri: `https://spoonacular.com/recipeImages/${recipe.image}` }}
-        style={styles.image}
-      >
-        {favourites && (
-          <AntDesign
-            name="heart"
-            color="#2ca52c"
-            size={30}
-            style={styles.icon}
-          />
-        )}
-        {isLoading && card === recipe.id && (
-          <FadeIn delay={600} duration={400}>
-            <ActivityIndicator
-              size="large"
-              color="#77d477"
-              style={{
-                flex: 1,
-                transform: [{ scale: 2 }],
-                backgroundColor: "#00000080",
-              }}
+      <SharedElement id={recipe.image}>
+        <Image
+          source={{
+            uri: `https://spoonacular.com/recipeImages/${recipe.image}`,
+          }}
+          style={styles.image}
+        />
+        {/* <ImageBackground
+          source={{
+            uri: `https://spoonacular.com/recipeImages/${recipe.image}`,
+          }}
+          style={styles.image}
+        >
+          {favourites && (
+            <AntDesign
+              name="heart"
+              color="#2ca52c"
+              size={30}
+              style={styles.icon}
             />
-          </FadeIn>
-        )}
-        <View style={styles.titleWrapper}>
-          <Text style={styles.title}>
-            {recipe.title.length < 40
-              ? recipe.title
-              : recipe.title.substring(0, 40) + "..."}
-          </Text>
-        </View>
-      </ImageBackground>
+          )}
+          {isLoading && card === recipe.id && (
+            <FadeIn delay={600} duration={400} style={{ flex: 1 }}>
+              <ActivityIndicator
+                size="large"
+                color="#77d477"
+                style={{
+                  flex: 1,
+                  transform: [{ scale: 2 }],
+                  backgroundColor: "#00000080",
+                }}
+              />
+            </FadeIn>
+          )}
+          <View style={styles.titleWrapper}>
+            <Text style={styles.title}>
+              {recipe.title.length < 40
+                ? recipe.title
+                : recipe.title.substring(0, 40) + "..."}
+            </Text>
+          </View>
+        </ImageBackground> */}
+      </SharedElement>
     </TouchableOpacity>
   );
 };
@@ -104,11 +130,45 @@ export default RecipeCard;
 
 const styles = StyleSheet.create({
   card: {
-    marginHorizontal: Dimensions.get("screen").width * 0.05,
+    marginHorizontal: Dimensions.get("screen").width * 0.025,
+    marginVertical: 20,
     width: Dimensions.get("screen").width * 0.7,
-    height: Dimensions.get("screen").height - 276,
+    height: Dimensions.get("screen").height - 336,
+    // height: Dimensions.get("screen").height * 0.6,
+    // flexGrow: 1,
     borderRadius: 25,
-    top: 78,
+    // top: 40,
+    // top: 78,
+    elevation: 8,
+    overflow: "hidden",
+    backgroundColor: "#cecece",
+  },
+  firstCard: {
+    marginLeft: Dimensions.get("screen").width * 0.05,
+    marginRight: Dimensions.get("screen").width * 0.025,
+    marginVertical: 20,
+    width: Dimensions.get("screen").width * 0.7,
+    height: Dimensions.get("screen").height - 336,
+    // height: Dimensions.get("screen").height * 0.6,
+    // flexGrow: 1,
+    borderRadius: 25,
+    // top: 40,
+    // top: 78,
+    elevation: 8,
+    overflow: "hidden",
+    backgroundColor: "#cecece",
+  },
+  lastCard: {
+    marginLeft: Dimensions.get("screen").width * 0.025,
+    marginRight: Dimensions.get("screen").width * 0.05,
+    marginVertical: 20,
+    width: Dimensions.get("screen").width * 0.7,
+    height: Dimensions.get("screen").height - 336,
+    // height: Dimensions.get("screen").height * 0.6,
+    // flexGrow: 1,
+    borderRadius: 25,
+    // top: 40,
+    // top: 78,
     elevation: 8,
     overflow: "hidden",
     backgroundColor: "#cecece",

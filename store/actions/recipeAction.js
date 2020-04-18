@@ -3,6 +3,39 @@ import { AsyncStorage } from "react-native";
 
 import { API_KEY } from "../../env";
 
+export const searchRecipe = (search, type, cuisine) => async (dispatch) => {
+  dispatch({
+    type: SET_LOADING,
+  });
+
+  // await AsyncStorage.removeItem(`${search}-${type}-${cuisine}`);
+  const value = await AsyncStorage.getItem(`${search}-${type}-${cuisine}`);
+  const parsedRecipe = JSON.parse(value);
+
+  if (parsedRecipe !== null) {
+    dispatch({
+      type: "GET_SEARCH",
+      payload: parsedRecipe,
+    });
+  } else {
+    const response = await fetch(
+      `https://api.spoonacular.com/recipes/search?apiKey=${API_KEY}&query=${search}&number=100&instructionsRequired=true&cuisine=${cuisine}&type=${type}`
+    );
+
+    const data = await response.json();
+    // console.log(data);
+
+    await AsyncStorage.setItem(
+      `${search}-${type}-${cuisine}`,
+      JSON.stringify(data.results)
+    );
+
+    dispatch({
+      type: "GET_SEARCH",
+      payload: data.results,
+    });
+  }
+};
 export const getRecipe = (recipeId) => async (dispatch) => {
   dispatch({
     type: SET_LOADING,

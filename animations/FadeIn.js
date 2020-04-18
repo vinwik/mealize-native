@@ -16,7 +16,6 @@ export const FadeIn = (props) => {
     <Animated.View
       style={{
         ...props.style,
-        flex: 1,
         opacity: fadeAnim,
       }}
     >
