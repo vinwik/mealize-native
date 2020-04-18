@@ -5,6 +5,7 @@ import {
   View,
   Dimensions,
   ImageBackground,
+  Image,
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
@@ -14,11 +15,12 @@ import { AntDesign } from "@expo/vector-icons";
 import { getRecipe } from "../../store/actions/recipeAction";
 import { addToCart } from "../../store/actions/cartAction";
 import { addToFavourites } from "../../store/actions/favouritesAction";
-
+import { SharedElement } from "react-navigation-shared-element";
 import { useSelector, useDispatch } from "react-redux";
 
 const RecipeScreen = ({ route, navigation }) => {
   const { recipeId } = route.params;
+  const { recipeImage } = route.params;
 
   const recipe = useSelector((state) => state.recipe.recipe);
   const { extendedIngredients, steps } = recipe;
@@ -74,14 +76,26 @@ const RecipeScreen = ({ route, navigation }) => {
         disabled={favourites && favourites.inFavourites === true}
         onPress={() => dispatch(addToFavourites(recipe))}
       >
-        <ImageBackground
-          source={{ uri: `${recipe.image}` }}
-          style={showcase.image}
-        >
-          <View style={showcase.titleWrapper}>
-            <Text style={showcase.title}>{recipe.title}</Text>
-          </View>
-        </ImageBackground>
+        <SharedElement id={recipeImage}>
+          <Image
+            // source={{ uri: `${recipe.image}` }}
+            source={{
+              uri: `https://spoonacular.com/recipeImages/${recipeImage}`,
+            }}
+            style={showcase.image}
+          />
+          {/* <ImageBackground
+            // source={{ uri: `${recipe.image}` }}
+            source={{
+              uri: `https://spoonacular.com/recipeImages/${recipeImage}`,
+            }}
+            style={showcase.image}
+          >
+            <View style={showcase.titleWrapper}>
+              <Text style={showcase.title}>{recipe.title}</Text>
+            </View>
+          </ImageBackground> */}
+        </SharedElement>
       </TouchableOpacity>
       <View style={preparation.layout}>
         <View style={preparation.column}>
@@ -157,6 +171,11 @@ const RecipeScreen = ({ route, navigation }) => {
 };
 
 export default RecipeScreen;
+
+// RecipeScreen.sharedElements = (navigation, otherNavigation, showing) => {
+//   const item = navigation.getParam("recipeImage");
+//   return [item];
+// };
 
 const showcase = StyleSheet.create({
   showcaseWrapper: {

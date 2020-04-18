@@ -7,11 +7,13 @@ import {
   TouchableOpacity,
   Dimensions,
   ImageBackground,
+  Image,
   ActivityIndicator,
 } from "react-native";
 import { FadeIn } from "../animations/FadeIn";
 import { AntDesign } from "@expo/vector-icons";
 import { getRecipe } from "../store/actions/recipeAction";
+import { SharedElement } from "react-navigation-shared-element";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -39,7 +41,10 @@ const RecipeCard = ({ recipe, i, length }) => {
   const goToRecipe = (id) => {
     if (id === recipe.id) {
       setCard("");
-      navigation.navigate("Recipe", { recipeId: id });
+      navigation.navigate("Recipe", {
+        recipeId: id,
+        recipeImage: recipe.image,
+      });
     }
   };
 
@@ -74,39 +79,49 @@ const RecipeCard = ({ recipe, i, length }) => {
         goToRecipe(dispatchedId);
       }}
     >
-      <ImageBackground
-        source={{ uri: `https://spoonacular.com/recipeImages/${recipe.image}` }}
-        style={styles.image}
-      >
-        {favourites && (
-          <AntDesign
-            name="heart"
-            color="#2ca52c"
-            size={30}
-            style={styles.icon}
-          />
-        )}
-        {isLoading && card === recipe.id && (
-          <FadeIn delay={600} duration={400}>
-            <ActivityIndicator
-              size="large"
-              color="#77d477"
-              style={{
-                flex: 1,
-                transform: [{ scale: 2 }],
-                backgroundColor: "#00000080",
-              }}
+      <SharedElement id={recipe.image}>
+        <Image
+          source={{
+            uri: `https://spoonacular.com/recipeImages/${recipe.image}`,
+          }}
+          style={styles.image}
+        />
+        {/* <ImageBackground
+          source={{
+            uri: `https://spoonacular.com/recipeImages/${recipe.image}`,
+          }}
+          style={styles.image}
+        >
+          {favourites && (
+            <AntDesign
+              name="heart"
+              color="#2ca52c"
+              size={30}
+              style={styles.icon}
             />
-          </FadeIn>
-        )}
-        <View style={styles.titleWrapper}>
-          <Text style={styles.title}>
-            {recipe.title.length < 40
-              ? recipe.title
-              : recipe.title.substring(0, 40) + "..."}
-          </Text>
-        </View>
-      </ImageBackground>
+          )}
+          {isLoading && card === recipe.id && (
+            <FadeIn delay={600} duration={400} style={{ flex: 1 }}>
+              <ActivityIndicator
+                size="large"
+                color="#77d477"
+                style={{
+                  flex: 1,
+                  transform: [{ scale: 2 }],
+                  backgroundColor: "#00000080",
+                }}
+              />
+            </FadeIn>
+          )}
+          <View style={styles.titleWrapper}>
+            <Text style={styles.title}>
+              {recipe.title.length < 40
+                ? recipe.title
+                : recipe.title.substring(0, 40) + "..."}
+            </Text>
+          </View>
+        </ImageBackground> */}
+      </SharedElement>
     </TouchableOpacity>
   );
 };
