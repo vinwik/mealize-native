@@ -6,6 +6,8 @@ import { AsyncStorage } from "react-native";
 import { createAppContainer } from "@react-navigation/bottom-tabs";
 import MainStackNavigator from "./navigation/MainStackNavigator";
 import BottomTabNavigator from "./navigation/BottomTabNavigator";
+import { enableScreens } from "react-native-screens";
+enableScreens();
 
 // REDUX
 import { createStore, combineReducers, applyMiddleware } from "redux";
