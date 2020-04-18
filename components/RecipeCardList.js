@@ -1,17 +1,22 @@
 import React from "react";
 import { StyleSheet, Text, View, FlatList, ScrollView } from "react-native";
 import RecipeCard from "./RecipeCard";
+import { useSelector, useDispatch } from "react-redux";
 
 const RecipeCardList = (props) => {
+  const recipes = useSelector((state) => state.recipe.recipes);
+
   return (
     <View style={styles.cardListContainer}>
       <FlatList
         horizontal
         showsHorizontalScrollIndicator={false}
         style={styles.cardList}
-        data={props.recipes}
+        // data={props.recipes}
+        data={recipes}
         renderItem={({ item, index }) => (
-          <RecipeCard recipe={item} i={index} length={props.recipes.length} />
+          // <RecipeCard recipe={item} i={index} length={props.recipes.length} />
+          <RecipeCard recipe={item} i={index} length={recipes.length} />
         )}
         keyExtractor={(item) => item.id.toString()}
       />

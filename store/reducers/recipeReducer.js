@@ -5,6 +5,7 @@ import {
 } from "../actions/types";
 
 const intitalState = {
+  recipes: [],
   recipe: {
     extendedIngredients: [],
     steps: [],
@@ -24,6 +25,13 @@ export default function (state = intitalState, action) {
       return {
         ...state,
         loading: true,
+      };
+    case "GET_SEARCH":
+      return {
+        ...state,
+        recipes: [...payload],
+
+        loading: false,
       };
     case GET_RECIPE:
       return {
