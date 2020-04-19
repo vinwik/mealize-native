@@ -82,10 +82,7 @@ const SearchRecipeScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    if (type || cuisine) {
-      // getRecipes();
-      dispatch(searchRecipe(search, type, cuisine));
-    }
+    dispatch(searchRecipe(search, type, cuisine));
   }, [type, cuisine]);
 
   return (
