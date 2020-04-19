@@ -10,6 +10,7 @@ import {
   Image,
   ActivityIndicator,
 } from "react-native";
+import { colors } from "../colors/colors";
 import { FadeIn } from "../animations/FadeIn";
 import { AntDesign } from "@expo/vector-icons";
 import { getRecipe } from "../store/actions/recipeAction";
@@ -95,7 +96,7 @@ const RecipeCard = ({ recipe, i, length }) => {
           {favourites && (
             <AntDesign
               name="heart"
-              color="#2ca52c"
+            color={colors.paleGreen}
               size={30}
               style={styles.icon}
             />

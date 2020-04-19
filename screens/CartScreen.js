@@ -8,6 +8,7 @@ import {
   Image,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { colors } from "../colors/colors";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -45,7 +46,7 @@ const CartScreen = () => {
                 <AntDesign
                   name="minuscircle"
                   size={25}
-                  color="#ce3737"
+                  color={colors.paleDarkRed}
                   style={styles.icon}
                 />
               </TouchableOpacity>

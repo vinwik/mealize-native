@@ -4,6 +4,7 @@ import { AntDesign } from "@expo/vector-icons";
 import SearchRecipeScreen from "../screens/SearchRecipeScreen/SearchRecipeScreen";
 import FavouritesScreen from "../screens/FavouritesScreen/FavouritesScreen";
 import CartScreen from "../screens/CartScreen";
+import { colors } from "../colors/colors";
 
 import MainStackNavigator from "./MainStackNavigator";
 import FavouritesStackNavigator from "./FavouritesStackNavigator";
@@ -19,7 +20,7 @@ const BottomTabNavigator = () => {
     <NavigationContainer>
       <Tab.Navigator
         tabBarOptions={{
-          activeTintColor: "#2ca52c",
+          activeTintColor: colors.paleGreen,
         }}
       >
         <Tab.Screen

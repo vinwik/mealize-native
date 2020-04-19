@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { colors } from "../colors/colors";
 
 import { addToCart } from "../store/actions/cartAction";
 
@@ -68,7 +69,7 @@ const Ingredients = ({ extendedIngredients }) => {
               <AntDesign
                 name="pluscircle"
                 size={30}
-                color={isInCart ? "#888" : "#2ca52c"}
+                color={isInCart ? colors.disabled : colors.paleGreen}
                 style={ingredientSection.icon}
               />
             </TouchableOpacity>

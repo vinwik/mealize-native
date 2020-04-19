@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
+import { colors } from "../colors/colors";
 
 const tags = [
   { name: "breakfast", category: "type" },
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
     height: 40,
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: "#2ca52c",
+    backgroundColor: colors.paleGreen,
     borderRadius: 25,
     elevation: 5,
   },
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
     height: 40,
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: "#2ca52c",
+    backgroundColor: colors.paleGreen,
     borderRadius: 25,
     elevation: 5,
   },
@@ -133,14 +134,14 @@ const styles = StyleSheet.create({
     height: 40,
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: "#2ca52c",
+    backgroundColor: colors.paleGreen,
     borderRadius: 25,
     elevation: 5,
   },
   buttonBackground: {
-    backgroundColor: "#2ca52c",
+    backgroundColor: colors.paleGreen,
   },
   pressedButtonBackground: {
-    backgroundColor: "#036a03",
+    backgroundColor: colors.paleDarkGreen,
   },
 });

@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import Ingredients from "../../components/Ingredients";
+import { colors } from "../../colors/colors";
 import { AntDesign } from "@expo/vector-icons";
 
 import { getRecipe } from "../../store/actions/recipeAction";
@@ -40,7 +41,7 @@ const RecipeScreen = ({ route, navigation }) => {
         >
           <AntDesign
             name={favourites ? "heart" : "hearto"}
-            color={favourites ? "#2ca52c" : "black"}
+            color={favourites ? colors.paleGreen : "black"}
             size={24}
             style={showcase.icon}
           />
@@ -115,7 +116,8 @@ export default RecipeScreen;
 const showcase = StyleSheet.create({
   showcaseWrapper: {
     height: Dimensions.get("screen").height * 0.35,
-    position: "relative",
+    // position: "relative",
+    elevation: 8, // not working
   },
   image: {
     width: "100%",

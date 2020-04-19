@@ -3,6 +3,7 @@ import { StyleSheet, ActivityIndicator } from "react-native";
 import SearchRecipeScreen from "../screens/SearchRecipeScreen/SearchRecipeScreen";
 import RecipeScreen from "../screens/SearchRecipeScreen/RecipeScreen";
 import { AntDesign } from "@expo/vector-icons";
+import { colors } from "../colors/colors";
 
 import { NavigationContainer } from "@react-navigation/native";
 // import { createStackNavigator } from "@react-navigation/stack";
@@ -29,7 +30,7 @@ const MainStackNavigator = () => {
         options={{
           // animationEnabled: false,
           headerStyle: {
-            backgroundColor: "#2CA52C",
+            backgroundColor: colors.paleGreen,
             // borderBottomColor: "#168916",
             // borderBottomWidth: 1,
             elevation: 10,

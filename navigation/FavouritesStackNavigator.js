@@ -9,6 +9,8 @@ import { AntDesign } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
+import { colors } from "../colors/colors";
+
 const Stack = createStackNavigator();
 
 const FavouritesStackNavigator = () => {
@@ -19,7 +21,7 @@ const FavouritesStackNavigator = () => {
         component={FavouritesScreen}
         options={{
           headerStyle: {
-            backgroundColor: "#2ca52c",
+            backgroundColor: colors.paleGreen,
             // borderBottomColor: "#168916",
             // borderBottomWidth: 1,
             elevation: 10,

@@ -4,6 +4,8 @@ import CartScreen from "../screens/CartScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
+import { colors } from "../colors/colors";
+
 const Stack = createStackNavigator();
 
 const CartStackNavigator = () => {
@@ -15,8 +17,7 @@ const CartStackNavigator = () => {
         options={{
           headerStyle: {
             // backgroundColor: "#276582",
-            backgroundColor: "#2ca52c",
-            backgroundColor: "#2CA52C",
+            backgroundColor: colors.paleGreen,
             // borderBottomColor: "#168916",
             // borderBottomWidth: 1,
             elevation: 10,
