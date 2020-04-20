@@ -71,13 +71,17 @@ const RecipeScreen = ({ route, navigation }) => {
               uri: `https://spoonacular.com/recipeImages/${recipeImage}`,
             }}
             style={showcase.image}
-          >
+            > */}
+          {/* </ImageBackground> */}
+        </SharedElement>
+        <SharedElement id={recipeTitle}>
             <View style={showcase.titleWrapper}>
-              <Text style={showcase.title}>{recipe.title}</Text>
+            <Text style={showcase.title}>{recipeTitle}</Text>
             </View>
-          </ImageBackground> */}
         </SharedElement>
       </TouchableOpacity>
+      {recipeId === recipe.id && (
+        <FadeIn duration={500}>
       <View style={preparation.layout}>
         <View style={preparation.column}>
           <Text style={preparation.title}>Servings</Text>

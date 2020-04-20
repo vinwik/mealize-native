@@ -15,6 +15,7 @@ import { FadeIn } from "../animations/FadeIn";
 import { AntDesign } from "@expo/vector-icons";
 import { getRecipe } from "../store/actions/recipeAction";
 import { SharedElement } from "react-navigation-shared-element";
+import TouchableScale from "react-native-touchable-scale";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -45,6 +46,7 @@ const RecipeCard = ({ recipe, i, length }) => {
       navigation.navigate("Recipe", {
         recipeId: id,
         recipeImage: recipe.image,
+        recipeTitle: recipe.title,
       });
     }
   };
@@ -66,18 +68,22 @@ const RecipeCard = ({ recipe, i, length }) => {
     if (!mounted.current) {
       mounted.current = true;
     } else {
-      goToRecipe(dispatchedId);
+      goToRecipe(recipe.id);
     }
-  }, [dispatchedId]);
+  }, [recipe.id]);
 
   return (
-    <TouchableOpacity
+    <TouchableScale
       style={cardMargin(i)}
-      activeOpacity={0.8}
+      // activeOpacity={0.8}
+      activeScale={0.99}
+      tension={1}
+      friction={1}
+      useNativeDriver
       onPress={() => {
         setCard(recipe.id);
         dispatchRecipe(recipe.id.toString());
-        goToRecipe(dispatchedId);
+        goToRecipe(recipe.id);
       }}
     >
       <SharedElement id={recipe.image}>
@@ -123,7 +129,37 @@ const RecipeCard = ({ recipe, i, length }) => {
           </View>
         </ImageBackground> */}
       </SharedElement>
-    </TouchableOpacity>
+      {favourites && (
+        <AntDesign
+          name="heart"
+          color={colors.paleGreen}
+          size={30}
+          style={styles.icon}
+        />
+      )}
+      {isLoading && card === recipe.id && (
+        <FadeIn delay={600} duration={400} style={{ flex: 1 }}>
+          <ActivityIndicator
+            size="large"
+            color="#77d477"
+            style={{
+              flex: 1,
+              transform: [{ scale: 2 }],
+              backgroundColor: "#00000080",
+            }}
+          />
+        </FadeIn>
+      )}
+      <SharedElement id={recipe.title}>
+        <View style={styles.titleWrapper}>
+          <Text style={styles.title}>
+            {recipe.title.length < 40
+              ? recipe.title
+              : recipe.title.substring(0, 40) + "..."}
+          </Text>
+        </View>
+      </SharedElement>
+    </TouchableScale>
   );
 };
 
@@ -178,7 +214,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     resizeMode: "cover",
-    justifyContent: "flex-end",
+    // justifyContent: "flex-end",
     overflow: "hidden",
     borderRadius: 25,
   },
@@ -195,7 +231,12 @@ const styles = StyleSheet.create({
     padding: "7%",
     paddingTop: "5%",
     width: "100%",
+    // height: "100%",
     backgroundColor: "#00000080",
+    position: "absolute",
+    bottom: 0,
+    borderBottomLeftRadius: 25,
+    borderBottomRightRadius: 25,
   },
   title: {
     color: "#fff",

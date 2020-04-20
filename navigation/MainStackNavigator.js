@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, ActivityIndicator } from "react-native";
 import SearchRecipeScreen from "../screens/SearchRecipeScreen/SearchRecipeScreen";
 import RecipeScreen from "../screens/SearchRecipeScreen/RecipeScreen";
@@ -6,20 +6,61 @@ import { AntDesign } from "@expo/vector-icons";
 import { colors } from "../colors/colors";
 
 import { NavigationContainer } from "@react-navigation/native";
-// import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  TransitionPresets,
+  CardStyleInterpolators,
+} from "@react-navigation/stack";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 
 import { useSelector } from "react-redux";
 import { addToFavourites } from "../store/actions/favouritesAction";
+import { FadeIn } from "../animations/FadeIn";
 
 // const Stack = createStackNavigator();
 const Stack = createSharedElementStackNavigator();
+
+const springConfig = {
+  animation: "spring",
+  config: {
+    stiffness: 1000,
+    damping: 500,
+    mass: 3,
+    overshootClamping: true,
+    restDisplacementThreshold: 10,
+    restSpeedThreshold: 10,
+  },
+};
+
+const timingConfig = {
+  animation: "timing",
+  config: {
+    duration: 300,
+  },
+};
 
 const MainStackNavigator = () => {
   const isLoading = useSelector((state) => state.recipe.loading);
 
   return (
-    <Stack.Navigator initialRouteName="Mealize">
+    <Stack.Navigator
+      initialRouteName="Mealize"
+      // mode="modal"
+      screenOptions={{
+        useNativeDriver: true,
+        // gestureEnabled: false,
+        gestureEnabled: false,
+        // cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
+
+        transitionSpec: {
+          open: timingConfig,
+          close: timingConfig,
+          // open: springConfig,
+          // close: springConfig,
+        },
+      }}
+    >
       <Stack.Screen
         name="Mealize"
         component={SearchRecipeScreen}
@@ -45,13 +86,19 @@ const MainStackNavigator = () => {
         name="Recipe"
         component={RecipeScreen}
         sharedElementsConfig={(route, otherRoute, showing) => {
-          const { recipeImage } = route.params;
+          const { recipeImage, recipeTitle } = route.params;
           return [
             {
               id: recipeImage,
               animation: "move",
-              resize: "none",
-              align: "right-top",
+              // resize: "none",
+              // align: "right-top",
+            },
+            {
+              id: recipeTitle,
+              animation: "fade",
+              // resize: "none",
+              // align: "right-top",
             },
           ];
         }}
