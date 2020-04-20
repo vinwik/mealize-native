@@ -18,6 +18,7 @@ import { getRecipe } from "../../store/actions/recipeAction";
 import { addToFavourites } from "../../store/actions/favouritesAction";
 import { SharedElement } from "react-navigation-shared-element";
 import { useSelector, useDispatch } from "react-redux";
+import { FadeIn } from "../../animations/FadeIn";
 
 const RecipeScreen = ({ route, navigation }) => {
   const { recipeId, recipeImage, recipeTitle } = route.params;
@@ -122,6 +123,8 @@ const RecipeScreen = ({ route, navigation }) => {
           );
         })}
       </View>
+        </FadeIn>
+      )}
     </ScrollView>
   );
 };
