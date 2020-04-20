@@ -149,7 +149,14 @@ const showcase = StyleSheet.create({
     justifyContent: "flex-end",
     overflow: "hidden",
   },
-  icon: {
+  leftIcon: {
+    marginTop: 20,
+    marginLeft: 20,
+    borderRadius: 30,
+    padding: 10,
+    backgroundColor: "#fff",
+  },
+  rightIcon: {
     marginTop: 20,
     marginRight: 20,
     borderRadius: 30,
