@@ -89,7 +89,9 @@ const RecipeScreen = ({ route, navigation }) => {
         </View>
         <View style={preparation.column}>
           <Text style={preparation.title}>Preparation time</Text>
-          <Text>{recipe.readyInMinutes && recipe.readyInMinutes + " min"}</Text>
+              <Text>
+                {recipe.readyInMinutes && recipe.readyInMinutes + " min"}
+              </Text>
         </View>
       </View>
       <Ingredients extendedIngredients={extendedIngredients} />
@@ -100,7 +102,9 @@ const RecipeScreen = ({ route, navigation }) => {
         {steps.map((step) => {
           return (
             <View key={step.number} style={stepSection.stepWrapper}>
-              <Text style={stepSection.stepNumber}>{`${step.number}. `}</Text>
+                  <Text
+                    style={stepSection.stepNumber}
+                  >{`${step.number}. `}</Text>
               <Text>{step.step}</Text>
             </View>
           );
