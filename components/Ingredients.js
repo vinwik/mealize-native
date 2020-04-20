@@ -110,7 +110,7 @@ const ingredientSection = StyleSheet.create({
   },
   icon: {
     borderRadius: 30,
-    elevation: 5,
+    // elevation: 5,
     backgroundColor: "#fff",
   },
 });

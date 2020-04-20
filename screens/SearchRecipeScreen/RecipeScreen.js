@@ -154,6 +154,7 @@ const showcase = StyleSheet.create({
     marginLeft: 20,
     borderRadius: 30,
     padding: 10,
+    // elevation: 10,
     backgroundColor: "#fff",
   },
   rightIcon: {
@@ -161,7 +162,7 @@ const showcase = StyleSheet.create({
     marginRight: 20,
     borderRadius: 30,
     padding: 10,
-    elevation: 10,
+    // elevation: 10,
     backgroundColor: "#fff",
   },
   titleWrapper: {
