@@ -169,6 +169,8 @@ const showcase = StyleSheet.create({
     paddingTop: "2%",
     width: "100%",
     backgroundColor: "#00000080",
+    position: "absolute",
+    bottom: 0,
   },
   title: {
     color: "#fff",
