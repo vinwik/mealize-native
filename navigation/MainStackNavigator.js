@@ -128,13 +128,4 @@ const MainStackNavigator = () => {
 
 export default MainStackNavigator;
 
-const styles = StyleSheet.create({
-  icon: {
-    marginTop: 20,
-    marginLeft: 20,
-    borderRadius: 25,
-    padding: 10,
-    elevation: 10,
-    backgroundColor: "#fff",
-  },
-});
+const styles = StyleSheet.create({});

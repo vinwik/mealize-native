@@ -47,17 +47,17 @@ const RecipeScreen = ({ route, navigation }) => {
       ),
       headerRight: () => (
         <FadeIn duration={150} delay={300}>
-        <TouchableOpacity
-          disabled={favourites && favourites.inFavourites === true}
-          onPress={() => dispatch(addToFavourites(recipe))}
-        >
-          <AntDesign
-            name={favourites ? "heart" : "hearto"}
-            color={favourites ? colors.paleGreen : "black"}
-            size={24}
+          <TouchableOpacity
+            disabled={favourites && favourites.inFavourites === true}
+            onPress={() => dispatch(addToFavourites(recipe))}
+          >
+            <AntDesign
+              name={favourites ? "heart" : "hearto"}
+              color={favourites ? colors.paleGreen : "black"}
+              size={24}
               style={showcase.rightIcon}
-          />
-        </TouchableOpacity>
+            />
+          </TouchableOpacity>
         </FadeIn>
       ),
     });
@@ -88,41 +88,41 @@ const RecipeScreen = ({ route, navigation }) => {
           {/* </ImageBackground> */}
         </SharedElement>
         <SharedElement id={recipeTitle}>
-            <View style={showcase.titleWrapper}>
+          <View style={showcase.titleWrapper}>
             <Text style={showcase.title}>{recipeTitle}</Text>
-            </View>
+          </View>
         </SharedElement>
       </TouchableOpacity>
       {recipeId === recipe.id && (
         <FadeIn duration={500}>
-      <View style={preparation.layout}>
-        <View style={preparation.column}>
-          <Text style={preparation.title}>Servings</Text>
-          <Text>{recipe.servings}</Text>
-        </View>
-        <View style={preparation.column}>
-          <Text style={preparation.title}>Preparation time</Text>
+          <View style={preparation.layout}>
+            <View style={preparation.column}>
+              <Text style={preparation.title}>Servings</Text>
+              <Text>{recipe.servings}</Text>
+            </View>
+            <View style={preparation.column}>
+              <Text style={preparation.title}>Preparation time</Text>
               <Text>
                 {recipe.readyInMinutes && recipe.readyInMinutes + " min"}
               </Text>
-        </View>
-      </View>
-      <Ingredients extendedIngredients={extendedIngredients} />
-      <View style={stepSection.container}>
-        <View>
-          <Text style={stepSection.title}>Instructions</Text>
-        </View>
-        {steps.map((step) => {
-          return (
-            <View key={step.number} style={stepSection.stepWrapper}>
+            </View>
+          </View>
+          <Ingredients extendedIngredients={extendedIngredients} />
+          <View style={stepSection.container}>
+            <View>
+              <Text style={stepSection.title}>Instructions</Text>
+            </View>
+            {steps.map((step) => {
+              return (
+                <View key={step.number} style={stepSection.stepWrapper}>
                   <Text
                     style={stepSection.stepNumber}
                   >{`${step.number}. `}</Text>
-              <Text>{step.step}</Text>
-            </View>
-          );
-        })}
-      </View>
+                  <Text>{step.step}</Text>
+                </View>
+              );
+            })}
+          </View>
         </FadeIn>
       )}
     </ScrollView>
@@ -146,7 +146,7 @@ const showcase = StyleSheet.create({
     width: "100%",
     height: "100%",
     resizeMode: "cover",
-    justifyContent: "flex-end",
+    // justifyContent: "flex-end",
     overflow: "hidden",
   },
   leftIcon: {
