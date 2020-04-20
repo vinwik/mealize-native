@@ -20,8 +20,7 @@ import { SharedElement } from "react-navigation-shared-element";
 import { useSelector, useDispatch } from "react-redux";
 
 const RecipeScreen = ({ route, navigation }) => {
-  const { recipeId } = route.params;
-  const { recipeImage } = route.params;
+  const { recipeId, recipeImage, recipeTitle } = route.params;
 
   const recipe = useSelector((state) => state.recipe.recipe);
   const { extendedIngredients, steps } = recipe;
