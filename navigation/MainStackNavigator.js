@@ -106,15 +106,17 @@ const MainStackNavigator = () => {
           // animationEnabled: false,
 
           headerTransparent: true,
-          headerLeft: () => (
-            <AntDesign
-              name="left"
-              color="black"
-              size={24}
-              style={styles.icon}
-              onPress={() => navigation.goBack()}
-            />
-          ),
+          // headerLeft: () => (
+          //   <FadeIn duration={200} delay={350}>
+          //     <AntDesign
+          //       name="left"
+          //       color="black"
+          //       size={24}
+          //       style={styles.icon}
+          //       onPress={() => navigation.goBack()}
+          //     />
+          //   </FadeIn>
+          // ),
           headerTitleStyle: {
             display: "none",
           },
