@@ -93,7 +93,44 @@ const RecipeScreen = ({ route, navigation }) => {
           </View>
         </SharedElement>
       </TouchableOpacity>
-      {recipeId === recipe.id && (
+      {recipeId !== recipe.id ? (
+        <View style={{ paddingVertical: 30, paddingHorizontal: 35 }}>
+          <FadeIn delay={300} duration={500}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                paddingBottom: 30,
+              }}
+            >
+              <View
+                style={{
+                  width: 100,
+                  height: 25,
+                  backgroundColor: "#d2d2d2",
+                  borderRadius: 7,
+                }}
+              ></View>
+              <View
+                style={{
+                  width: 100,
+                  height: 25,
+                  backgroundColor: "#d2d2d2",
+                  borderRadius: 7,
+                }}
+              ></View>
+            </View>
+            <View
+              style={{
+                width: "100%",
+                height: 300,
+                backgroundColor: "#d2d2d2",
+                borderRadius: 7,
+              }}
+            ></View>
+          </FadeIn>
+        </View>
+      ) : (
         <FadeIn duration={500}>
           <View style={preparation.layout}>
             <View style={preparation.column}>
