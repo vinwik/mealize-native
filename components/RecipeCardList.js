@@ -32,33 +32,15 @@ const RecipeCardList = (props) => {
           style={{
             flex: 1,
             alignItems: "center",
-            top: 20,
+            justifyContent: "center",
+            height: Dimensions.get("screen").height / 2,
+            // top: 20,
           }}
         >
-          <Text
-            style={{
-              color: "#888",
-              fontSize: 18,
-            }}
-          >{`No result found for :`}</Text>
-          <Text
-            style={{
-              color: "#888",
-              fontSize: 18,
-              fontStyle: "italic",
-            }}
-          >{`"${searchValue}"`}</Text>
-          <AntDesign
-            name="warning"
-            size={100}
-            color={"#cecece"}
-            style={{ top: (Dimensions.get("screen").height - 98) / 4 - 50 }}
-          />
           {/* <Text
             style={{
               color: "#888",
               fontSize: 18,
-              top: 80,
             }}
           >{`No result found for :`}</Text>
           <Text
@@ -66,9 +48,29 @@ const RecipeCardList = (props) => {
               color: "#888",
               fontSize: 18,
               fontStyle: "italic",
-              top: 80,
             }}
-          >{`"${search}"`}</Text> */}
+          >{`"${searchValue}"`}</Text> */}
+          <AntDesign
+            name="warning"
+            size={100}
+            color={"#cecece"}
+            // style={{ top: Dimensions.get("screen").height / 4 - 50 }}
+          />
+          <Text
+            style={{
+              color: "#888",
+              fontSize: 19,
+              marginTop: 10,
+            }}
+          >{`No result found for :`}</Text>
+          <Text
+            style={{
+              color: "#888",
+              fontSize: 19,
+              fontStyle: "italic",
+              // top: 80,
+            }}
+          >{`"${searchValue}"`}</Text>
         </View>
       ) : (
         <FlatList
