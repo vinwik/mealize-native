@@ -7,6 +7,10 @@ export const searchRecipe = (search, type, cuisine) => async (dispatch) => {
   dispatch({
     type: SET_LOADING,
   });
+  dispatch({
+    type: "SEARCH_VALUE",
+    payload: search,
+  });
 
   // await AsyncStorage.removeItem(`${search}-${type}-${cuisine}`);
   const value = await AsyncStorage.getItem(`${search}-${type}-${cuisine}`);

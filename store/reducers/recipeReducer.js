@@ -15,6 +15,7 @@ const intitalState = {
     steps: [],
   },
   loading: false,
+  searchValue: "",
 };
 
 export default function (state = intitalState, action) {
@@ -25,6 +26,11 @@ export default function (state = intitalState, action) {
       return {
         ...state,
         loading: true,
+      };
+    case "SEARCH_VALUE":
+      return {
+        ...state,
+        searchValue: payload,
       };
     case "GET_SEARCH":
       return {
