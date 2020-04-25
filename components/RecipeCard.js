@@ -137,8 +137,12 @@ const RecipeCard = ({ recipe, i, length }) => {
           style={styles.icon}
         />
       )}
-      {isLoading && card === recipe.id && (
-        <FadeIn delay={600} duration={400} style={{ flex: 1 }}>
+      {isLoading && (
+        <FadeIn
+          delay={200}
+          duration={200}
+          style={{ position: "absolute", left: 0, top: 0, right: 0, bottom: 0 }}
+        >
           <ActivityIndicator
             size="large"
             color="#77d477"
