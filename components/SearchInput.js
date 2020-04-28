@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableHighlight,
   Keyboard,
+  AsyncStorage,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { FadeIn } from "../animations/FadeIn";
@@ -42,21 +43,35 @@ const SearchInput = (props) => {
   };
 
   const searchAutocomplete = async (search) => {
-    const response = await fetch(
-      `https://api.spoonacular.com/recipes/autocomplete?apiKey=${API_KEY}&number=6&query=${search}`
-    );
+    // const response = await fetch(
+    //   `https://api.spoonacular.com/recipes/autocomplete?apiKey=${API_KEY}&number=6&query=${search}`
+    // );
+    const value = await AsyncStorage.getItem(`autocompleteRecipe`);
+    const data = JSON.parse(value);
 
-    const data = await response.json();
+    // const data = await response.json();
     // console.log(data);
     setAutocompleteSearch(data);
   };
+
+  const filteredAutocomplete = autocompleteSearch
+    .filter((autocomplete) => {
+      return autocomplete.toLowerCase().startsWith(props.search.toLowerCase());
+    })
+    .sort((a, b) => a.length - b.length)
+    .slice(0, 6);
+
+  // console.log(filteredAutocomplete);
+  // console.log(autocompleteSearch);
 
   return (
     <View style={styles.searchBarContainer}>
       <View
         style={[
           styles.inputContainer,
-          autocompleteSearch.length && styles.borderBottom,
+          props.search.length &&
+            autocompleteSearch.length &&
+            styles.borderBottom,
         ]}
       >
         <AntDesign
@@ -84,7 +99,7 @@ const SearchInput = (props) => {
           </FadeIn>
         ) : null}
       </View>
-      {autocompleteSearch &&
+      {/* {autocompleteSearch &&
         autocompleteSearch.map((item) => {
           return (
             <TouchableHighlight
@@ -93,6 +108,19 @@ const SearchInput = (props) => {
               onPress={() => autocompleteHandler(item.title)}
             >
               <Text style={styles.autocompleteItem}>{item.title}</Text>
+            </TouchableHighlight>
+          );
+        })} */}
+      {autocompleteSearch &&
+        props.search.length > 0 &&
+        filteredAutocomplete.map((item, i) => {
+          return (
+            <TouchableHighlight
+              key={i}
+              underlayColor="#f2f2f2"
+              onPress={() => autocompleteHandler(item)}
+            >
+              <Text style={styles.autocompleteItem}>{item}</Text>
             </TouchableHighlight>
           );
         })}

@@ -16,22 +16,39 @@ export const searchRecipe = (search, type, cuisine) => async (dispatch) => {
   const value = await AsyncStorage.getItem(`${search}-${type}-${cuisine}`);
   const parsedRecipe = JSON.parse(value);
 
+  const autocomplete = await AsyncStorage.getItem("autocompleteRecipe");
+  const parsedAutocomplete = JSON.parse(autocomplete);
+
   if (parsedRecipe !== null) {
     dispatch({
       type: "GET_SEARCH",
       payload: parsedRecipe,
     });
+
+    const convertRecipe = await parsedRecipe.map((recipe) => recipe.title);
+    const concatAutocomplete = await [...convertRecipe, ...parsedAutocomplete];
+
+    await AsyncStorage.setItem(
+      `autocompleteRecipe`,
+      JSON.stringify([...new Set(concatAutocomplete)])
+    );
   } else {
     const response = await fetch(
       `https://api.spoonacular.com/recipes/search?apiKey=${API_KEY}&query=${search}&number=100&instructionsRequired=true&cuisine=${cuisine}&type=${type}`
     );
 
     const data = await response.json();
-    // console.log(data);
 
     await AsyncStorage.setItem(
       `${search}-${type}-${cuisine}`,
       JSON.stringify(data.results)
+    );
+
+    const convertRecipe = await data.results.map((recipe) => recipe.title);
+    const concatAutocomplete = await [...convertRecipe, ...parsedAutocomplete];
+    await await AsyncStorage.setItem(
+      `autocompleteRecipe`,
+      JSON.stringify([...new Set(concatAutocomplete)])
     );
 
     dispatch({
