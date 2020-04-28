@@ -67,7 +67,7 @@ const SearchRecipeScreen = ({ navigation }) => {
 
     const data = await response.json();
     const url = `https://api.spoonacular.com/recipes/search?apiKey=${API_KEY}&query=${search}&instructionsRequired=true&cuisine=${cuisine}&type=${type}`;
-    console.log(url);
+    // console.log(url);
 
     setRecipes(data.results);
   };
