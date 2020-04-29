@@ -102,6 +102,7 @@ const RecipeScreen = ({ route, navigation }) => {
         // fontWeight: "bold",
         opacity: headerTitleOpacity,
       },
+      headerTitleAlign: "center",
       headerRight: () => (
         <FadeIn duration={150} delay={300}>
           <TouchableOpacity
@@ -167,7 +168,13 @@ const RecipeScreen = ({ route, navigation }) => {
         </Animated.View>
       </Animated.View>
       {recipeId !== recipe.id ? (
-        <View style={{ paddingVertical: 30, paddingHorizontal: 35 }}>
+        <View
+          style={{
+            paddingVertical: 30,
+            paddingHorizontal: 35,
+            marginTop: HEADER_EXPANDED_HEIGHT,
+          }}
+        >
           <FadeIn delay={300} duration={500}>
             <View
               style={{

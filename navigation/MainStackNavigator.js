@@ -117,7 +117,6 @@ const MainStackNavigator = () => {
           //     />
           //   </FadeIn>
           // ),
-          headerTitleAlign: "center",
         })}
       />
     </Stack.Navigator>
