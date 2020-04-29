@@ -1,4 +1,4 @@
-<img src="assets/ic_launcher.png" width="384" title="Mealize" alt="Mealize"></a>
+<img src="assets/mealize-banner.png" width="384" title="Mealize" alt="Mealize"></a>
 
 [![Mealize](assets/ic_launcher.png)![Mealize](assets/mealize-title.png)]()
 
