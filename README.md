@@ -1,6 +1,6 @@
 <p align="center"><img src="assets/mealize-banner.png" width="384" title="Mealize" alt="Mealize"></p>
 
-[![Mealize](assets/ic_launcher.png)![Mealize](assets/mealize-title.png)]()
+<!-- [![Mealize](assets/ic_launcher.png)![Mealize](assets/mealize-title.png)]() -->
 
 <!-- **_INSERT GRAPHIC HERE (include hyperlink in image)_** -->
 
