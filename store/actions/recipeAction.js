@@ -26,12 +26,22 @@ export const searchRecipe = (search, type, cuisine) => async (dispatch) => {
     });
 
     const convertRecipe = await parsedRecipe.map((recipe) => recipe.title);
-    const concatAutocomplete = await [...convertRecipe, ...parsedAutocomplete];
+    if (parsedAutocomplete !== null) {
+      const concatAutocomplete = await [
+        ...convertRecipe,
+        ...parsedAutocomplete,
+      ];
 
-    await AsyncStorage.setItem(
-      `autocompleteRecipe`,
-      JSON.stringify([...new Set(concatAutocomplete)])
-    );
+      await AsyncStorage.setItem(
+        `autocompleteRecipe`,
+        JSON.stringify([...new Set(concatAutocomplete)])
+      );
+    } else {
+      await AsyncStorage.setItem(
+        `autocompleteRecipe`,
+        JSON.stringify(convertRecipe)
+      );
+    }
   } else {
     const response = await fetch(
       `https://api.spoonacular.com/recipes/search?apiKey=${API_KEY}&query=${search}&number=100&instructionsRequired=true&cuisine=${cuisine}&type=${type}`
@@ -44,17 +54,27 @@ export const searchRecipe = (search, type, cuisine) => async (dispatch) => {
       JSON.stringify(data.results)
     );
 
-    const convertRecipe = await data.results.map((recipe) => recipe.title);
-    const concatAutocomplete = await [...convertRecipe, ...parsedAutocomplete];
-    await await AsyncStorage.setItem(
-      `autocompleteRecipe`,
-      JSON.stringify([...new Set(concatAutocomplete)])
-    );
-
     dispatch({
       type: "GET_SEARCH",
       payload: data.results,
     });
+
+    const convertRecipe = await data.results.map((recipe) => recipe.title);
+    if (parsedAutocomplete !== null) {
+      const concatAutocomplete = await [
+        ...convertRecipe,
+        ...parsedAutocomplete,
+      ];
+      await AsyncStorage.setItem(
+        `autocompleteRecipe`,
+        JSON.stringify([...new Set(concatAutocomplete)])
+      );
+    } else {
+      await AsyncStorage.setItem(
+        `autocompleteRecipe`,
+        JSON.stringify(convertRecipe)
+      );
+    }
   }
 };
 export const getRecipe = (recipeId) => async (dispatch) => {
