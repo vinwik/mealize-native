@@ -34,11 +34,12 @@
 **_INSERT ANOTHER GRAPHIC HERE_** -->
 
 [![mealize-showcase](assets/mealize-showcase.jpg)]()
-[![mealize-showcase](assets/mealize-showcase-2.jpg)]()
 
 ## Description
 
 > Organize your meals with Mealize, the recipe App you need for your meal prep. You also can add ingredients to your Cart directly from your favourite recipes, which make Mealize the perfect food shopping companion
+
+[![mealize-showcase](assets/mealize-showcase-2.jpg)]()
 
 <!-- - Most people will glance at your `README`, _maybe_ star it, and leave
 - Ergo, people should understand instantly what your project is about based on your repo
