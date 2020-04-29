@@ -1,6 +1,6 @@
 <!-- <a href="http://fvcproductions.com"><img src="https://avatars1.githubusercontent.com/u/4284691?v=3&s=200" title="FVCproductions" alt="FVCproductions"></a> -->
 
-[![Mealize](assets/ic_launcher.png)![Mealize](assets/mealize-title.png)]
+[![Mealize](assets/ic_launcher.png)![Mealize](assets/mealize-title.png)]()
 
 <!-- **_INSERT GRAPHIC HERE (include hyperlink in image)_** -->
 
@@ -8,7 +8,9 @@
 
 > Built with React Native
 
-> Organize your meals with Mealize, the recipe App you need for your meal prep. You also can add ingredients to your Cart directly from your favourite recipes, which make Mealize the perfect food shopping companion
+<!-- ## Description
+
+> Organize your meals with Mealize, the recipe App you need for your meal prep. You also can add ingredients to your Cart directly from your favourite recipes, which make Mealize the perfect food shopping companion -->
 
 <!-- > include terms/tags that can be searched -->
 
@@ -32,6 +34,10 @@
 **_INSERT ANOTHER GRAPHIC HERE_** -->
 
 [![mealize-showcase](assets/mealize-showcase.jpg)]()
+
+## Description
+
+> Organize your meals with Mealize, the recipe App you need for your meal prep. You also can add ingredients to your Cart directly from your favourite recipes, which make Mealize the perfect food shopping companion
 
 <!-- - Most people will glance at your `README`, _maybe_ star it, and leave
 - Ergo, people should understand instantly what your project is about based on your repo
