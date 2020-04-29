@@ -101,8 +101,8 @@ const RecipeScreen = ({ route, navigation }) => {
         width: Dimensions.get("screen").width - 40 - 60 - 48,
         // fontWeight: "bold",
         opacity: headerTitleOpacity,
+        textAlign: "center",
       },
-      headerTitleAlign: "center",
       headerRight: () => (
         <FadeIn duration={150} delay={300}>
           <TouchableOpacity
