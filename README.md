@@ -46,8 +46,8 @@
 > Live demo on Nexus 5 with Appetize simulator
 
 <p align="center">
-<a href="https://appetize.io/embed/0983u7r4pwajrc9x19jdrnqcnw?device=nexus5&scale=75&autoplay=true&orientation=portrait&deviceColor=black&osVersion=8.1" target="_blank">
-<img src="assets/mealize-demo.png" height="750" title="Mealize Live Demo" alt="Mealize Live Demo">
+<a href="https://appetize.io/embed/0983u7r4pwajrc9x19jdrnqcnw?device=nexus5&scale=75&autoplay=true&orientation=portrait&deviceColor=black&osVersion=8.1">
+<img src="assets/mealize-demo.png" height="500" title="Mealize Live Demo" alt="Mealize Live Demo">
 </a>
 </p>
 
