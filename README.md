@@ -209,10 +209,18 @@ Reach out to me at one of the following places!
 [![Support via Gratipay](https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.png)](https://gratipay.com/fvcproductions/)
 
 ---
+-->
 
 ## License
 
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
 
 - **[MIT license](http://opensource.org/licenses/mit-license.php)**
-- Copyright 2015 © <a href="http://fvcproductions.com" target="_blank">FVCproduction -->
+- Copyright 2020 © <a href="http://vincentwikart.netlify.com" target="_blank">Vincent Wikart</a>
+
+## Credits
+
+<img src="https://reactnative.dev/img/header_logo.svg" width="50" title="React Native" alt="React Native">
+<img src="https://redux.js.org/img/redux.svg" width="50" title="Redux" alt="Redux">
+<img src="https://reactnavigation.org/img/spiro.svg" width="50" title="React Navigation" alt="React Navigation">
+<img src="https://avatars2.githubusercontent.com/u/12504344?v=3&s=100" width="50" title="Expo" alt="Expo">
