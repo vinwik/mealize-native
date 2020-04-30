@@ -41,6 +41,8 @@
 
 [![mealize-showcase](assets/mealize-showcase-2.jpg)]()
 
+<iframe src="https://appetize.io/embed/0983u7r4pwajrc9x19jdrnqcnw?device=iphone8&scale=100&autoplay=false&orientation=portrait&deviceColor=black" width="378px" height="800px" frameborder="0" scrolling="no"></iframe>
+
 <!-- - Most people will glance at your `README`, _maybe_ star it, and leave
 - Ergo, people should understand instantly what your project is about based on your repo
 
