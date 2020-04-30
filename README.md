@@ -220,7 +220,7 @@ Reach out to me at one of the following places!
 
 ## Credits
 
-<img src="https://reactnative.dev/img/header_logo.svg" width="50" title="React Native" alt="React Native">
-<img src="https://redux.js.org/img/redux.svg" width="50" title="Redux" alt="Redux">
-<img src="https://reactnavigation.org/img/spiro.svg" width="50" title="React Navigation" alt="React Navigation">
-<img src="https://avatars2.githubusercontent.com/u/12504344?v=3&s=100" width="50" title="Expo" alt="Expo">
+<img align="left" src="https://reactnative.dev/img/header_logo.svg" width="50" title="React Native" alt="React Native">
+<img align="left" src="https://redux.js.org/img/redux.svg" width="50" title="Redux" alt="Redux">
+<img align="left" src="https://reactnavigation.org/img/spiro.svg" width="50" title="React Navigation" alt="React Navigation">
+<img align="left" src="https://avatars2.githubusercontent.com/u/12504344?v=3&s=100" width="50" title="Expo" alt="Expo">
