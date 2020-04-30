@@ -35,6 +35,11 @@
 
 [![mealize-showcase](assets/mealize-showcase.jpg)]()
 
+## Status
+
+> Under developement
+> <img align="left" src="https://github.githubassets.com/images/icons/emoji/unicode/1f6a7.png" width="24" title="Under Developement" alt="Under Developement">
+
 ## Description
 
 > Organize your meals with Mealize, the recipe App you need for your meal prep. You also can add ingredients to your Cart directly from your favourite recipes, which make Mealize the perfect food shopping companion
