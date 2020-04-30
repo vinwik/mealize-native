@@ -37,7 +37,7 @@
 
 ## Status
 
-> Under developement
+> Under development
 > <img align="left" src="https://github.githubassets.com/images/icons/emoji/unicode/1f6a7.png" width="24" title="Under Developement" alt="Under Developement">
 
 ## Description
