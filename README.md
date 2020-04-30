@@ -41,7 +41,15 @@
 
 [![mealize-showcase](assets/mealize-showcase-2.jpg)]()
 
-<iframe src="https://appetize.io/embed/0983u7r4pwajrc9x19jdrnqcnw?device=iphone8&scale=100&autoplay=false&orientation=portrait&deviceColor=black" width="378px" height="800px" frameborder="0" scrolling="no"></iframe>
+## Try it
+
+> Live demo on Nexus 5 with Appetize simulator
+
+<p align="center">
+<a href="https://appetize.io/embed/0983u7r4pwajrc9x19jdrnqcnw?device=nexus5&scale=75&autoplay=true&orientation=portrait&deviceColor=black&osVersion=8.1" target="_blank">
+<img src="assets/mealize-demo.png" height="750" title="Mealize Live Demo" alt="Mealize Live Demo">
+</a>
+</p>
 
 <!-- - Most people will glance at your `README`, _maybe_ star it, and leave
 - Ergo, people should understand instantly what your project is about based on your repo
