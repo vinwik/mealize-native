@@ -51,14 +51,13 @@ const SearchInput = (props) => {
   };
 
   const searchAutocomplete = async (search) => {
-    // const value = await AsyncStorage.getItem(`autocompleteRecipe`);
-    // const data = JSON.parse(value);
-    // setAutocompleteSearch(data);
-
-    const req2 = firebase.database().ref(`autocomplete/`);
-    const snapshot2 = await req2.once("value");
-    const val2 = snapshot2.val();
-    setAutocompleteSearch(val2);
+    const value = await AsyncStorage.getItem(`autocompleteRecipe`);
+    const data = JSON.parse(value);
+    setAutocompleteSearch(data);
+    // const req2 = firebase.database().ref(`autocomplete/`);
+    // const snapshot2 = await req2.once("value");
+    // const val2 = snapshot2.val();
+    // setAutocompleteSearch(val2);
   };
 
   const filteredAutocomplete = autocompleteSearch

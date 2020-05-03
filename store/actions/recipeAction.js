@@ -20,14 +20,16 @@ export const searchRecipe = (search, type, cuisine) => async (dispatch) => {
     payload: search,
   });
 
+  const formattedSearch = `${search.toLowerCase()}-${type}-${cuisine}`;
+
   // await AsyncStorage.removeItem(`${search}-${type}-${cuisine}`);
-  const value = await AsyncStorage.getItem(`${search}-${type}-${cuisine}`);
+  const value = await AsyncStorage.getItem(formattedSearch);
   const parsedRecipe = JSON.parse(value);
 
   const autocomplete = await AsyncStorage.getItem("autocompleteRecipe");
   const parsedAutocomplete = JSON.parse(autocomplete);
 
-  const req = firebase.database().ref(`search/${search}-${type}-${cuisine}`);
+  const req = firebase.database().ref(`search/` + formattedSearch);
   const snapshot = await req.once("value");
   const val = snapshot.val();
 
@@ -35,31 +37,27 @@ export const searchRecipe = (search, type, cuisine) => async (dispatch) => {
   const snapshot2 = await req2.once("value");
   const val2 = snapshot2.val();
 
-  // if (parsedRecipe !== null) {
-  //   dispatch({
-  //     type: "GET_SEARCH",
-  //     payload: parsedRecipe,
-  //   });
+  if (parsedRecipe !== null) {
+    dispatch({
+      type: "GET_SEARCH",
+      payload: parsedRecipe,
+    });
 
-  //   const convertRecipe = await parsedRecipe.map((recipe) => recipe.title);
-  //   if (parsedAutocomplete !== null) {
-  //     const concatAutocomplete = await [
-  //       ...convertRecipe,
-  //       ...parsedAutocomplete,
-  //     ];
+    const convertRecipe = await parsedRecipe.map((recipe) => recipe.title);
+    if (parsedAutocomplete !== null) {
+      const concatAutocomplete = await [
+        ...convertRecipe,
+        ...parsedAutocomplete,
+      ];
 
-  //     await AsyncStorage.setItem(
-  //       `autocompleteRecipe`,
-  //       JSON.stringify([...new Set(concatAutocomplete)])
-  //     );
-  //   } else {
-  //     await AsyncStorage.setItem(
-  //       `autocompleteRecipe`,
-  //       JSON.stringify(convertRecipe)
-  //     );
-  //   }
-  // } else
-  if (val !== null) {
+      await AsyncStorage.setItem(
+        `autocompleteRecipe`,
+        JSON.stringify([...new Set(concatAutocomplete)])
+      );
+    } else {
+      await AsyncStorage.setItem(`autocompleteRecipe`, JSON.stringify(val2));
+    }
+  } else if (val !== null) {
     dispatch({
       type: "GET_SEARCH",
       payload: val,
@@ -75,10 +73,7 @@ export const searchRecipe = (search, type, cuisine) => async (dispatch) => {
       .set([...new Set(concatAutocomplete)]);
 
     if (parsedRecipe === null) {
-      await AsyncStorage.setItem(
-        `${search.toLowerCase()}-${type}-${cuisine}`,
-        JSON.stringify(val)
-      );
+      await AsyncStorage.setItem(formattedSearch, JSON.stringify(val));
     }
   } else {
     const response = await fetch(
@@ -87,14 +82,11 @@ export const searchRecipe = (search, type, cuisine) => async (dispatch) => {
 
     const data = await response.json();
 
-    await AsyncStorage.setItem(
-      `${search}-${type}-${cuisine}`,
-      JSON.stringify(data.results)
-    );
+    await AsyncStorage.setItem(formattedSearch, JSON.stringify(data.results));
 
     await firebase
       .database()
-      .ref(`search/${search.toLowerCase()}-${type}-${cuisine}`)
+      .ref(`search/` + formattedSearch)
       .set(data.results);
 
     dispatch({
@@ -104,7 +96,7 @@ export const searchRecipe = (search, type, cuisine) => async (dispatch) => {
 
     const convertRecipe = await data.results.map((recipe) => recipe.title);
 
-    const concatAutocomplete = await [...convertRecipe, ...val2];
+    const concatAutocomplete = await [...convertRecipe, ...parsedAutocomplete];
 
     await firebase
       .database()
@@ -121,10 +113,7 @@ export const searchRecipe = (search, type, cuisine) => async (dispatch) => {
         JSON.stringify([...new Set(concatAutocomplete)])
       );
     } else {
-      await AsyncStorage.setItem(
-        `autocompleteRecipe`,
-        JSON.stringify(convertRecipe)
-      );
+      await AsyncStorage.setItem(`autocompleteRecipe`, JSON.stringify(val2));
     }
   }
 };
@@ -140,13 +129,12 @@ export const getRecipe = (recipeId) => async (dispatch) => {
   const snapshot = await req.once("value");
   const val = snapshot.val();
 
-  // if (parsedRecipe !== null) {
-  //   dispatch({
-  //     type: GET_RECIPE,
-  //     payload: parsedRecipe,
-  //   });
-  // } else
-  if (val !== null) {
+  if (parsedRecipe !== null) {
+    dispatch({
+      type: GET_RECIPE,
+      payload: parsedRecipe,
+    });
+  } else if (val !== null) {
     dispatch({
       type: GET_RECIPE,
       payload: val,
