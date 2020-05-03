@@ -75,7 +75,10 @@ export const searchRecipe = (search, type, cuisine) => async (dispatch) => {
       .set([...new Set(concatAutocomplete)]);
 
     if (parsedRecipe === null) {
-      await AsyncStorage.setItem(recipeId, JSON.stringify(val));
+      await AsyncStorage.setItem(
+        `${search.toLowerCase()}-${type}-${cuisine}`,
+        JSON.stringify(val)
+      );
     }
   } else {
     const response = await fetch(
