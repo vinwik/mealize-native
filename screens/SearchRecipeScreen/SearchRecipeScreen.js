@@ -32,6 +32,10 @@ const SearchRecipeScreen = ({ navigation }) => {
       alert("Empty field");
     }
   };
+  const searchAutocompleteHandler = (autocomplete) => {
+    dispatch(searchRecipe(autocomplete, type, cuisine));
+    // setSearch("");
+  };
 
   const tagsHandler = (tag) => {
     // console.log(tag.category);
@@ -93,6 +97,7 @@ const SearchRecipeScreen = ({ navigation }) => {
           search={search}
           setSearch={setSearch}
           searchHandler={searchHandler}
+          searchAutocompleteHandler={searchAutocompleteHandler}
           placeHolder="Search Recipe..."
         />
       </View>

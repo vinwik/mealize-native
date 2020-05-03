@@ -12,6 +12,14 @@ import { AntDesign } from "@expo/vector-icons";
 import { FadeIn } from "../animations/FadeIn";
 import { API_KEY } from "../env";
 
+// FIREBASE
+import * as firebase from "firebase";
+import { firebaseConfig } from "../env";
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
 const SearchInput = (props) => {
   const [search, setSearch] = useState("");
   const [autocompleteSearch, setAutocompleteSearch] = useState([]);
@@ -23,7 +31,7 @@ const SearchInput = (props) => {
 
   const autocompleteHandler = (autocomplete) => {
     props.setSearch(autocomplete);
-    props.searchHandler();
+    props.searchAutocompleteHandler(autocomplete);
     setAutocompleteSearch([]);
     Keyboard.dismiss();
   };
@@ -43,15 +51,14 @@ const SearchInput = (props) => {
   };
 
   const searchAutocomplete = async (search) => {
-    // const response = await fetch(
-    //   `https://api.spoonacular.com/recipes/autocomplete?apiKey=${API_KEY}&number=6&query=${search}`
-    // );
-    const value = await AsyncStorage.getItem(`autocompleteRecipe`);
-    const data = JSON.parse(value);
+    // const value = await AsyncStorage.getItem(`autocompleteRecipe`);
+    // const data = JSON.parse(value);
+    // setAutocompleteSearch(data);
 
-    // const data = await response.json();
-    // console.log(data);
-    setAutocompleteSearch(data);
+    const req2 = firebase.database().ref(`autocomplete/`);
+    const snapshot2 = await req2.once("value");
+    const val2 = snapshot2.val();
+    setAutocompleteSearch(val2);
   };
 
   const filteredAutocomplete = autocompleteSearch
