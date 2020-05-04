@@ -27,51 +27,41 @@ const RecipeCardList = (props) => {
   return (
     <View style={styles.cardListContainer}>
       {!isLoading && !recipes.length ? (
-        // <ActivityIndicator />
-        <View
+        <FadeIn
+          delay={200}
+          duration={300}
           style={{
             flex: 1,
+            height: (Dimensions.get("screen").height + 40) / 2,
             alignItems: "center",
             justifyContent: "center",
-            height: (Dimensions.get("screen").height + 40) / 2,
-            // top: 20,
           }}
         >
-          {/* <Text
-            style={{
-              color: "#888",
-              fontSize: 18,
-            }}
-          >{`No result found for :`}</Text>
-          <Text
-            style={{
-              color: "#888",
-              fontSize: 18,
-              fontStyle: "italic",
-            }}
-          >{`"${searchValue}"`}</Text> */}
-          <AntDesign
-            name="warning"
-            size={100}
-            color={"#cecece"}
-            // style={{ top: Dimensions.get("screen").height / 4 - 50 }}
-          />
-          <Text
-            style={{
-              color: "#888",
-              fontSize: 19,
-              marginTop: 10,
-            }}
-          >{`No result found for :`}</Text>
-          <Text
-            style={{
-              color: "#888",
-              fontSize: 19,
-              fontStyle: "italic",
-              // top: 80,
-            }}
-          >{`"${searchValue}"`}</Text>
-        </View>
+          {/* {isLoading ? (
+            <ActivityIndicator
+              size={"large"}
+              style={{ transform: [{ scale: 2 }] }}
+            />
+          ) : ( */}
+          <View style={{ alignItems: "center", justifyContent: "center" }}>
+            <AntDesign name="warning" size={100} color={"#cecece"} />
+            <Text
+              style={{
+                color: "#888",
+                fontSize: 19,
+                marginTop: 10,
+              }}
+            >{`No result found for :`}</Text>
+            <Text
+              style={{
+                color: "#888",
+                fontSize: 19,
+                fontStyle: "italic",
+              }}
+            >{`"${searchValue}"`}</Text>
+          </View>
+          {/* )} */}
+        </FadeIn>
       ) : (
         <FlatList
           horizontal
