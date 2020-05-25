@@ -7,6 +7,7 @@ import {
   TouchableHighlight,
   Keyboard,
   AsyncStorage,
+  Platform,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { FadeIn } from "../animations/FadeIn";
@@ -145,6 +146,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 20,
     elevation: 5,
+    paddingVertical: Platform.OS === "ios" ? 5 : 0,
     // flexDirection: "row",
     // alignItems: "center",
     // justifyContent: "space-between",
