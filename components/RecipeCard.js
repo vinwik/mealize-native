@@ -130,12 +130,14 @@ const RecipeCard = ({ recipe, i, length }) => {
         </ImageBackground> */}
       </SharedElement>
       {favourites && (
-        <AntDesign
-          name="heart"
-          color={colors.paleGreen}
-          size={30}
-          style={styles.icon}
-        />
+        <View style={styles.icon}>
+          <AntDesign
+            name="heart"
+            color={colors.paleGreen}
+            size={30}
+            // style={styles.icon}
+          />
+        </View>
       )}
       {isLoading && (
         <FadeIn
@@ -227,9 +229,10 @@ const styles = StyleSheet.create({
     top: 10,
     right: 10,
     padding: 10,
+    height: 50, // otherwise not round on IOS
     backgroundColor: "#fff",
     borderRadius: 30,
-    elevation: 10,
+    // elevation: 10,
   },
   titleWrapper: {
     padding: "7%",

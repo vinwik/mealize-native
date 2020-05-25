@@ -43,12 +43,14 @@ const CartScreen = () => {
               <TouchableOpacity
                 onPress={() => dispatch(removeFromCart(ingredient.id))}
               >
-                <AntDesign
-                  name="minuscircle"
-                  size={25}
-                  color={colors.paleDarkRed}
-                  style={styles.icon}
-                />
+                <View style={styles.icon}>
+                  <AntDesign
+                    name="minuscircle"
+                    size={25}
+                    color={colors.paleDarkRed}
+                    style={styles.icon}
+                  />
+                </View>
               </TouchableOpacity>
             </View>
           );
@@ -91,8 +93,8 @@ const styles = StyleSheet.create({
     textTransform: "capitalize",
   },
   icon: {
-    borderRadius: 25,
+    // borderRadius: 25,
     elevation: 5,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
   },
 });
