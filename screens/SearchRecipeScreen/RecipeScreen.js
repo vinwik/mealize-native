@@ -86,13 +86,15 @@ const RecipeScreen = ({ route, navigation }) => {
       // },
       headerLeft: () => (
         <FadeIn duration={150} delay={300}>
-          <AntDesign
-            name="left"
-            color="black"
-            size={24}
-            style={showcase.leftIcon}
-            onPress={() => navigation.goBack()}
-          />
+          <View style={showcase.leftIcon}>
+            <AntDesign
+              name="left"
+              color="black"
+              size={24}
+              // style={showcase.leftIcon}
+              onPress={() => navigation.goBack()}
+            />
+          </View>
         </FadeIn>
       ),
       title: recipeTitle,
@@ -109,12 +111,14 @@ const RecipeScreen = ({ route, navigation }) => {
             disabled={favourites && favourites.inFavourites === true}
             onPress={() => dispatch(addToFavourites(recipe))}
           >
-            <AntDesign
-              name={favourites ? "heart" : "hearto"}
-              color={favourites ? colors.paleGreen : "black"}
-              size={24}
-              style={showcase.rightIcon}
-            />
+            <View style={showcase.rightIcon}>
+              <AntDesign
+                name={favourites ? "heart" : "hearto"}
+                color={favourites ? colors.paleGreen : "black"}
+                size={24}
+                // style={showcase.rightIcon}
+              />
+            </View>
           </TouchableOpacity>
         </FadeIn>
       ),

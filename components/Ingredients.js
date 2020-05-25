@@ -66,12 +66,14 @@ const Ingredients = ({ extendedIngredients }) => {
               disabled={isInCart && isInCart.inCart === true}
               onPress={() => dispatch(addToCart(ingredient))}
             >
-              <AntDesign
-                name="pluscircle"
-                size={30}
-                color={isInCart ? colors.disabled : colors.paleGreen}
-                style={ingredientSection.icon}
-              />
+              <View style={ingredientSection.icon}>
+                <AntDesign
+                  name="pluscircle"
+                  size={30}
+                  color={isInCart ? colors.disabled : colors.paleGreen}
+                  // style={ingredientSection.icon}
+                />
+              </View>
             </TouchableOpacity>
           </View>
         );
@@ -109,8 +111,8 @@ const ingredientSection = StyleSheet.create({
     textTransform: "capitalize",
   },
   icon: {
-    borderRadius: 30,
+    // borderRadius: 30,
     // elevation: 5,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
   },
 });
