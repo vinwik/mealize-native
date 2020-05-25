@@ -220,6 +220,7 @@ const RecipeScreen = ({ route, navigation }) => {
         </View>
       ) : (
         <Animated.ScrollView
+          showsVerticalScrollIndicator={false}
           onScroll={Animated.event([
             {
               nativeEvent: {
