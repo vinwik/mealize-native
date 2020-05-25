@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Animated,
+  Platform,
 } from "react-native";
 import { useHeaderHeight } from "@react-navigation/stack";
 import Ingredients from "../../components/Ingredients";
@@ -24,8 +25,8 @@ import { FadeIn } from "../../animations/FadeIn";
 import { BorderlessButton } from "react-native-gesture-handler";
 
 const HEADER_EXPANDED_HEIGHT = Dimensions.get("screen").height * 0.45;
-// const HEADER_COLLAPSED_HEIGHT = useHeaderHeight()
-const HEADER_COLLAPSED_HEIGHT = 80;
+// const HEADER_COLLAPSED_HEIGHT = useHeaderHeight();
+// const HEADER_COLLAPSED_HEIGHT = 80;
 
 const RecipeScreen = ({ route, navigation }) => {
   const { recipeId, recipeImage, recipeTitle } = route.params;
@@ -39,6 +40,8 @@ const RecipeScreen = ({ route, navigation }) => {
   );
 
   const dispatch = useDispatch();
+
+  const HEADER_COLLAPSED_HEIGHT = useHeaderHeight();
 
   const headerHeight = scrollY.interpolate({
     inputRange: [0, HEADER_EXPANDED_HEIGHT - HEADER_COLLAPSED_HEIGHT],
