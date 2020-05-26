@@ -231,8 +231,8 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     // flexGrow: 1,
     justifyContent: "center",
-    paddingTop: 55,
-    paddingBottom: 55,
+    paddingTop: 40,
+    paddingBottom: 40,
     // marginTop: -25, //half of bottom bar
     // marginBottom: -5,
     // marginBottom: 49,

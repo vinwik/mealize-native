@@ -110,7 +110,9 @@ const styles = StyleSheet.create({
   },
   button: {
     marginHorizontal: Dimensions.get("screen").width * 0.0125,
-    marginVertical: 15,
+    // marginVertical: 15,
+    marginTop: 5,
+    marginBottom: 15,
     height: 45,
     paddingHorizontal: 20,
     paddingVertical: 10,
@@ -123,7 +125,9 @@ const styles = StyleSheet.create({
     marginLeft: Dimensions.get("screen").width * 0.05,
     marginRight: Dimensions.get("screen").width * 0.0125,
 
-    marginVertical: 15,
+    // marginVertical: 15,
+    marginTop: 5,
+    marginBottom: 15,
     height: 45,
     paddingHorizontal: 20,
     paddingVertical: 10,
@@ -135,7 +139,9 @@ const styles = StyleSheet.create({
   lastButton: {
     marginLeft: Dimensions.get("screen").width * 0.0125,
     marginRight: Dimensions.get("screen").width * 0.05,
-    marginVertical: 15,
+    // marginVertical: 15,
+    marginTop: 5,
+    marginBottom: 15,
     height: 45,
     paddingHorizontal: 20,
     paddingVertical: 10,
