@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   Dimensions,
 } from "react-native";
+import { useHeaderHeight } from "@react-navigation/stack";
 import { AntDesign } from "@expo/vector-icons";
 import RecipeCard from "./RecipeCard";
 import { useSelector, useDispatch } from "react-redux";
@@ -18,6 +19,8 @@ const RecipeCardList = (props) => {
   const isLoading = useSelector((state) => state.recipe.loading);
   const searchValue = useSelector((state) => state.recipe.searchValue);
   const scroll = useRef();
+
+  const height = useHeaderHeight();
 
   useEffect(() => {
     recipes.length &&
@@ -70,7 +73,12 @@ const RecipeCardList = (props) => {
           style={styles.cardList}
           data={recipes}
           renderItem={({ item, index }) => (
-            <RecipeCard recipe={item} i={index} length={recipes.length} />
+            <RecipeCard
+              recipe={item}
+              i={index}
+              length={recipes.length}
+              height={height}
+            />
           )}
           keyExtractor={(item) => item.id.toString()}
         />
@@ -84,12 +92,13 @@ export default RecipeCardList;
 const styles = StyleSheet.create({
   cardListContainer: {
     flexDirection: "row",
+    // paddingTop: 15,
+    // paddingVertical: 15,
     // height: "40%",
     // height: "100%",
     // width: "100%",
     // paddingLeft: "5%"
-    position: "absolute",
-    top: 58,
+    // top: 58,
   },
   cardList: {
     // flexDirection: "row",

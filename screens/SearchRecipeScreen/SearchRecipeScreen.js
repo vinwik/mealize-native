@@ -227,10 +227,15 @@ export default SearchRecipeScreen;
 
 const styles = StyleSheet.create({
   screen: {
-    // flex: 1,
+    flex: 1,
     // alignItems: "center",
     // flexGrow: 1,
-    // justifyContent: "space-evenly",
+    justifyContent: "center",
+    paddingTop: 55,
+    paddingBottom: 55,
+    // marginTop: -25, //half of bottom bar
+    // marginBottom: -5,
+    // marginBottom: 49,
     // justifyContent: "center",
     // backgroundColor: "#e6e6e6",
     // height: "100%",

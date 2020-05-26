@@ -85,7 +85,9 @@ const SearchTags = (props) => {
                 props.tagsHandler(tag);
               }}
             >
-              <Text style={{ color: "white" }}>{tag.name}</Text>
+              <Text style={{ color: "white", textTransform: "capitalize" }}>
+                {tag.name}
+              </Text>
             </TouchableOpacity>
           );
         })}
@@ -98,44 +100,48 @@ export default SearchTags;
 
 const styles = StyleSheet.create({
   tags: {
-    position: "absolute",
-    top: Dimensions.get("screen").height - 258,
-
+    // flex: 1,
+    // position: "absolute",
+    // top: Dimensions.get("screen").height - 258,
     // width: 100,
     // height: 100,
     // zIndex: 100,
+    // paddingTop: 15,
   },
   button: {
     marginHorizontal: Dimensions.get("screen").width * 0.0125,
-    marginVertical: 20,
-    height: 40,
+    marginVertical: 15,
+    height: 45,
     paddingHorizontal: 20,
     paddingVertical: 10,
     backgroundColor: colors.paleGreen,
-    borderRadius: 25,
+    borderRadius: 15,
+    justifyContent: "center",
     elevation: 5,
   },
   firstButton: {
     marginLeft: Dimensions.get("screen").width * 0.05,
     marginRight: Dimensions.get("screen").width * 0.0125,
 
-    marginVertical: 20,
-    height: 40,
+    marginVertical: 15,
+    height: 45,
     paddingHorizontal: 20,
     paddingVertical: 10,
     backgroundColor: colors.paleGreen,
-    borderRadius: 25,
+    borderRadius: 15,
+    justifyContent: "center",
     elevation: 5,
   },
   lastButton: {
     marginLeft: Dimensions.get("screen").width * 0.0125,
     marginRight: Dimensions.get("screen").width * 0.05,
-    marginVertical: 20,
-    height: 40,
+    marginVertical: 15,
+    height: 45,
     paddingHorizontal: 20,
     paddingVertical: 10,
     backgroundColor: colors.paleGreen,
-    borderRadius: 25,
+    borderRadius: 15,
+    justifyContent: "center",
     elevation: 5,
   },
   buttonBackground: {

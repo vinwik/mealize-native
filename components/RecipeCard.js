@@ -19,7 +19,7 @@ import TouchableScale from "react-native-touchable-scale";
 
 import { useSelector, useDispatch } from "react-redux";
 
-const RecipeCard = ({ recipe, i, length }) => {
+const RecipeCard = ({ recipe, i, length, height }) => {
   const navigation = useNavigation();
 
   const recipeInStore = useSelector((state) => state.recipe.recipe);
@@ -74,7 +74,13 @@ const RecipeCard = ({ recipe, i, length }) => {
 
   return (
     <TouchableScale
-      style={cardMargin(i)}
+      style={[
+        cardMargin(i),
+        // {
+        //   height:
+        //     Dimensions.get("screen").height * 1 - 49 - height - 60 - 55 - 60,
+        // },
+      ]}
       // activeOpacity={0.8}
       activeScale={0.99}
       tension={1}
@@ -174,12 +180,12 @@ export default RecipeCard;
 const styles = StyleSheet.create({
   card: {
     marginHorizontal: Dimensions.get("screen").width * 0.025,
-    marginVertical: 20,
-    width: Dimensions.get("screen").width * 0.7,
-    height: Dimensions.get("screen").height - 336,
-    // height: Dimensions.get("screen").height * 0.6,
+    marginVertical: 15,
+    width: Dimensions.get("screen").width * 0.8,
+    // height: Dimensions.get("screen").height - 336,
+    // height: Dimensions.get("screen").height * 0.6 - 50,
     // flexGrow: 1,
-    borderRadius: 25,
+    borderRadius: 10,
     // top: 40,
     // top: 78,
     elevation: 8,
@@ -189,12 +195,12 @@ const styles = StyleSheet.create({
   firstCard: {
     marginLeft: Dimensions.get("screen").width * 0.05,
     marginRight: Dimensions.get("screen").width * 0.025,
-    marginVertical: 20,
-    width: Dimensions.get("screen").width * 0.7,
-    height: Dimensions.get("screen").height - 336,
-    // height: Dimensions.get("screen").height * 0.6,
+    marginVertical: 15,
+    width: Dimensions.get("screen").width * 0.8,
+    // height: Dimensions.get("screen").height - 336,
+    // height: Dimensions.get("screen").height * 1 - 50,
     // flexGrow: 1,
-    borderRadius: 25,
+    borderRadius: 15,
     // top: 40,
     // top: 78,
     elevation: 8,
@@ -204,12 +210,12 @@ const styles = StyleSheet.create({
   lastCard: {
     marginLeft: Dimensions.get("screen").width * 0.025,
     marginRight: Dimensions.get("screen").width * 0.05,
-    marginVertical: 20,
+    marginVertical: 15,
     width: Dimensions.get("screen").width * 0.7,
-    height: Dimensions.get("screen").height - 336,
-    // height: Dimensions.get("screen").height * 0.6,
+    // height: Dimensions.get("screen").height - 336,
+    // height: Dimensions.get("screen").height * 0.6 - 50,
     // flexGrow: 1,
-    borderRadius: 25,
+    borderRadius: 10,
     // top: 40,
     // top: 78,
     elevation: 8,
@@ -222,7 +228,7 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     // justifyContent: "flex-end",
     overflow: "hidden",
-    borderRadius: 25,
+    borderRadius: 10,
   },
   icon: {
     position: "absolute",
@@ -242,8 +248,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#00000080",
     position: "absolute",
     bottom: 0,
-    borderBottomLeftRadius: 25,
-    borderBottomRightRadius: 25,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
   title: {
     color: "#fff",
