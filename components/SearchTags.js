@@ -12,7 +12,7 @@ import { colors } from "../colors/colors";
 
 const tags = [
   { name: "breakfast", category: "type" },
-  { name: "dish", category: "type" },
+  { name: "course", category: "type" },
   { name: "dessert", category: "type" },
   { name: "italian", category: "cuisine" },
   { name: "french", category: "cuisine" },
