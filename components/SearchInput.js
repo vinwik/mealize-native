@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     // top: 20,
     // elevation: 5,
     // marginTop: Platform.OS === "ios" ? -10 : 0,
-    paddingVertical: Platform.OS === "ios" ? 5 : 0,
+    paddingVertical: Platform.OS === "ios" ? 8 : 2,
     // flexDirection: "row",
     // alignItems: "center",
     // justifyContent: "space-between",
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     // backgroundColor: colors.paleDarkGreen,
 
     // width: "90%",
-    borderRadius: 25,
+    // borderRadius: 25,
     // alignSelf: "center",
     // position: "absolute",
     // top: 20,

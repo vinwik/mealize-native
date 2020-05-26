@@ -26,7 +26,7 @@ import { searchRecipe } from "../../store/actions/recipeAction";
 const SearchRecipeScreen = ({ navigation }) => {
   const height = useHeaderHeight();
 
-  const [headerHeight, setHeaderHeight] = useState(height + 35);
+  const [headerHeight, setHeaderHeight] = useState(height + 40);
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState("");
   const [type, setType] = useState([]);
@@ -139,7 +139,7 @@ const SearchRecipeScreen = ({ navigation }) => {
               fontSize: 20,
               color: "#fff",
               marginTop: Platform.OS === "ios" ? -10 : 0,
-              marginBottom: 5,
+              marginBottom: 10,
             }}
           >
             Search
