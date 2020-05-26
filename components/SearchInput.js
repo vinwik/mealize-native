@@ -14,6 +14,7 @@ import {
 import { colors } from "../colors/colors";
 import { AntDesign } from "@expo/vector-icons";
 import { FadeIn } from "../animations/FadeIn";
+import { Translate } from "../animations/Translate";
 import { API_KEY } from "../env";
 
 // FIREBASE
@@ -96,26 +97,40 @@ const SearchInput = (props) => {
         ]}
       >
         {props.modalVisible ? (
-          <TouchableOpacity
-            onPress={() => {
-              props.setModalVisible(false);
-              Keyboard.dismiss();
-            }}
+          <Translate
+            start={0}
+            end={-15}
+            dependency={props.modalVisible}
+            duration={200}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                props.setModalVisible(false);
+                Keyboard.dismiss();
+              }}
+            >
+              <AntDesign
+                name="left"
+                size={20}
+                color="#fff"
+                style={styles.searchIcon}
+              />
+            </TouchableOpacity>
+          </Translate>
+        ) : (
+          <Translate
+            start={-15}
+            end={0}
+            dependency={props.modalVisible}
+            duration={200}
           >
             <AntDesign
-              name="left"
+              name="search1"
               size={20}
               color="#fff"
               style={styles.searchIcon}
             />
-          </TouchableOpacity>
-        ) : (
-          <AntDesign
-            name="search1"
-            size={20}
-            color="#fff"
-            style={styles.searchIcon}
-          />
+          </Translate>
         )}
         <TextInput
           placeholderTextColor="#ffffff80"
