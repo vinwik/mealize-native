@@ -9,18 +9,24 @@ import {
   TouchableHighlight,
   Dimensions,
   Keyboard,
+  Platform,
   AsyncStorage,
 } from "react-native";
 import FadeIn from "../../animations/FadeIn";
+import { colors } from "../../colors/colors";
 import SearchInput from "../../components/SearchInput";
 import RecipeCardList from "../../components/RecipeCardList";
 import SearchTags from "../../components/SearchTags";
 import { API_KEY } from "../../env";
 
+import { useHeaderHeight } from "@react-navigation/stack";
 import { useSelector, useDispatch } from "react-redux";
 import { searchRecipe } from "../../store/actions/recipeAction";
 
 const SearchRecipeScreen = ({ navigation }) => {
+  const height = useHeaderHeight();
+
+  const [headerHeight, setHeaderHeight] = useState(height + 35);
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState("");
   const [type, setType] = useState([]);
@@ -122,21 +128,34 @@ const SearchRecipeScreen = ({ navigation }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      // headerStyle: {
-      //   transform: [{ translateY: headerY }],
-      // },
+      headerStyle: {
+        backgroundColor: colors.paleGreen,
+        height: headerHeight,
+      },
       headerTitle: () => (
-        <SearchInput
-          getSearch={getRecipes}
-          search={search}
-          setSearch={setSearch}
-          searchHandler={searchHandler}
-          searchAutocompleteHandler={searchAutocompleteHandler}
-          searchAutocomplete={searchAutocomplete}
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          placeHolder="Search Recipe..."
-        />
+        <View>
+          <Text
+            style={{
+              fontSize: 20,
+              color: "#fff",
+              marginTop: Platform.OS === "ios" ? -10 : 0,
+              marginBottom: 5,
+            }}
+          >
+            Search
+          </Text>
+          <SearchInput
+            getSearch={getRecipes}
+            search={search}
+            setSearch={setSearch}
+            searchHandler={searchHandler}
+            searchAutocompleteHandler={searchAutocompleteHandler}
+            searchAutocomplete={searchAutocomplete}
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            placeHolder="Search Recipe..."
+          />
+        </View>
       ),
     });
   }, [search, modalVisible]);

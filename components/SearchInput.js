@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     // position: "absolute",
     // top: 20,
     // elevation: 5,
-    marginTop: Platform.OS === "ios" ? -10 : 0,
+    // marginTop: Platform.OS === "ios" ? -10 : 0,
     paddingVertical: Platform.OS === "ios" ? 5 : 0,
     // flexDirection: "row",
     // alignItems: "center",
