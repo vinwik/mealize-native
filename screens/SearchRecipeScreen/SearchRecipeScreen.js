@@ -179,7 +179,7 @@ const SearchRecipeScreen = ({ navigation }) => {
               return (
                 <TouchableHighlight
                   key={i}
-                  underlayColor="#f2f2f2"
+                  underlayColor="#cecece"
                   onPress={() => autocompleteHandler(item)}
                 >
                   <Text style={styles.autocompleteItem}>{item}</Text>
