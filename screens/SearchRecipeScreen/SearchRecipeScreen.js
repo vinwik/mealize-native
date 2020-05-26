@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,7 +6,12 @@ import {
   ScrollView,
   ActivityIndicator,
   KeyboardAvoidingView,
+  TouchableHighlight,
+  Dimensions,
+  Keyboard,
+  AsyncStorage,
 } from "react-native";
+import FadeIn from "../../animations/FadeIn";
 import SearchInput from "../../components/SearchInput";
 import RecipeCardList from "../../components/RecipeCardList";
 import SearchTags from "../../components/SearchTags";
@@ -20,6 +25,8 @@ const SearchRecipeScreen = ({ navigation }) => {
   const [search, setSearch] = useState("");
   const [type, setType] = useState([]);
   const [cuisine, setCuisine] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [autocompleteSearch, setAutocompleteSearch] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -85,40 +92,114 @@ const SearchRecipeScreen = ({ navigation }) => {
     setRecipes(data.recipes);
   };
 
+  const searchAutocomplete = async (search) => {
+    const value = await AsyncStorage.getItem(`autocompleteRecipe`);
+    const data = JSON.parse(value);
+    setAutocompleteSearch(data);
+    // const req2 = firebase.database().ref(`autocomplete/`);
+    // const snapshot2 = await req2.once("value");
+    // const val2 = snapshot2.val();
+    // setAutocompleteSearch(val2);
+  };
+
+  const filteredAutocomplete = autocompleteSearch
+    .filter((autocomplete) => {
+      return autocomplete.toLowerCase().startsWith(search.toLowerCase());
+    })
+    .sort((a, b) => a.length - b.length)
+    .slice(0, 6);
+
+  const autocompleteHandler = (autocomplete) => {
+    setSearch(autocomplete);
+    searchAutocompleteHandler(autocomplete);
+    setAutocompleteSearch([]);
+    Keyboard.dismiss();
+  };
+
   useEffect(() => {
     dispatch(searchRecipe(search, type, cuisine));
   }, [type, cuisine]);
 
-  return (
-    <View style={styles.screen}>
-      <View>
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      // headerStyle: {
+      //   transform: [{ translateY: headerY }],
+      // },
+      headerTitle: () => (
         <SearchInput
           getSearch={getRecipes}
           search={search}
           setSearch={setSearch}
           searchHandler={searchHandler}
           searchAutocompleteHandler={searchAutocompleteHandler}
+          searchAutocomplete={searchAutocomplete}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
           placeHolder="Search Recipe..."
         />
-      </View>
-      <View>
-        <RecipeCardList
-          recipes={recipes}
-          search={search}
-          type={type}
-          cuisine={cuisine}
-        />
-      </View>
-      <View>
-        <SearchTags
+      ),
+    });
+  }, [search, modalVisible]);
+
+  return (
+    <View style={styles.screen}>
+      {modalVisible ? (
+        <View
+          style={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            // bottom: 0,
+            left: 0,
+            height: 1000,
+          }}
+        >
+          {autocompleteSearch &&
+            search.length > 0 &&
+            filteredAutocomplete.map((item, i) => {
+              return (
+                <TouchableHighlight
+                  key={i}
+                  underlayColor="#f2f2f2"
+                  onPress={() => autocompleteHandler(item)}
+                >
+                  <Text style={styles.autocompleteItem}>{item}</Text>
+                </TouchableHighlight>
+              );
+            })}
+        </View>
+      ) : (
+        <>
+          <View>
+            {/* <SearchInput
           getSearch={getRecipes}
-          type={type}
-          setType={setType}
-          cuisine={cuisine}
-          setCuisine={setCuisine}
-          tagsHandler={tagsHandler}
-        />
-      </View>
+          search={search}
+          setSearch={setSearch}
+          searchHandler={searchHandler}
+          searchAutocompleteHandler={searchAutocompleteHandler}
+          placeHolder="Search Recipe..."
+        /> */}
+          </View>
+          <View>
+            <RecipeCardList
+              recipes={recipes}
+              search={search}
+              type={type}
+              cuisine={cuisine}
+            />
+          </View>
+          <View>
+            <SearchTags
+              getSearch={getRecipes}
+              type={type}
+              setType={setType}
+              cuisine={cuisine}
+              setCuisine={setCuisine}
+              tagsHandler={tagsHandler}
+            />
+          </View>
+        </>
+      )}
     </View>
   );
 };
@@ -138,5 +219,14 @@ const styles = StyleSheet.create({
   },
   suspense: {
     flex: 1,
+  },
+  autocompleteItem: {
+    paddingVertical: 15,
+    paddingLeft: Dimensions.get("screen").width * 0.05,
+    color: "#666",
+    // width: "100%",
+    // flexGrow: 1,
+    // borderBottomWidth: 1,
+    // borderBottomColor: "#888",
   },
 });

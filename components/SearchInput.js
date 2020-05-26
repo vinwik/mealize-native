@@ -8,7 +8,10 @@ import {
   Keyboard,
   AsyncStorage,
   Platform,
+  Dimensions,
+  Modal,
 } from "react-native";
+import { colors } from "../colors/colors";
 import { AntDesign } from "@expo/vector-icons";
 import { FadeIn } from "../animations/FadeIn";
 import { API_KEY } from "../env";
@@ -16,6 +19,7 @@ import { API_KEY } from "../env";
 // FIREBASE
 import * as firebase from "firebase";
 import { firebaseConfig } from "../env";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
@@ -27,7 +31,7 @@ const SearchInput = (props) => {
 
   const inputHandler = (enteredSearch) => {
     props.setSearch(enteredSearch);
-    searchAutocomplete(enteredSearch);
+    props.searchAutocomplete(enteredSearch);
   };
 
   const autocompleteHandler = (autocomplete) => {
@@ -38,6 +42,7 @@ const SearchInput = (props) => {
   };
 
   const submitHandler = () => {
+    props.setModalVisible(false);
     props.searchHandler();
     setAutocompleteSearch([]);
   };
@@ -72,7 +77,16 @@ const SearchInput = (props) => {
   // console.log(autocompleteSearch);
 
   return (
-    <View style={styles.searchBarContainer}>
+    <View
+      style={[
+        styles.searchBarContainer,
+        {
+          backgroundColor: props.modalVisible
+            ? colors.paleGreen
+            : colors.paleGreenSearch,
+        },
+      ]}
+    >
       <View
         style={[
           styles.inputContainer,
@@ -81,17 +95,37 @@ const SearchInput = (props) => {
             styles.borderBottom,
         ]}
       >
-        <AntDesign
-          name="search1"
-          size={20}
-          color="#8e8e8e"
-          style={styles.searchIcon}
-        />
+        {props.modalVisible ? (
+          <TouchableOpacity
+            onPress={() => {
+              props.setModalVisible(false);
+              Keyboard.dismiss();
+            }}
+          >
+            <AntDesign
+              name="left"
+              size={20}
+              color="#fff"
+              style={styles.searchIcon}
+            />
+          </TouchableOpacity>
+        ) : (
+          <AntDesign
+            name="search1"
+            size={20}
+            color="#fff"
+            style={styles.searchIcon}
+          />
+        )}
         <TextInput
-          style={styles.input}
+          placeholderTextColor="#ffffff80"
+          selectionColor="#fff"
           placeholder={props.placeHolder}
+          style={styles.input}
           onChangeText={inputHandler}
           value={props.search}
+          onFocus={() => props.setModalVisible(true)}
+          onBlur={() => props.setModalVisible(false)}
           onSubmitEditing={() => submitHandler()}
         />
         {props.search ? (
@@ -99,26 +133,15 @@ const SearchInput = (props) => {
             <AntDesign
               name="close"
               size={20}
-              color="#8e8e8e"
+              color="#fff"
               style={styles.closeIcon}
               onPress={() => props.setSearch("")}
             />
           </FadeIn>
         ) : null}
       </View>
+
       {/* {autocompleteSearch &&
-        autocompleteSearch.map((item) => {
-          return (
-            <TouchableHighlight
-              key={item.id}
-              underlayColor="#f2f2f2"
-              onPress={() => autocompleteHandler(item.title)}
-            >
-              <Text style={styles.autocompleteItem}>{item.title}</Text>
-            </TouchableHighlight>
-          );
-        })} */}
-      {autocompleteSearch &&
         props.search.length > 0 &&
         filteredAutocomplete.map((item, i) => {
           return (
@@ -130,7 +153,7 @@ const SearchInput = (props) => {
               <Text style={styles.autocompleteItem}>{item}</Text>
             </TouchableHighlight>
           );
-        })}
+        })} */}
     </View>
   );
 };
@@ -139,13 +162,13 @@ export default SearchInput;
 
 const styles = StyleSheet.create({
   searchBarContainer: {
-    backgroundColor: "#fff",
-    width: "90%",
-    borderRadius: 25,
+    width: Dimensions.get("screen").width * 0.9,
+    borderRadius: 8,
     alignSelf: "center",
-    position: "absolute",
-    top: 20,
-    elevation: 5,
+    // position: "absolute",
+    // top: 20,
+    // elevation: 5,
+    marginTop: Platform.OS === "ios" ? -10 : 0,
     paddingVertical: Platform.OS === "ios" ? 5 : 0,
     // flexDirection: "row",
     // alignItems: "center",
@@ -154,7 +177,9 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   inputContainer: {
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
+    // backgroundColor: colors.paleDarkGreen,
+
     // width: "90%",
     borderRadius: 25,
     // alignSelf: "center",
@@ -182,6 +207,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     // width: "100%",
     flexGrow: 1,
+    color: "#fff",
   },
   autocompleteItem: {
     paddingVertical: 15,
