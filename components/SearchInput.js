@@ -101,7 +101,7 @@ const SearchInput = (props) => {
             start={0}
             end={-15}
             dependency={props.modalVisible}
-            duration={200}
+            duration={350}
           >
             <TouchableOpacity
               onPress={() => {
@@ -122,7 +122,7 @@ const SearchInput = (props) => {
             start={-15}
             end={0}
             dependency={props.modalVisible}
-            duration={200}
+            duration={350}
           >
             <AntDesign
               name="search1"
