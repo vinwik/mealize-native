@@ -11,7 +11,10 @@ import {
   Keyboard,
   Platform,
   AsyncStorage,
+  Alert,
 } from "react-native";
+import { useBackHandler } from "@react-native-community/hooks";
+
 import FadeIn from "../../animations/FadeIn";
 import { colors } from "../../colors/colors";
 import SearchInput from "../../components/SearchInput";
@@ -121,6 +124,29 @@ const SearchRecipeScreen = ({ navigation }) => {
     setAutocompleteSearch([]);
     Keyboard.dismiss();
   };
+
+  useBackHandler(() => {
+    if (modalVisible) {
+      Keyboard.dismiss();
+      setModalVisible(false);
+      return true;
+    }
+    // Not sure if I want to keep Alert Box
+
+    // if (!modalVisible && navigation.isFocused()) {
+    //   Alert.alert("Hold on!", "Are you sure you want to go back?", [
+    //     {
+    //       text: "Cancel",
+    //       onPress: () => null,
+    //       style: "cancel",
+    //     },
+    //     { text: "YES", onPress: () => BackHandler.exitApp() },
+    //   ]);
+    //   return true;
+    // }
+
+    return false;
+  });
 
   useEffect(() => {
     dispatch(searchRecipe(search, type, cuisine));
