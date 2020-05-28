@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     // top: 20,
     // elevation: 5,
     // marginTop: Platform.OS === "ios" ? -10 : 0,
-    paddingVertical: Platform.OS === "ios" ? 8 : 2,
+    paddingVertical: Platform.OS === "ios" ? 5 : 0,
     // flexDirection: "row",
     // alignItems: "center",
     // justifyContent: "space-between",
