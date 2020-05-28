@@ -14,6 +14,7 @@ import {
 import { colors } from "../colors/colors";
 import { AntDesign } from "@expo/vector-icons";
 import { FadeIn } from "../animations/FadeIn";
+import { BackgroundColorOpacity } from "../animations/BackgroundColorOpacity";
 import { Translate } from "../animations/Translate";
 import { API_KEY } from "../env";
 
@@ -82,12 +83,18 @@ const SearchInput = (props) => {
       style={[
         styles.searchBarContainer,
         {
-          backgroundColor: props.modalVisible
-            ? colors.paleGreen
-            : colors.paleGreenSearch,
+          //   backgroundColor: props.modalVisible
+          //     ? colors.paleGreen
+          //     : colors.paleGreenSearch,
+          zIndex: 1,
         },
       ]}
     >
+      <BackgroundColorOpacity
+        backgroundColor={colors.paleGreenSearch}
+        duration={350}
+        dependency={props.modalVisible}
+      />
       <View
         style={[
           styles.inputContainer,
