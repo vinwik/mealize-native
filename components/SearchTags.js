@@ -68,28 +68,31 @@ const SearchTags = (props) => {
   //   }, [type, cuisine]);
 
   return (
-    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-      {tags.map((tag, i) => {
-        return (
-          <TouchableOpacity
-            style={[
-              buttonMargin(i),
-              props.type.includes(tag.name) || props.cuisine.includes(tag.name)
-                ? styles.pressedButtonBackground
-                : styles.buttonBackground,
-            ]}
-            key={tag.name}
-            onPress={() => {
-              props.tagsHandler(tag);
-            }}
-          >
-            <Text style={{ color: "white", textTransform: "capitalize" }}>
-              {tag.name}
-            </Text>
-          </TouchableOpacity>
-        );
-      })}
-    </ScrollView>
+    <View>
+      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+        {tags.map((tag, i) => {
+          return (
+            <TouchableOpacity
+              style={[
+                buttonMargin(i),
+                props.type.includes(tag.name) ||
+                props.cuisine.includes(tag.name)
+                  ? styles.pressedButtonBackground
+                  : styles.buttonBackground,
+              ]}
+              key={tag.name}
+              onPress={() => {
+                props.tagsHandler(tag);
+              }}
+            >
+              <Text style={{ color: "white", textTransform: "capitalize" }}>
+                {tag.name}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </ScrollView>
+    </View>
   );
 };
 
