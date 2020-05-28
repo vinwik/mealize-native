@@ -28,17 +28,14 @@ const CartScreen = () => {
             justifyContent: "center",
           }}
         >
-          <View style={{ alignItems: "center", justifyContent: "center" }}>
-            <AntDesign name="shoppingcart" size={100} color={"#cecece"} />
-            <Text
-              style={{
-                color: "#888",
-                fontSize: 19,
-                marginTop: 10,
-              }}
-            >{`Empty Cart`}</Text>
-          </View>
-          {/* )} */}
+          <AntDesign name="shoppingcart" size={100} color={"#cecece"} />
+          <Text
+            style={{
+              color: "#888",
+              fontSize: 19,
+              marginTop: 10,
+            }}
+          >{`Empty Cart`}</Text>
         </View>
       ) : (
         <ScrollView contentContainerStyle={{ alignItems: "center" }}>
