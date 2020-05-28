@@ -19,44 +19,66 @@ const CartScreen = () => {
   const dispatch = useDispatch();
 
   return (
-    <ScrollView>
-      <View style={{ alignItems: "center" }}>
-        {ingredients.map((ingredient) => {
-          // const isInCart = cart.find(
-          //   (ingredientInCart) => ingredientInCart.id === ingredient.id
-          // );
+    <View style={{ flex: 1 }}>
+      {!ingredients.length ? (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <View style={{ alignItems: "center", justifyContent: "center" }}>
+            <AntDesign name="shoppingcart" size={100} color={"#cecece"} />
+            <Text
+              style={{
+                color: "#888",
+                fontSize: 19,
+                marginTop: 10,
+              }}
+            >{`Empty Cart`}</Text>
+          </View>
+          {/* )} */}
+        </View>
+      ) : (
+        <ScrollView contentContainerStyle={{ alignItems: "center" }}>
+          {ingredients.map((ingredient) => {
+            // const isInCart = cart.find(
+            //   (ingredientInCart) => ingredientInCart.id === ingredient.id
+            // );
 
-          return (
-            <View style={styles.rowContainer} key={ingredient.id}>
-              <View style={styles.ingredientContainer}>
-                <View style={styles.imageWrapper}>
-                  <Image
-                    style={styles.image}
-                    source={{
-                      uri: `https://spoonacular.com/cdn/ingredients_100x100/${ingredient.image}`,
-                    }}
-                  />
+            return (
+              <View style={styles.rowContainer} key={ingredient.id}>
+                <View style={styles.ingredientContainer}>
+                  <View style={styles.imageWrapper}>
+                    <Image
+                      style={styles.image}
+                      source={{
+                        uri: `https://spoonacular.com/cdn/ingredients_100x100/${ingredient.image}`,
+                      }}
+                    />
+                  </View>
+                  <Text style={styles.ingredient}>{ingredient.name}</Text>
                 </View>
-                <Text style={styles.ingredient}>{ingredient.name}</Text>
+
+                <TouchableOpacity
+                  onPress={() => dispatch(removeFromCart(ingredient.id))}
+                >
+                  <View style={styles.icon}>
+                    <AntDesign
+                      name="minuscircle"
+                      size={25}
+                      color={colors.paleDarkRed}
+                      style={styles.icon}
+                    />
+                  </View>
+                </TouchableOpacity>
               </View>
-
-              <TouchableOpacity
-                onPress={() => dispatch(removeFromCart(ingredient.id))}
-              >
-                <View style={styles.icon}>
-                  <AntDesign
-                    name="minuscircle"
-                    size={25}
-                    color={colors.paleDarkRed}
-                    style={styles.icon}
-                  />
-                </View>
-              </TouchableOpacity>
-            </View>
-          );
-        })}
-      </View>
-    </ScrollView>
+            );
+          })}
+        </ScrollView>
+      )}
+    </View>
   );
 };
 
