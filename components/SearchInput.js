@@ -141,7 +141,7 @@ const SearchInput = (props) => {
         )}
         <TextInput
           placeholderTextColor="#ffffff80"
-          selectionColor="#fff"
+          selectionColor="#fff" // Does not work on Android
           placeholder={props.placeHolder}
           style={styles.input}
           onChangeText={inputHandler}
