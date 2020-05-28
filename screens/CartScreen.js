@@ -80,7 +80,14 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: "#fff",
     borderRadius: 60,
-    elevation: 8,
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   image: {
     flex: 1,
@@ -94,7 +101,14 @@ const styles = StyleSheet.create({
   },
   icon: {
     // borderRadius: 25,
-    elevation: 5,
+    // elevation: 5,
+    // shadowColor: "#000",
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 1,
+    // },
+    // shadowOpacity: 0.22,
+    // shadowRadius: 2.22,
     // backgroundColor: "#fff",
   },
 });
