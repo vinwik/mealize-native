@@ -149,7 +149,15 @@ const RecipeCard = ({ recipe, i, length, height }) => {
         <FadeIn
           delay={200}
           duration={200}
-          style={{ position: "absolute", left: 0, top: 0, right: 0, bottom: 0 }}
+          style={{
+            position: "absolute",
+            left: 0,
+            top: 0,
+            right: 0,
+            bottom: 0,
+            borderRadius: 10,
+            overflow: "hidden",
+          }}
         >
           <ActivityIndicator
             size="large"
@@ -188,8 +196,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     // top: 40,
     // top: 78,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+
     elevation: 8,
-    overflow: "hidden",
+    // overflow: "hidden",
     backgroundColor: "#cecece",
   },
   firstCard: {
@@ -200,11 +216,20 @@ const styles = StyleSheet.create({
     // height: Dimensions.get("screen").height - 336,
     // height: Dimensions.get("screen").height * 1 - 50,
     // flexGrow: 1,
-    borderRadius: 15,
+    borderRadius: 10,
     // top: 40,
     // top: 78,
+    shadowColor: "#000",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+
     elevation: 8,
-    overflow: "hidden",
+    // overflow: "hidden",
     backgroundColor: "#cecece",
   },
   lastCard: {
@@ -218,8 +243,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     // top: 40,
     // top: 78,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+
     elevation: 8,
-    overflow: "hidden",
+    // overflow: "hidden",
     backgroundColor: "#cecece",
   },
   image: {
@@ -227,7 +260,7 @@ const styles = StyleSheet.create({
     height: "100%",
     resizeMode: "cover",
     // justifyContent: "flex-end",
-    overflow: "hidden",
+    // overflow: "hidden",
     borderRadius: 10,
   },
   icon: {

@@ -113,16 +113,16 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 40,
     padding: 5,
-    shadowColor: "#222",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
+    // shadowColor: "#222",
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.23,
+    // shadowRadius: 2.62,
 
-    elevation: 8,
-    zIndex: 10,
+    // elevation: 8,
+    // zIndex: 10,
   },
   titleWrapper: {
     padding: "2%",

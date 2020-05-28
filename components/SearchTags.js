@@ -68,31 +68,28 @@ const SearchTags = (props) => {
   //   }, [type, cuisine]);
 
   return (
-    <View style={styles.tags}>
-      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-        {tags.map((tag, i) => {
-          return (
-            <TouchableOpacity
-              style={[
-                buttonMargin(i),
-                props.type.includes(tag.name) ||
-                props.cuisine.includes(tag.name)
-                  ? styles.pressedButtonBackground
-                  : styles.buttonBackground,
-              ]}
-              key={tag.name}
-              onPress={() => {
-                props.tagsHandler(tag);
-              }}
-            >
-              <Text style={{ color: "white", textTransform: "capitalize" }}>
-                {tag.name}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
-      </ScrollView>
-    </View>
+    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+      {tags.map((tag, i) => {
+        return (
+          <TouchableOpacity
+            style={[
+              buttonMargin(i),
+              props.type.includes(tag.name) || props.cuisine.includes(tag.name)
+                ? styles.pressedButtonBackground
+                : styles.buttonBackground,
+            ]}
+            key={tag.name}
+            onPress={() => {
+              props.tagsHandler(tag);
+            }}
+          >
+            <Text style={{ color: "white", textTransform: "capitalize" }}>
+              {tag.name}
+            </Text>
+          </TouchableOpacity>
+        );
+      })}
+    </ScrollView>
   );
 };
 
@@ -100,8 +97,10 @@ export default SearchTags;
 
 const styles = StyleSheet.create({
   tags: {
+    // marginTop: "auto",
     // flex: 1,
     // position: "absolute",
+    // bottom: 0,
     // top: Dimensions.get("screen").height - 258,
     // width: 100,
     // height: 100,
@@ -111,44 +110,66 @@ const styles = StyleSheet.create({
   button: {
     marginHorizontal: Dimensions.get("screen").width * 0.0125,
     // marginVertical: 15,
-    marginTop: 5,
+    // marginTop: 5,
     marginBottom: 15,
-    height: 45,
+
     paddingHorizontal: 20,
     paddingVertical: 10,
+    height: 45,
     backgroundColor: colors.paleGreen,
     borderRadius: 15,
     justifyContent: "center",
     elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
   },
   firstButton: {
     marginLeft: Dimensions.get("screen").width * 0.05,
     marginRight: Dimensions.get("screen").width * 0.0125,
 
     // marginVertical: 15,
-    marginTop: 5,
+    // marginTop: 5,
     marginBottom: 15,
-    height: 45,
     paddingHorizontal: 20,
     paddingVertical: 10,
+    height: 45,
     backgroundColor: colors.paleGreen,
     borderRadius: 15,
     justifyContent: "center",
     elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
   },
   lastButton: {
     marginLeft: Dimensions.get("screen").width * 0.0125,
     marginRight: Dimensions.get("screen").width * 0.05,
     // marginVertical: 15,
-    marginTop: 5,
+    // marginTop: 5,
     marginBottom: 15,
-    height: 45,
     paddingHorizontal: 20,
     paddingVertical: 10,
+    height: 45,
     backgroundColor: colors.paleGreen,
     borderRadius: 15,
     justifyContent: "center",
     elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
   },
   buttonBackground: {
     backgroundColor: colors.paleGreen,
