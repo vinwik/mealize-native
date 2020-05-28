@@ -20,7 +20,7 @@ const RecipeCardList = (props) => {
   const searchValue = useSelector((state) => state.recipe.searchValue);
   const scroll = useRef();
 
-  const height = useHeaderHeight();
+  const headerHeight = useHeaderHeight();
 
   useEffect(() => {
     recipes.length &&
@@ -28,7 +28,15 @@ const RecipeCardList = (props) => {
   }, [recipes]);
 
   return (
-    <View style={styles.cardListContainer}>
+    <View
+      style={[
+        styles.cardListContainer,
+        {
+          height:
+            Dimensions.get("screen").height - headerHeight - 49 - 45 - 20 - 45,
+        }, // height - header - bottom tab - tag buttons - tag buttons padding Android - margins
+      ]}
+    >
       {!isLoading && !recipes.length ? (
         <FadeIn
           delay={200}
@@ -77,7 +85,7 @@ const RecipeCardList = (props) => {
               recipe={item}
               i={index}
               length={recipes.length}
-              height={height}
+              height={headerHeight}
             />
           )}
           keyExtractor={(item) => item.id.toString()}
@@ -91,7 +99,8 @@ export default RecipeCardList;
 
 const styles = StyleSheet.create({
   cardListContainer: {
-    flexDirection: "row",
+    flexGrow: 1, // Card too small on IOS
+    // flexDirection: "row",
     // paddingTop: 15,
     // paddingVertical: 15,
     // height: "40%",
