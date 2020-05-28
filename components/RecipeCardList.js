@@ -43,7 +43,6 @@ const RecipeCardList = (props) => {
           duration={300}
           style={{
             flex: 1,
-            height: (Dimensions.get("screen").height + 40) / 2,
             alignItems: "center",
             justifyContent: "center",
           }}
