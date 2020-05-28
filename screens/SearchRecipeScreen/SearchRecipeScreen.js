@@ -188,36 +188,23 @@ const SearchRecipeScreen = ({ navigation }) => {
             })}
         </View>
       ) : (
-        <>
-          <View>
-            {/* <SearchInput
-          getSearch={getRecipes}
-          search={search}
-          setSearch={setSearch}
-          searchHandler={searchHandler}
-          searchAutocompleteHandler={searchAutocompleteHandler}
-          placeHolder="Search Recipe..."
-        /> */}
-          </View>
-          <View>
-            <RecipeCardList
-              recipes={recipes}
-              search={search}
-              type={type}
-              cuisine={cuisine}
-            />
-          </View>
-          <View>
-            <SearchTags
-              getSearch={getRecipes}
-              type={type}
-              setType={setType}
-              cuisine={cuisine}
-              setCuisine={setCuisine}
-              tagsHandler={tagsHandler}
-            />
-          </View>
-        </>
+        <View style={{ flex: 1, justifyContent: "space-between" }}>
+          <RecipeCardList
+            recipes={recipes}
+            search={search}
+            type={type}
+            cuisine={cuisine}
+          />
+
+          <SearchTags
+            getSearch={getRecipes}
+            type={type}
+            setType={setType}
+            cuisine={cuisine}
+            setCuisine={setCuisine}
+            tagsHandler={tagsHandler}
+          />
+        </View>
       )}
     </View>
   );
@@ -230,9 +217,9 @@ const styles = StyleSheet.create({
     flex: 1,
     // alignItems: "center",
     // flexGrow: 1,
-    justifyContent: "center",
-    paddingTop: 40,
-    paddingBottom: 40,
+    // justifyContent: "space-between",
+    // paddingTop: 40,
+    // paddingBottom: 40,
     // marginTop: -25, //half of bottom bar
     // marginBottom: -5,
     // marginBottom: 49,
