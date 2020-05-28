@@ -44,41 +44,58 @@ const FavouritesScreen = () => {
   }, [dispatchedId]);
 
   return (
-    <ScrollView>
-      {recipes.map((recipe) => {
-        const image = { uri: `${recipe.image}` };
-
-        return (
-          <TouchableOpacity
-            key={recipe.id}
-            activeOpacity={0.8}
-            style={styles.card}
-            onPress={() => {
-              dispatchRecipe(recipe.id.toString());
-              goToRecipe(recipe.id);
+    <View style={{ flex: 1 }}>
+      {!recipes.length ? (
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          <AntDesign name="hearto" size={100} color={"#cecece"} />
+          <Text
+            style={{
+              color: "#888",
+              fontSize: 19,
+              marginTop: 10,
             }}
-          >
-            <ImageBackground source={image} style={styles.image}>
-              <TouchableOpacity style={styles.deleteButton}>
-                <AntDesign
-                  name="close"
-                  size={30}
-                  color="black"
-                  onPress={() => dispatch(removeFromFavourites(recipe.id))}
-                />
+          >{`Empty Favourites`}</Text>
+        </View>
+      ) : (
+        <ScrollView>
+          {recipes.map((recipe) => {
+            const image = { uri: `${recipe.image}` };
+
+            return (
+              <TouchableOpacity
+                key={recipe.id}
+                activeOpacity={0.8}
+                style={styles.card}
+                onPress={() => {
+                  dispatchRecipe(recipe.id.toString());
+                  goToRecipe(recipe.id);
+                }}
+              >
+                <ImageBackground source={image} style={styles.image}>
+                  <TouchableOpacity style={styles.deleteButton}>
+                    <AntDesign
+                      name="close"
+                      size={30}
+                      color="black"
+                      onPress={() => dispatch(removeFromFavourites(recipe.id))}
+                    />
+                  </TouchableOpacity>
+                  <View style={styles.titleWrapper}>
+                    <Text style={styles.title}>
+                      {recipe.title.length < 30
+                        ? recipe.title
+                        : recipe.title.substring(0, 30) + "..."}
+                    </Text>
+                  </View>
+                </ImageBackground>
               </TouchableOpacity>
-              <View style={styles.titleWrapper}>
-                <Text style={styles.title}>
-                  {recipe.title.length < 30
-                    ? recipe.title
-                    : recipe.title.substring(0, 30) + "..."}
-                </Text>
-              </View>
-            </ImageBackground>
-          </TouchableOpacity>
-        );
-      })}
-    </ScrollView>
+            );
+          })}
+        </ScrollView>
+      )}
+    </View>
   );
 };
 
