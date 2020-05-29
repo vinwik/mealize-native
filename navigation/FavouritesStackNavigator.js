@@ -7,15 +7,32 @@ import RecipeScreen from "../screens/FavouritesScreen/RecipeScreen";
 import { AntDesign } from "@expo/vector-icons";
 
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  CardStyleInterpolators,
+} from "@react-navigation/stack";
+
+import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 
 import { colors } from "../colors/colors";
 
-const Stack = createStackNavigator();
+const Stack = createSharedElementStackNavigator();
 
 const FavouritesStackNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Favourites">
+    <Stack.Navigator
+      initialRouteName="Favourites"
+      // mode="modal"
+      headerMode="screen"
+      screenOptions={{
+        useNativeDriver: true,
+        // gestureEnabled: false,
+
+        gestureEnabled: false,
+        // cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        // cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
+      }}
+    >
       <Stack.Screen
         name="Favourites"
         component={FavouritesScreen}
@@ -35,18 +52,6 @@ const FavouritesStackNavigator = () => {
         component={RecipeScreen}
         options={({ navigation, route }) => ({
           headerTransparent: true,
-          headerLeft: () => (
-            <AntDesign
-              name="left"
-              color="black"
-              size={24}
-              style={styles.icon}
-              onPress={() => navigation.goBack()}
-            />
-          ),
-          headerTitleStyle: {
-            display: "none",
-          },
         })}
       />
     </Stack.Navigator>
