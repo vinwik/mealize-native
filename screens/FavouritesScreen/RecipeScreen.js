@@ -1,21 +1,30 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import {
   StyleSheet,
   Text,
   View,
   Dimensions,
   ImageBackground,
+  Image,
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
+  Animated,
+  Platform,
 } from "react-native";
+import { useHeaderHeight } from "@react-navigation/stack";
+import Ingredients from "../../components/Ingredients";
+import { colors } from "../../colors/colors";
 import { AntDesign } from "@expo/vector-icons";
 
 import { getRecipe } from "../../store/actions/recipeAction";
-import { addToCart } from "../../store/actions/cartAction";
 import { addToFavourites } from "../../store/actions/favouritesAction";
-
+import { SharedElement } from "react-navigation-shared-element";
 import { useSelector, useDispatch } from "react-redux";
+import { FadeIn } from "../../animations/FadeIn";
+import { BorderlessButton } from "react-native-gesture-handler";
+
+const HEADER_EXPANDED_HEIGHT = Dimensions.get("screen").height * 0.45;
 
 const RecipeScreen = ({ route, navigation }) => {
   const { recipeId } = route.params;
@@ -29,6 +38,37 @@ const RecipeScreen = ({ route, navigation }) => {
   const cart = useSelector((state) => state.cart.ingredients);
 
   const dispatch = useDispatch();
+
+  const [scrollY, setScrollY] = useState(new Animated.Value(0));
+  const HEADER_COLLAPSED_HEIGHT = useHeaderHeight();
+
+  const headerHeight = scrollY.interpolate({
+    inputRange: [0, HEADER_EXPANDED_HEIGHT - HEADER_COLLAPSED_HEIGHT],
+    outputRange: [HEADER_EXPANDED_HEIGHT, HEADER_COLLAPSED_HEIGHT],
+    extrapolate: "clamp",
+  });
+
+  const headerTitleOpacity = scrollY.interpolate({
+    inputRange: [
+      HEADER_EXPANDED_HEIGHT - HEADER_COLLAPSED_HEIGHT * 2,
+      HEADER_EXPANDED_HEIGHT - HEADER_COLLAPSED_HEIGHT,
+    ],
+    outputRange: [0, 1],
+    extrapolate: "clamp",
+  });
+  const heroImageOpacity = scrollY.interpolate({
+    inputRange: [
+      HEADER_EXPANDED_HEIGHT / 2,
+      HEADER_EXPANDED_HEIGHT - HEADER_COLLAPSED_HEIGHT,
+    ],
+    outputRange: [1, 0],
+    extrapolate: "clamp",
+  });
+  const heroTitleOpacity = scrollY.interpolate({
+    inputRange: [0, HEADER_EXPANDED_HEIGHT / 2],
+    outputRange: [1, 0],
+    extrapolate: "clamp",
+  });
 
   const filterDuplicates = (ingredients) => {
     if (!ingredients.length) {
@@ -51,108 +91,122 @@ const RecipeScreen = ({ route, navigation }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
+      headerLeft: () => (
         <TouchableOpacity
+          style={showcase.leftIcon}
+          onPress={() => navigation.goBack()}
+        >
+          <AntDesign
+            name="left"
+            color="black"
+            size={24}
+            // style={showcase.leftIcon}
+          />
+        </TouchableOpacity>
+      ),
+      title: "blablabla",
+      headerTitleStyle: {
+        fontSize: 18,
+        width: Dimensions.get("screen").width - 40 - 60 - 48,
+        // fontWeight: "bold",
+        // color: "black",
+        opacity: headerTitleOpacity,
+        textAlign: "center",
+      },
+      headerRight: () => (
+        // <FadeIn duration={150} delay={300}>
+        <TouchableOpacity
+          style={showcase.rightIcon}
           disabled={favourites && favourites.inFavourites === true}
           onPress={() => dispatch(addToFavourites(recipe))}
         >
           <AntDesign
             name={favourites ? "heart" : "hearto"}
-            color={favourites ? "#2ca52c" : "black"}
+            color={favourites ? colors.paleGreen : "black"}
             size={24}
-            style={showcase.icon}
+            // style={showcase.rightIcon}
           />
         </TouchableOpacity>
+        // </FadeIn>
       ),
     });
   }, [navigation, favourites, recipe]);
 
   return (
-    <ScrollView>
-      <TouchableOpacity
+    <View style={{ flex: 1 }}>
+      <Animated.View
         style={showcase.showcaseWrapper}
         disabled={favourites && favourites.inFavourites === true}
-        onPress={() => dispatch(addToFavourites(recipe))}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: headerHeight,
+          zIndex: 10,
+          backgroundColor: "#fff",
+          // elevation: 2,
+          // opacity: heroLayerOpacity,
+          // width: Dimensions.get("screen").width,
+        }}
       >
-        <ImageBackground
-          source={{ uri: `${recipe.image}` }}
-          style={showcase.image}
-        >
-          <View style={showcase.titleWrapper}>
-            <Text style={showcase.title}>{recipe.title}</Text>
-          </View>
-        </ImageBackground>
-      </TouchableOpacity>
-      <View style={preparation.layout}>
-        <View style={preparation.column}>
-          <Text style={preparation.title}>Servings</Text>
-          <Text>{recipe.servings}</Text>
-        </View>
-        <View style={preparation.column}>
-          <Text style={preparation.title}>Preparation time</Text>
-          <Text>{recipe.readyInMinutes && recipe.readyInMinutes + " min"}</Text>
-        </View>
-      </View>
-      <View style={ingredientSection.container}>
-        <View>
-          <Text style={ingredientSection.title}>Ingredients</Text>
-        </View>
-        {ingredients.map((ingredient, i) => {
-          const isInCart = cart.find(
-            (ingredientInCart) => ingredientInCart.id === ingredient.id
-          );
-          return (
-            <View
-              key={(ingredient.id, i)}
-              style={
-                i === ingredient.length - 1
-                  ? ingredientSection.ingredientWrapperNoBorder
-                  : ingredientSection.ingredientWrapper
-              }
+        <Animated.View style={{ opacity: heroImageOpacity }}>
+          <ImageBackground
+            source={{ uri: `${recipe.image}` }}
+            style={showcase.image}
+          >
+            <Animated.View
+              style={[showcase.titleWrapper, { opacity: heroTitleOpacity }]}
             >
-              <View style={{ flexDirection: "row" }}>
-                <Text>
-                  {ingredient.amount > ingredient.amount.toFixed(2)
-                    ? ingredient.amount.toFixed(2) + " "
-                    : ingredient.amount + " "}
-                </Text>
-                <Text>
-                  {ingredient.measures.us.unitShort &&
-                    ingredient.measures.us.unitShort.toLowerCase() + " "}
-                </Text>
-                <Text style={ingredientSection.ingredient}>
-                  {ingredient.name}
-                </Text>
-              </View>
-              <TouchableOpacity
-                disabled={isInCart && isInCart.inCart === true}
-                onPress={() => dispatch(addToCart(ingredient))}
-              >
-                <AntDesign
-                  name="pluscircle"
-                  size={30}
-                  color={isInCart ? "#888" : "#2ca52c"}
-                  style={ingredientSection.icon}
-                />
-              </TouchableOpacity>
-            </View>
-          );
-        })}
-      </View>
-      <View style={stepSection.container}>
-        <View>
-          <Text style={stepSection.title}>Instructions</Text>
+              <Text style={showcase.title}>{recipe.title}</Text>
+            </Animated.View>
+          </ImageBackground>
+        </Animated.View>
+      </Animated.View>
+      <Animated.ScrollView
+        showsVerticalScrollIndicator={false}
+        onScroll={Animated.event([
+          {
+            nativeEvent: {
+              contentOffset: {
+                y: scrollY,
+              },
+            },
+          },
+        ])}
+        scrollEventThrottle={16}
+        contentContainerStyle={{
+          paddingTop: HEADER_EXPANDED_HEIGHT,
+        }}
+      >
+        <View style={preparation.layout}>
+          <View style={preparation.column}>
+            <Text style={preparation.title}>Servings</Text>
+            <Text>{recipe.servings}</Text>
+          </View>
+          <View style={preparation.column}>
+            <Text style={preparation.title}>Preparation time</Text>
+            <Text>
+              {recipe.readyInMinutes && recipe.readyInMinutes + " min"}
+            </Text>
+          </View>
         </View>
-        {steps.map((step) => {
-          return (
-            <View key={step.number} style={stepSection.stepWrapper}>
-              <Text style={stepSection.stepNumber}>{`${step.number}. `}</Text>
-              <Text>{step.step}</Text>
-            </View>
-          );
-        })}
-      </View>
-    </ScrollView>
+        <Ingredients extendedIngredients={extendedIngredients} />
+        <View style={stepSection.container}>
+          <View>
+            <Text style={stepSection.title}>Instructions</Text>
+          </View>
+          {steps.map((step) => {
+            return (
+              <View key={step.number} style={stepSection.stepWrapper}>
+                <Text style={stepSection.stepNumber}>{`${step.number}. `}</Text>
+                <Text>{step.step}</Text>
+              </View>
+            );
+          })}
+        </View>
+      </Animated.ScrollView>
+    </View>
   );
 };
 
@@ -160,22 +214,33 @@ export default RecipeScreen;
 
 const showcase = StyleSheet.create({
   showcaseWrapper: {
-    height: Dimensions.get("screen").height * 0.35,
-    position: "relative",
+    // height: Dimensions.get("screen").height * 0.35,
+    height: HEADER_EXPANDED_HEIGHT,
+    backgroundColor: "#fff",
+    // position: "relative",
+    // elevation: 8, // not working
   },
   image: {
     width: "100%",
     height: "100%",
     resizeMode: "cover",
-    justifyContent: "flex-end",
+    // justifyContent: "flex-end",
     overflow: "hidden",
   },
-  icon: {
-    marginTop: 20,
+  leftIcon: {
+    // marginTop: 20,
+    marginLeft: 20,
+    borderRadius: 30,
+    padding: 10,
+    // elevation: 10,
+    backgroundColor: "#fff",
+  },
+  rightIcon: {
+    // marginTop: 20,
     marginRight: 20,
     borderRadius: 30,
     padding: 10,
-    elevation: 10,
+    // elevation: 10,
     backgroundColor: "#fff",
   },
   titleWrapper: {
@@ -183,10 +248,12 @@ const showcase = StyleSheet.create({
     paddingTop: "2%",
     width: "100%",
     backgroundColor: "#00000080",
+    position: "absolute",
+    bottom: 0,
   },
   title: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "700",
     textShadowColor: "#222",
     textShadowRadius: 20,
@@ -264,7 +331,7 @@ const ingredientSection = StyleSheet.create({
   },
   icon: {
     borderRadius: 30,
-    elevation: 5,
+    // elevation: 5,
     backgroundColor: "#fff",
   },
 });

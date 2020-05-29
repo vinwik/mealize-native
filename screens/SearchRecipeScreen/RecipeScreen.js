@@ -142,7 +142,7 @@ const RecipeScreen = ({ route, navigation }) => {
           height: headerHeight,
           zIndex: 10,
           backgroundColor: "#fff",
-          elevation: 2,
+          // elevation: 2,
           // opacity: heroLayerOpacity,
           // width: Dimensions.get("screen").width,
         }}
@@ -282,7 +282,7 @@ const showcase = StyleSheet.create({
     height: HEADER_EXPANDED_HEIGHT,
     backgroundColor: "#fff",
     // position: "relative",
-    elevation: 8, // not working
+    // elevation: 8, // not working
   },
   image: {
     width: "100%",
@@ -395,7 +395,7 @@ const ingredientSection = StyleSheet.create({
   },
   icon: {
     borderRadius: 30,
-    elevation: 5,
+    // elevation: 5,
     backgroundColor: "#fff",
   },
 });
