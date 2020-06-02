@@ -9,6 +9,7 @@ export const BackgroundColorOpacity = (props) => {
       toValue: props.dependency ? 0 : 1,
       delay: props.delay,
       duration: props.duration,
+      useNativeDriver: true,
     }).start();
   }, [props.dependency]);
 

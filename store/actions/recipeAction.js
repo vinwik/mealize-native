@@ -11,7 +11,13 @@ if (!firebase.apps.length) {
 
 import { API_KEY } from "../../env";
 
-export const searchRecipe = (search, type, cuisine) => async (dispatch) => {
+export const searchRecipe = (
+  search,
+  type,
+  cuisine,
+  intolerance,
+  diet
+) => async (dispatch) => {
   dispatch({
     type: SET_LOADING,
   });
@@ -20,9 +26,13 @@ export const searchRecipe = (search, type, cuisine) => async (dispatch) => {
     payload: search,
   });
 
-  const formattedSearch = `${search.toLowerCase()}-${type}-${cuisine}`;
+  // Clear Firebase and AsyncStorage searches
+  // firebase.database().ref(`search/`).remove();
+  // AsyncStorage.clear();
 
-  // await AsyncStorage.removeItem(`${search}-${type}-${cuisine}`);
+  const formattedSearch = `${search.toLowerCase()}-${type}-${cuisine}-${intolerance}-${diet}`;
+  console.log(formattedSearch);
+
   const value = await AsyncStorage.getItem(formattedSearch);
   const parsedRecipe = JSON.parse(value);
 
@@ -45,10 +55,7 @@ export const searchRecipe = (search, type, cuisine) => async (dispatch) => {
 
     const convertRecipe = await parsedRecipe.map((recipe) => recipe.title);
     if (parsedAutocomplete !== null) {
-      const concatAutocomplete = await [
-        ...convertRecipe,
-        ...parsedAutocomplete,
-      ];
+      const concatAutocomplete = [...convertRecipe, ...parsedAutocomplete];
 
       await AsyncStorage.setItem(
         `autocompleteRecipe`,
@@ -65,7 +72,7 @@ export const searchRecipe = (search, type, cuisine) => async (dispatch) => {
 
     const convertRecipe = await val.map((recipe) => recipe.title);
 
-    const concatAutocomplete = await [...convertRecipe, ...val2];
+    const concatAutocomplete = [...convertRecipe, ...val2];
 
     await firebase
       .database()
@@ -77,7 +84,7 @@ export const searchRecipe = (search, type, cuisine) => async (dispatch) => {
     }
   } else {
     const response = await fetch(
-      `https://api.spoonacular.com/recipes/search?apiKey=${API_KEY}&query=${search}&number=100&instructionsRequired=true&cuisine=${cuisine}&type=${type}`
+      `https://api.spoonacular.com/recipes/search?apiKey=${API_KEY}&query=${search}&number=100&instructionsRequired=true&cuisine=${cuisine}&type=${type}&intolerances=${intolerance}&diet=${diet}`
     );
 
     const data = await response.json();
@@ -96,7 +103,7 @@ export const searchRecipe = (search, type, cuisine) => async (dispatch) => {
 
     const convertRecipe = await data.results.map((recipe) => recipe.title);
 
-    const concatAutocomplete = await [...convertRecipe, ...parsedAutocomplete];
+    const concatAutocomplete = [...convertRecipe, ...parsedAutocomplete];
 
     await firebase
       .database()
@@ -104,10 +111,7 @@ export const searchRecipe = (search, type, cuisine) => async (dispatch) => {
       .set([...new Set(concatAutocomplete)]);
 
     if (parsedAutocomplete !== null) {
-      const concatAutocomplete = await [
-        ...convertRecipe,
-        ...parsedAutocomplete,
-      ];
+      const concatAutocomplete = [...convertRecipe, ...parsedAutocomplete];
       await AsyncStorage.setItem(
         `autocompleteRecipe`,
         JSON.stringify([...new Set(concatAutocomplete)])

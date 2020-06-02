@@ -34,6 +34,8 @@ const SearchRecipeScreen = ({ navigation }) => {
   const [search, setSearch] = useState("");
   const [type, setType] = useState([]);
   const [cuisine, setCuisine] = useState([]);
+  const [intolerance, setIntolerance] = useState([]);
+  const [diet, setDiet] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [autocompleteSearch, setAutocompleteSearch] = useState([]);
 
@@ -42,7 +44,7 @@ const SearchRecipeScreen = ({ navigation }) => {
   const searchHandler = () => {
     if (search) {
       // getRecipes();
-      dispatch(searchRecipe(search, type, cuisine));
+      dispatch(searchRecipe(search, type, cuisine, intolerance, diet));
       // setSearch("");
     } else {
       alert("Empty field");
@@ -82,7 +84,7 @@ const SearchRecipeScreen = ({ navigation }) => {
 
   const getRecipes = async () => {
     const response = await fetch(
-      `https://api.spoonacular.com/recipes/search?apiKey=${API_KEY}&query=${search}&instructionsRequired=true&cuisine=${cuisine}&type=${type}`
+      `https://api.spoonacular.com/recipes/search?apiKey=${API_KEY}&query=${search}&instructionsRequired=true&cuisine=${cuisine}&type=${type}&intolerances=${intolerance}&diet${diet}`
     );
 
     const data = await response.json();
@@ -149,8 +151,8 @@ const SearchRecipeScreen = ({ navigation }) => {
   });
 
   useEffect(() => {
-    dispatch(searchRecipe(search, type, cuisine));
-  }, [type, cuisine]);
+    dispatch(searchRecipe(search, type, cuisine, intolerance, diet));
+  }, [type, cuisine, intolerance, diet]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -228,6 +230,10 @@ const SearchRecipeScreen = ({ navigation }) => {
             setType={setType}
             cuisine={cuisine}
             setCuisine={setCuisine}
+            intolerance={intolerance}
+            setIntolerance={setIntolerance}
+            diet={diet}
+            setDiet={setDiet}
             tagsHandler={tagsHandler}
           />
         </View>

@@ -9,6 +9,7 @@ export const FadeIn = (props) => {
       toValue: 1,
       delay: props.delay,
       duration: props.duration,
+      useNativeDriver: true,
     }).start();
   }, []);
 

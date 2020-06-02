@@ -11,6 +11,7 @@ export const Translate = (props) => {
       toValue: props.end,
       delay: props.delay,
       duration: props.duration,
+      useNativeDriver: true,
     }).start();
   }, [props.dependency]);
 
