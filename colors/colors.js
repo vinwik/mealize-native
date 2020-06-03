@@ -8,4 +8,5 @@ export const colors = {
   paleRed: "#de6461",
   paleDarkRed: "#bd3d39",
   disabled: "#888",
+  backgroundColor: "#f2f2f2",
 };
