@@ -23,6 +23,8 @@ const CartScreen = () => {
   const ingredients = useSelector((state) => state.cart.ingredients);
   const dispatch = useDispatch();
 
+  console.log(ingredients);
+
   ingredients.forEach((ingredient) => {
     ingredient.aisle = ingredient.aisle.substring(
       ingredient.aisle.lastIndexOf(";") + 1
@@ -78,6 +80,7 @@ const CartScreen = () => {
                   <View>
                     {ingredients.map((filteredIngredient) => {
                       if (filteredIngredient.aisle === aisle) {
+                        const usUnit = filteredIngredient.measures.us;
                         return (
                           <Swipeable
                             overshootRight={false}
@@ -115,9 +118,14 @@ const CartScreen = () => {
                                     }}
                                   />
                                 </View>
-                                <Text style={styles.ingredient}>
-                                  {filteredIngredient.name}
-                                </Text>
+                                <View>
+                                  <Text style={styles.ingredient}>
+                                    {filteredIngredient.name}
+                                  </Text>
+                                  <Text style={styles.unit}>
+                                    {`${usUnit.amount} ${usUnit.unitShort}`}
+                                  </Text>
+                                </View>
                               </View>
 
                               <TouchableOpacity
@@ -192,10 +200,15 @@ const styles = StyleSheet.create({
     // borderRadius: 60,
   },
   ingredient: {
-    // fontSize: 16,
+    fontSize: 16,
     fontWeight: "600",
     paddingHorizontal: 10,
     textTransform: "capitalize",
+  },
+  unit: {
+    color: "#666",
+    fontWeight: "600",
+    paddingHorizontal: 10,
   },
   icon: {
     // borderRadius: 25,
