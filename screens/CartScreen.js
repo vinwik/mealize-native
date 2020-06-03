@@ -130,6 +130,7 @@ const CartScreen = () => {
                                 <View style={styles.icon}>
                                   <Feather
                                     name="circle"
+                                    color={"#444"}
                                     size={25}
                                     style={styles.icon}
                                   />
@@ -162,6 +163,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: Dimensions.get("screen").width * 0.05,
     backgroundColor: "#fff",
     marginVertical: 1,
+    // borderRightWidth: 4,
+    // borderRightColor: colors.paleDarkRed,
   },
   ingredientContainer: {
     flexDirection: "row",
