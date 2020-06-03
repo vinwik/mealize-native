@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, StatusBar } from "react-native";
 import { AsyncStorage } from "react-native";
 
 // REACT NAVIGATOR
@@ -41,6 +41,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={null}>
+        <StatusBar barStyle="light-content" />
         <BottomTabNavigator />
       </PersistGate>
     </Provider>
