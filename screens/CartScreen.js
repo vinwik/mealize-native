@@ -140,7 +140,6 @@ const CartScreen = () => {
                                     name="circle"
                                     color={"#444"}
                                     size={25}
-                                    style={styles.icon}
                                   />
                                 </View>
                               </TouchableOpacity>
@@ -168,21 +167,26 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     // width: "90%",
     width: Dimensions.get("screen").width,
-    paddingHorizontal: Dimensions.get("screen").width * 0.05,
+    // paddingHorizontal: Dimensions.get("screen").width * 0.05,
     backgroundColor: "#fff",
     marginVertical: 1,
     // borderRightWidth: 4,
     // borderRightColor: colors.paleDarkRed,
   },
   ingredientContainer: {
+    flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 10,
+    // marginVertical: 10,
+    // paddingHorizontal: Dimensions.get("screen").width * 0.05,
   },
   imageWrapper: {
     height: 60,
     width: 60,
     padding: 5,
+
+    marginLeft: Dimensions.get("screen").width * 0.0375,
+    marginRight: Dimensions.get("screen").width * 0.0375,
     // backgroundColor: "#fff",
     // borderRadius: 60,
     // elevation: 5,
@@ -202,15 +206,17 @@ const styles = StyleSheet.create({
   ingredient: {
     fontSize: 16,
     fontWeight: "600",
-    paddingHorizontal: 10,
+    // paddingHorizontal: 10,
     textTransform: "capitalize",
   },
   unit: {
     color: "#666",
-    fontWeight: "600",
-    paddingHorizontal: 10,
+    // fontWeight: "600",
+    // paddingHorizontal: 10,
   },
   icon: {
+    padding: Dimensions.get("screen").width * 0.05,
+
     // borderRadius: 25,
     // elevation: 5,
     // shadowColor: "#000",
