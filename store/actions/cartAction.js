@@ -8,9 +8,30 @@ export const addToCart = (ingredient) => async (dispatch) => {
   });
 };
 
-export const removeFromCart = (id) => async (dispatch) => {
+export const removeFromCart = (ingredientId) => async (dispatch) => {
   await dispatch({
     type: REMOVE_FROM_CART,
-    payload: id,
+    payload: ingredientId,
+  });
+
+  await dispatch({
+    type: "REMOVE_ALL_RELATED_RECIPES",
+    payload: ingredientId,
+  });
+};
+
+export const addRelatedRecipe = (relatedRecipe) => async (dispatch) => {
+  await dispatch({
+    type: "ADD_RELATED_RECIPE",
+    payload: relatedRecipe,
+  });
+};
+
+export const removeRelatedRecipe = (ingredientId, recipeId) => async (
+  dispatch
+) => {
+  await dispatch({
+    type: "REMOVE_RELATED_RECIPE",
+    payload: { ingredientId, recipeId },
   });
 };

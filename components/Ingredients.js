@@ -4,11 +4,15 @@ import { AntDesign } from "@expo/vector-icons";
 import { colors } from "../colors/colors";
 
 import { addToCart } from "../store/actions/cartAction";
+import { addRelatedRecipe } from "../store/actions/cartAction";
 
 import { useSelector, useDispatch } from "react-redux";
 
 const Ingredients = ({ extendedIngredients }) => {
   const cart = useSelector((state) => state.cart.ingredients);
+  const relatedRecipesInCart = useSelector(
+    (state) => state.cart.relatedRecipes
+  );
 
   const dispatch = useDispatch();
 
@@ -36,8 +40,13 @@ const Ingredients = ({ extendedIngredients }) => {
         <Text style={ingredientSection.title}>Ingredients</Text>
       </View>
       {ingredients.map((ingredient, i) => {
-        const isInCart = cart.find(
+        const isIngredientInCart = cart.find(
           (ingredientInCart) => ingredientInCart.id === ingredient.id
+        );
+        const isRecipeInCart = relatedRecipesInCart.find(
+          (relatedRecipeInCart) =>
+            relatedRecipeInCart.id === ingredient.relatedRecipe.id &&
+            relatedRecipeInCart.ingredientId === ingredient.id
         );
         return (
           <View
@@ -63,14 +72,20 @@ const Ingredients = ({ extendedIngredients }) => {
               </Text>
             </View>
             <TouchableOpacity
-              disabled={isInCart && isInCart.inCart === true}
-              onPress={() => dispatch(addToCart(ingredient))}
+              // disabled={isIngredientInCart && isIngredientInCart.inCart === true}
+              onPress={() => {
+                !isIngredientInCart && dispatch(addToCart(ingredient));
+                !isRecipeInCart &&
+                  dispatch(addRelatedRecipe(ingredient.relatedRecipe));
+              }}
             >
               <View style={ingredientSection.icon}>
                 <AntDesign
                   name="pluscircle"
                   size={30}
-                  color={isInCart ? colors.disabled : colors.paleGreen}
+                  color={
+                    isIngredientInCart ? colors.disabled : colors.paleGreen
+                  }
                   // style={ingredientSection.icon}
                 />
               </View>

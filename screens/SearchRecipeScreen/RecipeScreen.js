@@ -35,6 +35,18 @@ const RecipeScreen = ({ route, navigation }) => {
   const recipe = useSelector((state) => state.recipe.recipe);
   const { extendedIngredients, steps } = recipe;
 
+  extendedIngredients.forEach((ingredient) => {
+    ingredient.relatedRecipe = {
+      id: recipeId,
+      title: recipeTitle,
+      image: recipeImage,
+      ingredientId: ingredient.id,
+      amount: ingredient.amount,
+      unit: ingredient.measures.us.unitShort,
+    };
+  });
+  // console.log(extendedIngredients);
+
   const favourites = useSelector((state) =>
     state.favourites.recipes.find((recipe) => recipe.id === recipeId)
   );
