@@ -72,7 +72,7 @@ const Ingredients = ({ extendedIngredients }) => {
               </Text>
             </View>
             <TouchableOpacity
-              // disabled={isIngredientInCart && isIngredientInCart.inCart === true}
+              disabled={isRecipeInCart}
               onPress={() => {
                 !isIngredientInCart && dispatch(addToCart(ingredient));
                 !isRecipeInCart &&
@@ -83,9 +83,7 @@ const Ingredients = ({ extendedIngredients }) => {
                 <AntDesign
                   name="pluscircle"
                   size={30}
-                  color={
-                    isIngredientInCart ? colors.disabled : colors.paleGreen
-                  }
+                  color={isRecipeInCart ? colors.disabled : colors.paleGreen}
                   // style={ingredientSection.icon}
                 />
               </View>
