@@ -6,6 +6,7 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  TouchableHighlight,
   Image,
   Dimensions,
 } from "react-native";
@@ -111,7 +112,8 @@ const CartScreen = () => {
                             )}
                             key={filteredIngredient.id}
                           >
-                            <TouchableOpacity
+                            <TouchableHighlight
+                              underlayColor="#fafafa"
                               style={styles.rowContainer}
                               onPress={() =>
                                 navigation.navigate("Ingredient", {
@@ -119,6 +121,7 @@ const CartScreen = () => {
                                 })
                               }
                             >
+                              <>
                               <View style={styles.ingredientContainer}>
                                 <View style={styles.imageWrapper}>
                                   <Image
@@ -153,7 +156,8 @@ const CartScreen = () => {
                                   />
                                 </View>
                               </TouchableOpacity>
-                            </TouchableOpacity>
+                              </>
+                            </TouchableHighlight>
                           </Swipeable>
                         );
                       }
