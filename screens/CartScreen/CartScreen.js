@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 import {
   StyleSheet,
   Text,
@@ -11,11 +12,11 @@ import {
 
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-import { colors } from "../colors/colors";
+import { colors } from "../../colors/colors";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { removeFromCart } from "../store/actions/cartAction";
+import { removeFromCart } from "../../store/actions/cartAction";
 
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
@@ -23,7 +24,9 @@ const CartScreen = () => {
   const ingredients = useSelector((state) => state.cart.ingredients);
   const dispatch = useDispatch();
 
-  console.log(ingredients);
+  const navigation = useNavigation();
+
+  // console.log(ingredients);
 
   ingredients.forEach((ingredient) => {
     ingredient.aisle = ingredient.aisle.substring(
@@ -108,7 +111,14 @@ const CartScreen = () => {
                             )}
                             key={filteredIngredient.id}
                           >
-                            <View style={styles.rowContainer}>
+                            <TouchableOpacity
+                              style={styles.rowContainer}
+                              onPress={() =>
+                                navigation.navigate("Ingredient", {
+                                  ingredient: filteredIngredient,
+                                })
+                              }
+                            >
                               <View style={styles.ingredientContainer}>
                                 <View style={styles.imageWrapper}>
                                   <Image
@@ -143,7 +153,7 @@ const CartScreen = () => {
                                   />
                                 </View>
                               </TouchableOpacity>
-                            </View>
+                            </TouchableOpacity>
                           </Swipeable>
                         );
                       }

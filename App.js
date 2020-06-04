@@ -41,7 +41,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={null}>
-        <StatusBar barStyle="light-content" />
+        {/* <StatusBar barStyle="light-content" /> */}
         <BottomTabNavigator />
       </PersistGate>
     </Provider>
