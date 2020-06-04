@@ -23,11 +23,10 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 
 const CartScreen = () => {
   const ingredients = useSelector((state) => state.cart.ingredients);
+  const relatedRecipes = useSelector((state) => state.cart.relatedRecipes);
   const dispatch = useDispatch();
 
   const navigation = useNavigation();
-
-  // console.log(ingredients);
 
   ingredients.forEach((ingredient) => {
     ingredient.aisle = ingredient.aisle.substring(
@@ -85,6 +84,23 @@ const CartScreen = () => {
                     {ingredients.map((filteredIngredient) => {
                       if (filteredIngredient.aisle === aisle) {
                         const usUnit = filteredIngredient.measures.us;
+
+                        const filteredRelatedRecipe = relatedRecipes.filter(
+                          (recipe) =>
+                            filteredIngredient.id === recipe.ingredientId
+                        );
+
+                        const isSameUnit = filteredRelatedRecipe.every(
+                          (relatedRecipeIngredient) =>
+                            relatedRecipeIngredient.unit === usUnit.unitShort
+                        );
+
+                        const totalAmount = filteredRelatedRecipe.reduce(
+                          (total, relatedRecipeIngredient) => {
+                            return total + relatedRecipeIngredient.amount;
+                          },
+                          0
+                        );
                         return (
                           <Swipeable
                             overshootRight={false}
@@ -122,40 +138,42 @@ const CartScreen = () => {
                               }
                             >
                               <>
-                              <View style={styles.ingredientContainer}>
-                                <View style={styles.imageWrapper}>
-                                  <Image
-                                    style={styles.image}
-                                    source={{
-                                      uri: `https://spoonacular.com/cdn/ingredients_100x100/${filteredIngredient.image}`,
-                                    }}
-                                  />
+                                <View style={styles.ingredientContainer}>
+                                  <View style={styles.imageWrapper}>
+                                    <Image
+                                      style={styles.image}
+                                      source={{
+                                        uri: `https://spoonacular.com/cdn/ingredients_100x100/${filteredIngredient.image}`,
+                                      }}
+                                    />
+                                  </View>
+                                  <View>
+                                    <Text style={styles.ingredient}>
+                                      {filteredIngredient.name}
+                                    </Text>
+                                    {isSameUnit && (
+                                      <Text style={styles.unit}>
+                                        {`${totalAmount} ${usUnit.unitShort}`}
+                                      </Text>
+                                    )}
+                                  </View>
                                 </View>
-                                <View>
-                                  <Text style={styles.ingredient}>
-                                    {filteredIngredient.name}
-                                  </Text>
-                                  <Text style={styles.unit}>
-                                    {`${usUnit.amount} ${usUnit.unitShort}`}
-                                  </Text>
-                                </View>
-                              </View>
 
-                              <TouchableOpacity
-                                onPress={() =>
-                                  dispatch(
-                                    removeFromCart(filteredIngredient.id)
-                                  )
-                                }
-                              >
-                                <View style={styles.icon}>
-                                  <Feather
-                                    name="circle"
-                                    color={"#444"}
-                                    size={25}
-                                  />
-                                </View>
-                              </TouchableOpacity>
+                                <TouchableOpacity
+                                  onPress={() =>
+                                    dispatch(
+                                      removeFromCart(filteredIngredient.id)
+                                    )
+                                  }
+                                >
+                                  <View style={styles.icon}>
+                                    <Feather
+                                      name="circle"
+                                      color={"#444"}
+                                      size={25}
+                                    />
+                                  </View>
+                                </TouchableOpacity>
                               </>
                             </TouchableHighlight>
                           </Swipeable>
