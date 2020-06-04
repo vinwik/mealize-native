@@ -22,26 +22,25 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 
 const IngredientScreen = ({ route }) => {
   const { ingredient } = route.params;
-
-  const ingredients = useSelector((state) => state.cart.ingredients);
   const relatedRecipes = useSelector((state) => state.cart.relatedRecipes);
 
-  const filteredRelatedRecipe =
-    // relatedRecipes &&
-    relatedRecipes.filter((recipe) => {
-      // console.log(recipe.id);
-      // console.log(ingredient.id);
+  const filteredRelatedRecipe = relatedRecipes.filter(
+    (recipe) => ingredient.id === recipe.ingredientId
+  );
 
-      return ingredient.id === recipe.ingredientId;
-    });
+  const isSameUnit = filteredRelatedRecipe.every(
+    (relatedRecipeIngredient) =>
+      relatedRecipeIngredient.unit === ingredient.measures.us.unitShort
+  );
+
+  const totalAmount = filteredRelatedRecipe.reduce(
+    (total, relatedRecipeIngredient) => {
+      return total + relatedRecipeIngredient.amount;
+    },
+    0
+  );
 
   const dispatch = useDispatch();
-
-  ingredients.forEach((ingredient) => {
-    ingredient.aisle = ingredient.aisle.substring(
-      ingredient.aisle.lastIndexOf(";") + 1
-    );
-  });
 
   return (
     <ScrollView>
@@ -58,14 +57,14 @@ const IngredientScreen = ({ route }) => {
       <View style={styles.infoContainer}>
         <View style={styles.ingredientContainer}>
           <Text style={styles.ingredient}>{ingredient.name}</Text>
-          <View style={{ flexDirection: "row", alignItems: "baseline" }}>
-            <Text style={{ fontSize: 20, marginLeft: 5 }}>
-              {ingredient.measures.us.amount}
-            </Text>
-            <Text style={{ fontSize: 16, marginLeft: 5 }}>
-              {ingredient.measures.us.unitShort}
-            </Text>
-          </View>
+          {isSameUnit && (
+            <View style={{ flexDirection: "row", alignItems: "baseline" }}>
+              <Text style={{ fontSize: 20, marginLeft: 5 }}>{totalAmount}</Text>
+              <Text style={{ fontSize: 16, marginLeft: 5 }}>
+                {ingredient.measures.us.unitShort}
+              </Text>
+            </View>
+          )}
         </View>
         <Text style={styles.aisle}>{ingredient.aisle}</Text>
         <View
@@ -120,7 +119,9 @@ const IngredientScreen = ({ route }) => {
                           fontSize: 16,
                         }}
                       >
-                        {recipe.title}
+                        {recipe.title.length < 30
+                          ? recipe.title
+                          : recipe.title.substring(0, 30) + "..."}
                       </Text>
                       <Text
                         style={{ color: "#666" }}
