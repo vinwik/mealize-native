@@ -72,7 +72,7 @@ const Ingredients = ({ extendedIngredients }) => {
               </Text>
             </View>
             <TouchableOpacity
-              disabled={isRecipeInCart}
+              disabled={isRecipeInCart ? true : false}
               onPress={() => {
                 !isIngredientInCart && dispatch(addToCart(ingredient));
                 !isRecipeInCart &&
