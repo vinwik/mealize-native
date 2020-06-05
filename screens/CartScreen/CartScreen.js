@@ -57,6 +57,7 @@ const CartScreen = () => {
         <ScrollView contentContainerStyle={{ alignItems: "center" }}>
           {ingredients
             .filter((v, i, a) => a.findIndex((t) => t.aisle === v.aisle) === i)
+            .sort((a, b) => a.aisle.localeCompare(b.aisle))
             .map((ingredient) => {
               const { aisle } = ingredient;
 
