@@ -27,10 +27,12 @@ const FavouritesScreen = () => {
 
   let dispatchedId = recipeInStore.id;
 
-  const goToRecipe = (id) => {
-    if (dispatchedId === id) {
-      navigation.navigate("Recipe", { recipeId: dispatchedId });
-    }
+  const goToRecipe = (recipe) => {
+    navigation.navigate("Recipe", {
+      recipeId: recipe.id,
+      recipeImage: recipe.image,
+      recipeTitle: recipe.title,
+    });
   };
 
   const mounted = useRef();
@@ -70,10 +72,15 @@ const FavouritesScreen = () => {
                 style={styles.card}
                 onPress={() => {
                   dispatchRecipe(recipe.id.toString());
-                  goToRecipe(recipe.id);
+                  goToRecipe(recipe);
                 }}
               >
-                <ImageBackground source={image} style={styles.image}>
+                <ImageBackground
+                  source={{
+                    uri: `https://spoonacular.com/recipeImages/${recipe.image}`,
+                  }}
+                  style={styles.image}
+                >
                   <TouchableOpacity style={styles.deleteButton}>
                     <AntDesign
                       name="close"

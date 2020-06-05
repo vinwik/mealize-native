@@ -1,6 +1,7 @@
 import React from "react";
 import CartScreen from "../screens/CartScreen/CartScreen";
 import IngredientScreen from "../screens/CartScreen/IngredientScreen";
+import RecipeScreen from "../screens/CartScreen/RecipeScreen";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -41,6 +42,13 @@ const CartStackNavigator = () => {
           headerTintColor: "#fff",
           headerTitleAlign: "center",
         }}
+      />
+      <Stack.Screen
+        name="Recipe"
+        component={RecipeScreen}
+        options={() => ({
+          headerTransparent: true,
+        })}
       />
     </Stack.Navigator>
   );
