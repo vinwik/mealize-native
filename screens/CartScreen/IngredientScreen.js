@@ -14,14 +14,19 @@ import { Feather } from "@expo/vector-icons";
 import { colors } from "../../colors/colors";
 import { FadeIn } from "../../animations/FadeIn";
 
+import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
+import { getRecipe } from "../../store/actions/recipeAction";
 
 import { removeFromCart } from "../../store/actions/cartAction";
 
 import Swipeable from "react-native-gesture-handler/Swipeable";
+import { TouchableHighlight } from "react-native-gesture-handler";
 
 const IngredientScreen = ({ route }) => {
   const { ingredient } = route.params;
+  const navigation = useNavigation();
+
   const relatedRecipes = useSelector((state) => state.cart.relatedRecipes);
 
   const filteredRelatedRecipe = relatedRecipes.filter(
@@ -41,6 +46,15 @@ const IngredientScreen = ({ route }) => {
   );
 
   const dispatch = useDispatch();
+
+  const goToRecipe = (recipe) => {
+    dispatch(getRecipe(recipe.id.toString()));
+    navigation.navigate("Recipe", {
+      recipeId: recipe.id,
+      recipeImage: recipe.image,
+      recipeTitle: recipe.title,
+    });
+  };
 
   return (
     <ScrollView>
@@ -84,8 +98,9 @@ const IngredientScreen = ({ route }) => {
             //   filteredRelatedRecipe &&
             filteredRelatedRecipe.map((recipe) => {
               return (
-                <View
+                <TouchableOpacity
                   key={recipe.id}
+                  onPress={() => goToRecipe(recipe)}
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
@@ -129,7 +144,7 @@ const IngredientScreen = ({ route }) => {
                     </View>
                   </View>
                   <AntDesign name="right" size={20} color="#888" />
-                </View>
+                </TouchableOpacity>
               );
             })
           }

@@ -28,8 +28,10 @@ const HEADER_EXPANDED_HEIGHT = Dimensions.get("screen").height * 0.45;
 
 const RecipeScreen = ({ route, navigation }) => {
   const { recipeId, recipeImage, recipeTitle } = route.params;
+  const [scrollY, setScrollY] = useState(new Animated.Value(0));
 
-  const recipe = useSelector((state) => state.recipe.favouriteRecipe);
+  const recipe = useSelector((state) => state.recipe.recipe);
+
   const { extendedIngredients, steps } = recipe;
 
   extendedIngredients.forEach((ingredient) => {
@@ -46,11 +48,9 @@ const RecipeScreen = ({ route, navigation }) => {
   const favourites = useSelector((state) =>
     state.favourites.recipes.find((recipe) => recipe.id === recipeId)
   );
-  const cart = useSelector((state) => state.cart.ingredients);
 
   const dispatch = useDispatch();
 
-  const [scrollY, setScrollY] = useState(new Animated.Value(0));
   const HEADER_COLLAPSED_HEIGHT = useHeaderHeight();
 
   const headerHeight = scrollY.interpolate({
@@ -81,64 +81,39 @@ const RecipeScreen = ({ route, navigation }) => {
     extrapolate: "clamp",
   });
 
-  const filterDuplicates = (ingredients) => {
-    if (!ingredients.length) {
-      return ingredients;
-    }
-
-    const list = [];
-
-    ingredients.forEach((ingredient) => {
-      const duplicate = list.find((l) => l.id === ingredient.id);
-      if (!duplicate) {
-        list.push(ingredient);
-      }
-    });
-
-    return list;
-  };
-
-  const ingredients = filterDuplicates(extendedIngredients);
-
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity
-          style={showcase.leftIcon}
-          onPress={() => navigation.goBack()}
-        >
-          <AntDesign
-            name="left"
-            color="black"
-            size={24}
-            // style={showcase.leftIcon}
-          />
-        </TouchableOpacity>
+        <FadeIn duration={150} delay={300}>
+          <TouchableOpacity
+            style={showcase.leftIcon}
+            onPress={() => navigation.goBack()}
+          >
+            <AntDesign name="left" color="black" size={24} />
+          </TouchableOpacity>
+        </FadeIn>
       ),
-      title: "blablabla",
+      title: recipeTitle,
       headerTitleStyle: {
         fontSize: 18,
         width: Dimensions.get("screen").width - 40 - 60 - 48,
-        // fontWeight: "bold",
-        // color: "black",
         opacity: headerTitleOpacity,
         textAlign: "center",
       },
       headerRight: () => (
-        // <FadeIn duration={150} delay={300}>
-        <TouchableOpacity
-          style={showcase.rightIcon}
-          disabled={favourites && favourites.inFavourites === true}
-          onPress={() => dispatch(addToFavourites(recipe))}
-        >
-          <AntDesign
-            name={favourites ? "heart" : "hearto"}
-            color={favourites ? colors.paleGreen : "black"}
-            size={24}
-            // style={showcase.rightIcon}
-          />
-        </TouchableOpacity>
-        // </FadeIn>
+        <FadeIn duration={150} delay={300}>
+          <TouchableOpacity
+            style={showcase.rightIcon}
+            disabled={favourites && favourites.inFavourites === true}
+            onPress={() => dispatch(addToFavourites(recipe))}
+          >
+            <AntDesign
+              name={favourites ? "heart" : "hearto"}
+              color={favourites ? colors.paleGreen : "black"}
+              size={24}
+            />
+          </TouchableOpacity>
+        </FadeIn>
       ),
     });
   }, [navigation, favourites, recipe]);
@@ -156,75 +131,122 @@ const RecipeScreen = ({ route, navigation }) => {
           height: headerHeight,
           zIndex: 10,
           backgroundColor: "#fff",
-          // elevation: 2,
-          // opacity: heroLayerOpacity,
-          // width: Dimensions.get("screen").width,
         }}
       >
         <Animated.View style={{ opacity: heroImageOpacity }}>
-          <ImageBackground
-            // source={{ uri: `${recipe.image}` }}
+          <Image
             source={{
               uri: `https://spoonacular.com/recipeImages/${recipeImage}`,
             }}
             style={showcase.image}
+          />
+          <Animated.View
+            style={[showcase.titleWrapper, { opacity: heroTitleOpacity }]}
           >
-            <Animated.View
-              style={[showcase.titleWrapper, { opacity: heroTitleOpacity }]}
-            >
-              <Text style={showcase.title}>{recipe.title}</Text>
-            </Animated.View>
-          </ImageBackground>
+            <Text style={showcase.title}>{recipeTitle}</Text>
+          </Animated.View>
         </Animated.View>
       </Animated.View>
-      <Animated.ScrollView
-        showsVerticalScrollIndicator={false}
-        onScroll={Animated.event([
-          {
-            nativeEvent: {
-              contentOffset: {
-                y: scrollY,
+      {recipeId !== recipe.id ? (
+        <View
+          style={{
+            paddingVertical: 30,
+            paddingHorizontal: 35,
+            marginTop: HEADER_EXPANDED_HEIGHT,
+          }}
+        >
+          <FadeIn delay={300} duration={500}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                paddingBottom: 30,
+              }}
+            >
+              <View
+                style={{
+                  width: 100,
+                  height: 25,
+                  backgroundColor: "#d2d2d2",
+                  borderRadius: 7,
+                }}
+              ></View>
+              <View
+                style={{
+                  width: 100,
+                  height: 25,
+                  backgroundColor: "#d2d2d2",
+                  borderRadius: 7,
+                }}
+              ></View>
+            </View>
+            <View
+              style={{
+                width: "100%",
+                height: 300,
+                backgroundColor: "#d2d2d2",
+                borderRadius: 7,
+              }}
+            ></View>
+          </FadeIn>
+        </View>
+      ) : (
+        <Animated.ScrollView
+          showsVerticalScrollIndicator={false}
+          onScroll={Animated.event([
+            {
+              nativeEvent: {
+                contentOffset: {
+                  y: scrollY,
+                },
               },
             },
-          },
-        ])}
-        scrollEventThrottle={16}
-        contentContainerStyle={{
-          paddingTop: HEADER_EXPANDED_HEIGHT,
-        }}
-      >
-        <View style={preparation.layout}>
-          <View style={preparation.column}>
-            <Text style={preparation.title}>Servings</Text>
-            <Text>{recipe.servings}</Text>
-          </View>
-          <View style={preparation.column}>
-            <Text style={preparation.title}>Preparation time</Text>
-            <Text>
-              {recipe.readyInMinutes && recipe.readyInMinutes + " min"}
-            </Text>
-          </View>
-        </View>
-        <Ingredients extendedIngredients={extendedIngredients} />
-        <View style={stepSection.container}>
-          <View>
-            <Text style={stepSection.title}>Instructions</Text>
-          </View>
-          {steps.map((step) => {
-            return (
-              <View key={step.number} style={stepSection.stepWrapper}>
-                <Text style={stepSection.stepNumber}>{`${step.number}. `}</Text>
-                <Text>{step.step}</Text>
+          ])}
+          scrollEventThrottle={16}
+          contentContainerStyle={{ paddingTop: HEADER_EXPANDED_HEIGHT }}
+        >
+          <FadeIn duration={500}>
+            <View style={preparation.layout}>
+              <View style={preparation.column}>
+                <Text style={preparation.title}>Servings</Text>
+                <Text>{recipe.servings}</Text>
               </View>
-            );
-          })}
-        </View>
-      </Animated.ScrollView>
+              <View style={preparation.column}>
+                <Text style={preparation.title}>Preparation time</Text>
+                <Text>
+                  {recipe.readyInMinutes && recipe.readyInMinutes + " min"}
+                </Text>
+              </View>
+            </View>
+            <Ingredients extendedIngredients={extendedIngredients} />
+            <View style={stepSection.container}>
+              <View>
+                <Text style={stepSection.title}>Instructions</Text>
+              </View>
+              {steps.map((step) => {
+                return (
+                  <View key={step.number} style={stepSection.stepWrapper}>
+                    <Text
+                      style={stepSection.stepNumber}
+                    >{`${step.number}. `}</Text>
+                    <Text>{step.step}</Text>
+                  </View>
+                );
+              })}
+            </View>
+          </FadeIn>
+        </Animated.ScrollView>
+      )}
     </View>
   );
 };
 
 export default RecipeScreen;
+
+// RecipeScreen.sharedElements = (navigation, otherNavigation, showing) => {
+//   const item = navigation.getParam("recipeImage");
+//   return [item];
+// };
 
 const showcase = StyleSheet.create({
   showcaseWrapper: {

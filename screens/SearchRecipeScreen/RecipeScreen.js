@@ -35,6 +35,8 @@ const RecipeScreen = ({ route, navigation }) => {
   const recipe = useSelector((state) => state.recipe.recipe);
   const { extendedIngredients, steps } = recipe;
 
+  recipe.image = recipeImage;
+
   extendedIngredients.forEach((ingredient) => {
     ingredient.relatedRecipe = {
       id: recipeId,
