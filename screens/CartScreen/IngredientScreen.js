@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+  SafeAreaView,
 } from "react-native";
 
 import { AntDesign } from "@expo/vector-icons";
@@ -16,7 +17,7 @@ import { FadeIn } from "../../animations/FadeIn";
 
 import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
-import { getRecipe } from "../../store/actions/recipeAction";
+import { getRecipeFromIngredients } from "../../store/actions/recipeAction";
 
 import { removeFromCart } from "../../store/actions/cartAction";
 
@@ -48,7 +49,7 @@ const IngredientScreen = ({ route }) => {
   const dispatch = useDispatch();
 
   const goToRecipe = (recipe) => {
-    dispatch(getRecipe(recipe.id.toString()));
+    dispatch(getRecipeFromIngredients(recipe.id.toString()));
     navigation.navigate("Recipe", {
       recipeId: recipe.id,
       recipeImage: recipe.image,
