@@ -33,7 +33,7 @@ const RecipeCardList = (props) => {
         styles.cardListContainer,
         {
           height:
-            Dimensions.get("screen").height - headerHeight - 49 - 45 - 20 - 45,
+            Dimensions.get("screen").height - headerHeight - 55 - 45 - 20 - 45,
         }, // height - header - bottom tab - tag buttons - tag buttons padding Android - margins
       ]}
     >
