@@ -21,7 +21,7 @@ export const addToCompleted = (ingredient) => async (dispatch) => {
       type: "ADD_TO_COMPLETED",
       payload: ingredient,
     });
-  }, 2000);
+  }, 1000);
 };
 
 export const cancelAddToCompleted = (ingredient) => async (dispatch) => {
