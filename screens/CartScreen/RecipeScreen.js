@@ -30,7 +30,7 @@ const RecipeScreen = ({ route, navigation }) => {
   const { recipeId, recipeImage, recipeTitle } = route.params;
   const [scrollY, setScrollY] = useState(new Animated.Value(0));
 
-  const recipe = useSelector((state) => state.recipe.recipe);
+  const recipe = useSelector((state) => state.recipe.ingredientRecipe);
 
   const { extendedIngredients, steps } = recipe;
 
@@ -84,14 +84,12 @@ const RecipeScreen = ({ route, navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <FadeIn duration={150} delay={300}>
-          <TouchableOpacity
-            style={showcase.leftIcon}
-            onPress={() => navigation.goBack()}
-          >
-            <AntDesign name="left" color="black" size={24} />
-          </TouchableOpacity>
-        </FadeIn>
+        <TouchableOpacity
+          style={showcase.leftIcon}
+          onPress={() => navigation.goBack()}
+        >
+          <AntDesign name="left" color="black" size={24} />
+        </TouchableOpacity>
       ),
       title: recipeTitle,
       headerTitleStyle: {
@@ -101,19 +99,17 @@ const RecipeScreen = ({ route, navigation }) => {
         textAlign: "center",
       },
       headerRight: () => (
-        <FadeIn duration={150} delay={300}>
-          <TouchableOpacity
-            style={showcase.rightIcon}
-            disabled={favourites && favourites.inFavourites === true}
-            onPress={() => dispatch(addToFavourites(recipe))}
-          >
-            <AntDesign
-              name={favourites ? "heart" : "hearto"}
-              color={favourites ? colors.paleGreen : "black"}
-              size={24}
-            />
-          </TouchableOpacity>
-        </FadeIn>
+        <TouchableOpacity
+          style={showcase.rightIcon}
+          disabled={favourites && favourites.inFavourites === true}
+          onPress={() => dispatch(addToFavourites(recipe))}
+        >
+          <AntDesign
+            name={favourites ? "heart" : "hearto"}
+            color={favourites ? colors.paleGreen : "black"}
+            size={24}
+          />
+        </TouchableOpacity>
       ),
     });
   }, [navigation, favourites, recipe]);
@@ -205,7 +201,7 @@ const RecipeScreen = ({ route, navigation }) => {
           scrollEventThrottle={16}
           contentContainerStyle={{ paddingTop: HEADER_EXPANDED_HEIGHT }}
         >
-          <FadeIn duration={500}>
+          <FadeIn duration={350}>
             <View style={preparation.layout}>
               <View style={preparation.column}>
                 <Text style={preparation.title}>Servings</Text>
