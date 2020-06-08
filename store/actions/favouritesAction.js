@@ -1,6 +1,7 @@
 import { ADD_TO_FAVOURITES, REMOVE_FROM_FAVOURITES } from "./types";
 
-export const addToFavourites = (recipe) => async (dispatch) => {
+export const addToFavourites = (recipe, recipeImage) => async (dispatch) => {
+  recipe.image = recipeImage;
   recipe.inFavourites = true;
   await dispatch({
     type: ADD_TO_FAVOURITES,
