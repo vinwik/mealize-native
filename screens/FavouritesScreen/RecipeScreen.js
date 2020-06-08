@@ -115,7 +115,7 @@ const RecipeScreen = ({ route, navigation }) => {
           />
         </TouchableOpacity>
       ),
-      title: "blablabla",
+      title: recipeTitle,
       headerTitleStyle: {
         fontSize: 18,
         width: Dimensions.get("screen").width - 40 - 60 - 48,
