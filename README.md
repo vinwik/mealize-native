@@ -50,12 +50,12 @@
 
 > Live demo on Android and IOS with Appetize simulator
 
-<p align="center">
+<p align="left">
 <a href="https://appetize.io/app/7fzwxm7gb6gxa4jgm2r4jp7nag?device=pixel4&scale=75&orientation=portrait&osVersion=10.0&deviceColor=black&autoplay=true">
 <img src="assets/mealize-demo-android.png" height="500" title="Mealize Live Demo Android" alt="Mealize Live Demo Android">
 </a>
 </p>
-<p align="center">
+<p align="right">
 <a href="https://appetize.io/app/gv9vtuktknxyhcnm5rmb0b3xg0?device=iphone11pro&scale=75&orientation=portrait&osVersion=13.3&deviceColor=black&autoplay=true">
 <img src="assets/mealize-demo-ios.png" height="500" title="Mealize Live Demo IOS" alt="Mealize Live Demo IOS">
 </a>
