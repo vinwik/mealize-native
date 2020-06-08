@@ -35,8 +35,6 @@ const RecipeScreen = ({ route, navigation }) => {
   const recipe = useSelector((state) => state.recipe.recipe);
   const { extendedIngredients, steps } = recipe;
 
-  recipe.image = recipeImage;
-
   extendedIngredients.forEach((ingredient) => {
     ingredient.relatedRecipe = {
       id: recipeId,
@@ -129,7 +127,7 @@ const RecipeScreen = ({ route, navigation }) => {
           <TouchableOpacity
             style={showcase.rightIcon}
             disabled={favourites && favourites.inFavourites === true}
-            onPress={() => dispatch(addToFavourites(recipe))}
+            onPress={() => dispatch(addToFavourites(recipe, recipeImage))}
           >
             <AntDesign
               name={favourites ? "heart" : "hearto"}
