@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
   StyleSheet,
@@ -17,9 +17,113 @@ import { colors } from "../../colors/colors";
 
 import { useSelector, useDispatch } from "react-redux";
 
+import { addToCompleted } from "../../store/actions/cartAction";
+import { cancelAddToCompleted } from "../../store/actions/cartAction";
 import { removeFromCart } from "../../store/actions/cartAction";
 
 import Swipeable from "react-native-gesture-handler/Swipeable";
+
+const CartItem = ({ filteredIngredient, relatedRecipes }) => {
+  const [isCompleted, setIsCompleted] = useState(filteredIngredient.completed);
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  const usUnit = filteredIngredient.measures.us;
+
+  const filteredRelatedRecipe = relatedRecipes.filter(
+    (recipe) => filteredIngredient.id === recipe.ingredientId
+  );
+
+  const isSameUnit = filteredRelatedRecipe.every(
+    (relatedRecipeIngredient) =>
+      relatedRecipeIngredient.unit === usUnit.unitShort
+  );
+
+  const totalAmount = filteredRelatedRecipe.reduce(
+    (total, relatedRecipeIngredient) => {
+      return total + relatedRecipeIngredient.amount;
+    },
+    0
+  );
+  useEffect(() => {
+    isCompleted === true
+      ? dispatch(addToCompleted(filteredIngredient))
+      : dispatch(cancelAddToCompleted(filteredIngredient));
+  }, [isCompleted]);
+
+  return (
+    <Swipeable
+      overshootRight={false}
+      renderRightActions={() => (
+        <TouchableOpacity
+          style={{
+            backgroundColor: colors.paleDarkRed,
+            alignItems: "flex-end",
+            justifyContent: "center",
+            padding: 20,
+            marginVertical: 1,
+          }}
+          onPress={() => dispatch(removeFromCart(filteredIngredient.id))}
+        >
+          <Text style={{ color: "#fff", fontWeight: "600" }}>Delete</Text>
+        </TouchableOpacity>
+      )}
+      key={filteredIngredient.id}
+    >
+      <TouchableHighlight
+        underlayColor="#fafafa"
+        style={styles.rowContainer}
+        onPress={() =>
+          navigation.navigate("Ingredient", {
+            ingredient: filteredIngredient,
+          })
+        }
+      >
+        <>
+          <View style={styles.ingredientContainer}>
+            <View style={styles.imageWrapper}>
+              <Image
+                style={styles.image}
+                source={{
+                  uri: `https://spoonacular.com/cdn/ingredients_100x100/${filteredIngredient.image}`,
+                }}
+              />
+            </View>
+            <View>
+              <Text
+                style={[
+                  styles.ingredient,
+                  { textDecorationLine: isCompleted ? "line-through" : "none" },
+                ]}
+              >
+                {filteredIngredient.name}
+              </Text>
+              {isSameUnit && (
+                <Text style={styles.unit}>
+                  {`${totalAmount} ${usUnit.unitShort}`}
+                </Text>
+              )}
+            </View>
+          </View>
+
+          <TouchableOpacity
+            onPress={() => {
+              setIsCompleted(!isCompleted);
+            }}
+          >
+            <View style={styles.icon}>
+              <Feather
+                name={isCompleted ? "check-circle" : "circle"}
+                color={"#444"}
+                size={25}
+              />
+            </View>
+          </TouchableOpacity>
+        </>
+      </TouchableHighlight>
+    </Swipeable>
+  );
+};
 
 const CartScreen = () => {
   const ingredients = useSelector((state) => state.cart.ingredients);
@@ -33,6 +137,10 @@ const CartScreen = () => {
       ingredient.aisle.lastIndexOf(";") + 1
     );
   });
+
+  const hasCompletedIngredients = ingredients.some(
+    (ingredient) => ingredient.completed
+  );
 
   return (
     <View style={{ flex: 1 }}>
@@ -54,9 +162,12 @@ const CartScreen = () => {
           >{`Empty Cart`}</Text>
         </View>
       ) : (
-        <ScrollView contentContainerStyle={{ alignItems: "center" }}>
+        <ScrollView>
           {ingredients
-            .filter((v, i, a) => a.findIndex((t) => t.aisle === v.aisle) === i)
+            .filter(
+              (v, i, a) =>
+                a.findIndex((t) => t.aisle === v.aisle && !t.completed) === i
+            )
             .sort((a, b) => a.aisle.localeCompare(b.aisle))
             .map((ingredient) => {
               const { aisle } = ingredient;
@@ -83,101 +194,16 @@ const CartScreen = () => {
                   </Text>
                   <View>
                     {ingredients.map((filteredIngredient) => {
-                      if (filteredIngredient.aisle === aisle) {
-                        const usUnit = filteredIngredient.measures.us;
-
-                        const filteredRelatedRecipe = relatedRecipes.filter(
-                          (recipe) =>
-                            filteredIngredient.id === recipe.ingredientId
-                        );
-
-                        const isSameUnit = filteredRelatedRecipe.every(
-                          (relatedRecipeIngredient) =>
-                            relatedRecipeIngredient.unit === usUnit.unitShort
-                        );
-
-                        const totalAmount = filteredRelatedRecipe.reduce(
-                          (total, relatedRecipeIngredient) => {
-                            return total + relatedRecipeIngredient.amount;
-                          },
-                          0
-                        );
+                      if (
+                        filteredIngredient.aisle === aisle &&
+                        !filteredIngredient.completed
+                      ) {
                         return (
-                          <Swipeable
-                            overshootRight={false}
-                            renderRightActions={() => (
-                              <TouchableOpacity
-                                style={{
-                                  backgroundColor: colors.paleDarkRed,
-                                  alignItems: "flex-end",
-                                  justifyContent: "center",
-                                  padding: 20,
-                                  marginVertical: 1,
-                                }}
-                                onPress={() =>
-                                  dispatch(
-                                    removeFromCart(filteredIngredient.id)
-                                  )
-                                }
-                              >
-                                <Text
-                                  style={{ color: "#fff", fontWeight: "600" }}
-                                >
-                                  Delete
-                                </Text>
-                              </TouchableOpacity>
-                            )}
+                          <CartItem
                             key={filteredIngredient.id}
-                          >
-                            <TouchableHighlight
-                              underlayColor="#fafafa"
-                              style={styles.rowContainer}
-                              onPress={() =>
-                                navigation.navigate("Ingredient", {
-                                  ingredient: filteredIngredient,
-                                })
-                              }
-                            >
-                              <>
-                                <View style={styles.ingredientContainer}>
-                                  <View style={styles.imageWrapper}>
-                                    <Image
-                                      style={styles.image}
-                                      source={{
-                                        uri: `https://spoonacular.com/cdn/ingredients_100x100/${filteredIngredient.image}`,
-                                      }}
-                                    />
-                                  </View>
-                                  <View>
-                                    <Text style={styles.ingredient}>
-                                      {filteredIngredient.name}
-                                    </Text>
-                                    {isSameUnit && (
-                                      <Text style={styles.unit}>
-                                        {`${totalAmount} ${usUnit.unitShort}`}
-                                      </Text>
-                                    )}
-                                  </View>
-                                </View>
-
-                                <TouchableOpacity
-                                  onPress={() =>
-                                    dispatch(
-                                      removeFromCart(filteredIngredient.id)
-                                    )
-                                  }
-                                >
-                                  <View style={styles.icon}>
-                                    <Feather
-                                      name="circle"
-                                      color={"#444"}
-                                      size={25}
-                                    />
-                                  </View>
-                                </TouchableOpacity>
-                              </>
-                            </TouchableHighlight>
-                          </Swipeable>
+                            filteredIngredient={filteredIngredient}
+                            relatedRecipes={relatedRecipes}
+                          />
                         );
                       }
                     })}
@@ -185,6 +211,44 @@ const CartScreen = () => {
                 </View>
               );
             })}
+          {
+            // hasCompletedIngredients && (
+            <View
+              style={{
+                backgroundColor: colors.backgroundColor,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 20,
+                  padding: 15,
+                  flexDirection: "row",
+                  alignSelf: "flex-start",
+                  textAlign: "left",
+                }}
+              >
+                {`Completed (${
+                  ingredients.filter(
+                    (ingredient) => ingredient.completed === true
+                  ).length
+                })`}
+              </Text>
+              <View>
+                {ingredients.map((filteredIngredient) => {
+                  if (filteredIngredient.completed === true) {
+                    return (
+                      <CartItem
+                        key={filteredIngredient.id}
+                        filteredIngredient={filteredIngredient}
+                        relatedRecipes={relatedRecipes}
+                      />
+                    );
+                  }
+                })}
+              </View>
+            </View>
+            // )
+          }
         </ScrollView>
       )}
     </View>
