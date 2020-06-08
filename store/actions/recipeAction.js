@@ -31,7 +31,7 @@ export const searchRecipe = (
   // AsyncStorage.clear();
 
   const formattedSearch = `${search.toLowerCase()}-${type}-${cuisine}-${intolerance}-${diet}`;
-  console.log(formattedSearch);
+  // console.log(formattedSearch);
 
   const value = await AsyncStorage.getItem(formattedSearch);
   const parsedRecipe = JSON.parse(value);
@@ -203,6 +203,112 @@ export const getRecipeFromFavourites = (recipeId) => async (dispatch) => {
 
     dispatch({
       type: GET_RECIPE_FROM_FAVOURITES,
+      payload: transformedData,
+    });
+  }
+};
+
+// export const getRecipeFromFavourites = (recipeId) => async (dispatch) => {
+//   dispatch({
+//     type: SET_LOADING,
+//   });
+
+//   const value = await AsyncStorage.getItem(recipeId);
+//   const parsedRecipe = JSON.parse(value);
+
+//   const req = firebase.database().ref("recipe/" + recipeId);
+//   const snapshot = await req.once("value");
+//   const val = snapshot.val();
+
+//   if (parsedRecipe !== null) {
+//     dispatch({
+//       type: GET_RECIPE_FROM_FAVOURITES,
+//       payload: parsedRecipe,
+//     });
+//   } else if (val !== null) {
+//     dispatch({
+//       type: GET_RECIPE_FROM_FAVOURITES,
+//       payload: val,
+//     });
+
+//     if (parsedRecipe === null) {
+//       await AsyncStorage.setItem(recipeId, JSON.stringify(val));
+//     }
+//   } else {
+//     const response = await fetch(
+//       `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${API_KEY}`
+//     );
+//     const data = await response.json();
+
+//     const transformedData = {
+//       ...data,
+//       steps: data.analyzedInstructions.length
+//         ? data.analyzedInstructions[0].steps
+//         : [],
+//     };
+
+//     await AsyncStorage.setItem(recipeId, JSON.stringify(transformedData));
+
+//     await firebase
+//       .database()
+//       .ref("recipe/" + recipeId)
+//       .set(transformedData);
+
+//     dispatch({
+//       type: GET_RECIPE_FROM_FAVOURITES,
+//       payload: transformedData,
+//     });
+//   }
+// };
+
+export const getRecipeFromIngredients = (recipeId) => async (dispatch) => {
+  dispatch({
+    type: SET_LOADING,
+  });
+
+  const value = await AsyncStorage.getItem(recipeId);
+  const parsedRecipe = JSON.parse(value);
+
+  const req = firebase.database().ref("recipe/" + recipeId);
+  const snapshot = await req.once("value");
+  const val = snapshot.val();
+
+  if (parsedRecipe !== null) {
+    dispatch({
+      type: "GET_RECIPE_FROM_INGREDIENTS",
+      payload: parsedRecipe,
+    });
+  } else if (val !== null) {
+    dispatch({
+      type: "GET_RECIPE_FROM_INGREDIENTS",
+      payload: val,
+    });
+
+    if (parsedRecipe === null) {
+      await AsyncStorage.setItem(recipeId, JSON.stringify(val));
+    }
+  } else {
+    const response = await fetch(
+      `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${API_KEY}`
+    );
+    const data = await response.json();
+
+    const transformedData = {
+      ...data,
+      steps: data.analyzedInstructions.length
+        ? data.analyzedInstructions[0].steps
+        : [],
+    };
+
+    await AsyncStorage.setItem(recipeId, JSON.stringify(transformedData));
+
+    await firebase
+      .database()
+      .ref("recipe/" + recipeId)
+      .set(transformedData);
+
+    dispatch({
+      type: "GET_RECIPE_FROM_INGREDIENTS",
       payload: transformedData,
     });
   }
