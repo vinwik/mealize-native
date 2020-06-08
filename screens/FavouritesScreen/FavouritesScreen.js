@@ -37,13 +37,13 @@ const FavouritesScreen = () => {
 
   const mounted = useRef();
 
-  useEffect(() => {
-    if (!mounted.current) {
-      mounted.current = true;
-    } else {
-      goToRecipe(dispatchedId);
-    }
-  }, [dispatchedId]);
+  // useEffect(() => {
+  //   if (!mounted.current) {
+  //     mounted.current = true;
+  //   } else {
+  //     goToRecipe(dispatchedId);
+  //   }
+  // }, [dispatchedId]);
 
   return (
     <View style={{ flex: 1 }}>
