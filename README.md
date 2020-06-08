@@ -48,11 +48,16 @@
 
 ## Try it
 
-> Live demo on Nexus 5 with Appetize simulator
+> Live demo on Android and IOS with Appetize simulator
 
 <p align="center">
-<a href="https://appetize.io/embed/0983u7r4pwajrc9x19jdrnqcnw?device=nexus5&scale=75&autoplay=true&orientation=portrait&deviceColor=black&osVersion=8.1">
-<img src="assets/mealize-demo.png" height="500" title="Mealize Live Demo" alt="Mealize Live Demo">
+<a href="https://appetize.io/app/7fzwxm7gb6gxa4jgm2r4jp7nag?device=pixel4&scale=75&orientation=portrait&osVersion=10.0&deviceColor=black&autoplay=true">
+<img src="assets/mealize-demo-android.png" height="500" title="Mealize Live Demo Android" alt="Mealize Live Demo Android">
+</a>
+</p>
+<p align="center">
+<a href="https://appetize.io/app/gv9vtuktknxyhcnm5rmb0b3xg0?device=iphone11pro&scale=75&orientation=portrait&osVersion=13.3&deviceColor=black&autoplay=true">
+<img src="assets/mealize-demo-ios.png" height="500" title="Mealize Live Demo IOS" alt="Mealize Live Demo IOS">
 </a>
 </p>
 
