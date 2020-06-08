@@ -172,54 +172,103 @@ const RecipeScreen = ({ route, navigation }) => {
             <Animated.View
               style={[showcase.titleWrapper, { opacity: heroTitleOpacity }]}
             >
-              <Text style={showcase.title}>{recipe.title}</Text>
+              <Text style={showcase.title}>{recipeTitle}</Text>
             </Animated.View>
           </ImageBackground>
         </Animated.View>
       </Animated.View>
-      <Animated.ScrollView
-        showsVerticalScrollIndicator={false}
-        onScroll={Animated.event([
-          {
-            nativeEvent: {
-              contentOffset: {
-                y: scrollY,
+      {recipeId !== recipe.id ? (
+        <View
+          style={{
+            paddingVertical: 30,
+            paddingHorizontal: 35,
+            marginTop: HEADER_EXPANDED_HEIGHT,
+          }}
+        >
+          <FadeIn delay={300} duration={500}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                paddingBottom: 30,
+              }}
+            >
+              <View
+                style={{
+                  width: 100,
+                  height: 25,
+                  backgroundColor: "#d2d2d2",
+                  borderRadius: 7,
+                }}
+              ></View>
+              <View
+                style={{
+                  width: 100,
+                  height: 25,
+                  backgroundColor: "#d2d2d2",
+                  borderRadius: 7,
+                }}
+              ></View>
+            </View>
+            <View
+              style={{
+                width: "100%",
+                height: 300,
+                backgroundColor: "#d2d2d2",
+                borderRadius: 7,
+              }}
+            ></View>
+          </FadeIn>
+        </View>
+      ) : (
+        <Animated.ScrollView
+          showsVerticalScrollIndicator={false}
+          onScroll={Animated.event([
+            {
+              nativeEvent: {
+                contentOffset: {
+                  y: scrollY,
+                },
               },
             },
-          },
-        ])}
-        scrollEventThrottle={16}
-        contentContainerStyle={{
-          paddingTop: HEADER_EXPANDED_HEIGHT,
-        }}
-      >
-        <View style={preparation.layout}>
-          <View style={preparation.column}>
-            <Text style={preparation.title}>Servings</Text>
-            <Text>{recipe.servings}</Text>
-          </View>
-          <View style={preparation.column}>
-            <Text style={preparation.title}>Preparation time</Text>
-            <Text>
-              {recipe.readyInMinutes && recipe.readyInMinutes + " min"}
-            </Text>
-          </View>
-        </View>
-        <Ingredients extendedIngredients={extendedIngredients} />
-        <View style={stepSection.container}>
-          <View>
-            <Text style={stepSection.title}>Instructions</Text>
-          </View>
-          {steps.map((step) => {
-            return (
-              <View key={step.number} style={stepSection.stepWrapper}>
-                <Text style={stepSection.stepNumber}>{`${step.number}. `}</Text>
-                <Text>{step.step}</Text>
+          ])}
+          scrollEventThrottle={16}
+          contentContainerStyle={{
+            paddingTop: HEADER_EXPANDED_HEIGHT,
+          }}
+        >
+          <FadeIn duration={350}>
+            <View style={preparation.layout}>
+              <View style={preparation.column}>
+                <Text style={preparation.title}>Servings</Text>
+                <Text>{recipe.servings}</Text>
               </View>
-            );
-          })}
-        </View>
-      </Animated.ScrollView>
+              <View style={preparation.column}>
+                <Text style={preparation.title}>Preparation time</Text>
+                <Text>
+                  {recipe.readyInMinutes && recipe.readyInMinutes + " min"}
+                </Text>
+              </View>
+            </View>
+            <Ingredients extendedIngredients={extendedIngredients} />
+            <View style={stepSection.container}>
+              <View>
+                <Text style={stepSection.title}>Instructions</Text>
+              </View>
+              {steps.map((step) => {
+                return (
+                  <View key={step.number} style={stepSection.stepWrapper}>
+                    <Text
+                      style={stepSection.stepNumber}
+                    >{`${step.number}. `}</Text>
+                    <Text>{step.step}</Text>
+                  </View>
+                );
+              })}
+            </View>
+          </FadeIn>
+        </Animated.ScrollView>
+      )}
     </View>
   );
 };
