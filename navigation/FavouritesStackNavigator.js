@@ -4,6 +4,8 @@ import { StyleSheet } from "react-native";
 import FavouritesScreen from "../screens/FavouritesScreen/FavouritesScreen";
 import RecipeScreen from "../screens/FavouritesScreen/RecipeScreen";
 
+import { TransitionPresets } from "@react-navigation/stack";
+
 import { AntDesign } from "@expo/vector-icons";
 
 import { NavigationContainer } from "@react-navigation/native";
@@ -52,6 +54,7 @@ const FavouritesStackNavigator = () => {
         component={RecipeScreen}
         options={({ navigation, route }) => ({
           headerTransparent: true,
+          ...TransitionPresets.SlideFromRightIOS,
         })}
       />
     </Stack.Navigator>
