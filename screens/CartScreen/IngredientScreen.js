@@ -58,6 +58,16 @@ const IngredientScreen = ({ route }) => {
 
   return (
     <ScrollView>
+      <View // Set backgroundColor white for IOS scroll bounce
+        style={{
+          backgroundColor: "#fff",
+          height: 1000,
+          position: "absolute",
+          top: -1000,
+          left: 0,
+          right: 0,
+        }}
+      />
       <FadeIn>
         <View style={styles.imageWrapper}>
           <Image
