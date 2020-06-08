@@ -64,13 +64,13 @@ const RecipeCard = ({ recipe, i, length, height }) => {
 
   const mounted = useRef();
 
-  useEffect(() => {
-    if (!mounted.current) {
-      mounted.current = true;
-    } else {
-      goToRecipe(recipe.id);
-    }
-  }, [recipe.id]);
+  // useEffect(() => {
+  //   if (!mounted.current) {
+  //     mounted.current = true;
+  //   } else {
+  //     goToRecipe(recipe.id);
+  //   }
+  // }, [recipe.id]);
 
   return (
     <TouchableScale
