@@ -14,6 +14,10 @@ const intitalState = {
     extendedIngredients: [],
     steps: [],
   },
+  ingredientRecipe: {
+    extendedIngredients: [],
+    steps: [],
+  },
   loading: false,
   searchValue: "",
 };
@@ -50,6 +54,12 @@ export default function (state = intitalState, action) {
       return {
         ...state,
         favouriteRecipe: payload,
+        loading: false,
+      };
+    case "GET_RECIPE_FROM_INGREDIENTS":
+      return {
+        ...state,
+        ingredientRecipe: payload,
         loading: false,
       };
     default:
