@@ -14,6 +14,13 @@ export default function (state = intitalState, action) {
         ...state,
         ingredients: [...state.ingredients, payload],
       };
+    case "ADD_TO_COMPLETED":
+      return {
+        ...state,
+        ingredients: state.ingredients.map((ingredient) =>
+          ingredient.id === payload.id ? payload : ingredient
+        ),
+      };
     case REMOVE_FROM_CART:
       return {
         ...state,
