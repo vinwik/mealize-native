@@ -2,10 +2,38 @@ import { ADD_TO_CART, REMOVE_FROM_CART } from "./types";
 
 export const addToCart = (ingredient) => async (dispatch) => {
   ingredient.inCart = true;
+  ingredient.completed = false;
+
   await dispatch({
     type: ADD_TO_CART,
     payload: ingredient,
   });
+};
+
+let timer;
+
+export const addToCompleted = (ingredient) => async (dispatch) => {
+  timer = setTimeout(() => {
+    ingredient.completed = true;
+    // console.log(ingredientId);
+
+    dispatch({
+      type: "ADD_TO_COMPLETED",
+      payload: ingredient,
+    });
+  }, 2000);
+};
+
+export const cancelAddToCompleted = (ingredient) => async (dispatch) => {
+  clearTimeout(timer);
+  if (ingredient.completed === true) {
+    ingredient.completed = false;
+
+    dispatch({
+      type: "ADD_TO_COMPLETED",
+      payload: ingredient,
+    });
+  }
 };
 
 export const removeFromCart = (ingredientId) => async (dispatch) => {
