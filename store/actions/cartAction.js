@@ -13,15 +13,15 @@ export const addToCart = (ingredient) => async (dispatch) => {
 let timer;
 
 export const addToCompleted = (ingredient) => async (dispatch) => {
-  timer = setTimeout(() => {
-    ingredient.completed = true;
-    // console.log(ingredientId);
+  // timer = setTimeout(() => {
+  ingredient.completed = true;
+  // console.log(ingredientId);
 
-    dispatch({
-      type: "ADD_TO_COMPLETED",
-      payload: ingredient,
-    });
-  }, 1000);
+  dispatch({
+    type: "ADD_TO_COMPLETED",
+    payload: ingredient,
+  });
+  // }, 1000);
 };
 
 export const cancelAddToCompleted = (ingredient) => async (dispatch) => {

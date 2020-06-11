@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
   StyleSheet,
@@ -9,7 +9,11 @@ import {
   TouchableHighlight,
   Image,
   Dimensions,
+  Animated,
+  Easing,
 } from "react-native";
+
+// import Animated, { Easing } from "react-native-reanimated";
 
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
@@ -25,6 +29,9 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 
 const CartItem = ({ filteredIngredient, relatedRecipes }) => {
   const [isCompleted, setIsCompleted] = useState(filteredIngredient.completed);
+  const [translate] = useState(new Animated.Value(-66));
+  const [opacity] = useState(new Animated.Value(0));
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -45,82 +52,213 @@ const CartItem = ({ filteredIngredient, relatedRecipes }) => {
     },
     0
   );
+
+  const toggleCompleted = () => {
+    Animated.parallel([
+      Animated.timing(opacity, {
+        toValue: 0,
+        easing: Easing.inOut(Easing.ease),
+        duration: 250,
+        useNativeDriver: true,
+      }),
+      Animated.timing(translate, {
+        toValue: 66,
+        easing: Easing.inOut(Easing.ease),
+        duration: 350,
+        useNativeDriver: true,
+      }),
+    ]).start(() => setIsCompleted(!isCompleted));
+  };
+
+  const removeItem = () => {
+    Animated.parallel([
+      Animated.timing(opacity, {
+        toValue: 0,
+        easing: Easing.inOut(Easing.ease),
+        duration: 250,
+        useNativeDriver: true,
+      }),
+      Animated.timing(translate, {
+        toValue: -66,
+        easing: Easing.inOut(Easing.ease),
+
+        duration: 350,
+        useNativeDriver: true,
+      }),
+    ]).start(() => dispatch(removeFromCart(filteredIngredient.id)));
+  };
+
   useEffect(() => {
     isCompleted === true
       ? dispatch(addToCompleted(filteredIngredient))
       : dispatch(cancelAddToCompleted(filteredIngredient));
   }, [isCompleted]);
 
+  useLayoutEffect(() => {
+    Animated.parallel([
+      Animated.timing(translate, {
+        toValue: 0,
+        easing: Easing.inOut(Easing.ease),
+        duration: 250,
+        useNativeDriver: true,
+      }),
+      Animated.timing(opacity, {
+        toValue: 1,
+        easing: Easing.inOut(Easing.ease),
+        duration: 350,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, []);
+
   return (
     <Swipeable
-      overshootRight={false}
-      renderRightActions={() => (
-        <TouchableOpacity
-          style={{
-            backgroundColor: colors.paleDarkRed,
-            alignItems: "flex-end",
-            justifyContent: "center",
-            padding: 20,
-            marginVertical: 1,
-          }}
-          onPress={() => dispatch(removeFromCart(filteredIngredient.id))}
-        >
-          <Text style={{ color: "#fff", fontWeight: "600" }}>Delete</Text>
-        </TouchableOpacity>
-      )}
+      // overshootRight={false}
+      onSwipeableLeftOpen={() =>
+        // dispatch(removeFromCart(filteredIngredient.id))
+        toggleCompleted()
+      }
+      onSwipeableRightOpen={() =>
+        // dispatch(removeFromCart(filteredIngredient.id))
+        removeItem()
+      }
+      renderLeftActions={(progress, dragX) => {
+        {
+          const trans = progress.interpolate({
+            inputRange: [0, 1],
+            outputRange: [1, 0],
+          });
+          if (!isCompleted) {
+            return (
+              <TouchableOpacity
+                style={{
+                  flex: 1,
+                }}
+                // onPress={() => dispatch(removeFromCart(filteredIngredient.id))}
+              >
+                <Animated.View
+                  style={{
+                    backgroundColor: colors.paleGreen,
+                    // alignItems: "flex-end",
+                    justifyContent: "center",
+                    paddingLeft: 20,
+                    marginVertical: 1,
+                    flex: 1,
+                    opacity: trans,
+                  }}
+                  // onPress={() => dispatch(removeFromCart(filteredIngredient.id))}
+                >
+                  <Feather
+                    name={isCompleted ? "circle" : "check-circle"}
+                    color="#fff"
+                    size={25}
+                  />
+                </Animated.View>
+              </TouchableOpacity>
+            );
+          }
+        }
+      }}
+      renderRightActions={(progress, dragX) => {
+        const trans = progress.interpolate({
+          inputRange: [0, 1],
+          outputRange: [1, 0],
+        });
+
+        return (
+          <TouchableOpacity
+            style={{
+              flex: 1,
+            }}
+            // onPress={() => dispatch(removeFromCart(filteredIngredient.id))}
+          >
+            <Animated.View
+              style={{
+                backgroundColor: colors.paleDarkRed,
+                alignItems: "flex-end",
+                justifyContent: "center",
+                padding: 20,
+                marginVertical: 1,
+                flex: 1,
+                opacity: trans,
+              }}
+              // onPress={() => dispatch(removeFromCart(filteredIngredient.id))}
+            >
+              <Animated.Text
+                style={{
+                  color: "#fff",
+                  fontWeight: "600",
+                  // transform: [{ translateX: trans }],
+                }}
+              >
+                Delete
+              </Animated.Text>
+            </Animated.View>
+          </TouchableOpacity>
+        );
+      }}
       key={filteredIngredient.id}
     >
-      <TouchableHighlight
-        underlayColor="#fafafa"
-        style={styles.rowContainer}
-        onPress={() =>
-          navigation.navigate("Ingredient", {
-            ingredient: filteredIngredient,
-          })
-        }
+      <Animated.View
+        style={{
+          transform: [{ translateX: translate }],
+          opacity: opacity,
+        }}
       >
-        <>
-          <View style={styles.ingredientContainer}>
-            <View style={styles.imageWrapper}>
-              <Image
-                style={styles.image}
-                source={{
-                  uri: `https://spoonacular.com/cdn/ingredients_100x100/${filteredIngredient.image}`,
-                }}
-              />
-            </View>
-            <View>
-              <Text
-                style={[
-                  styles.ingredient,
-                  { textDecorationLine: isCompleted ? "line-through" : "none" },
-                ]}
-              >
-                {filteredIngredient.name}
-              </Text>
-              {isSameUnit && (
-                <Text style={styles.unit}>
-                  {`${totalAmount} ${usUnit.unitShort}`}
+        <TouchableHighlight
+          underlayColor="#fafafa"
+          style={styles.rowContainer}
+          onPress={() =>
+            navigation.navigate("Ingredient", {
+              ingredient: filteredIngredient,
+            })
+          }
+        >
+          <>
+            <View style={styles.ingredientContainer}>
+              <View style={styles.imageWrapper}>
+                <Image
+                  style={styles.image}
+                  source={{
+                    uri: `https://spoonacular.com/cdn/ingredients_100x100/${filteredIngredient.image}`,
+                  }}
+                />
+              </View>
+              <View>
+                <Text
+                  style={[
+                    styles.ingredient,
+                    {
+                      textDecorationLine: isCompleted ? "line-through" : "none",
+                    },
+                  ]}
+                >
+                  {filteredIngredient.name}
                 </Text>
-              )}
+                {isSameUnit && (
+                  <Text style={styles.unit}>
+                    {`${totalAmount} ${usUnit.unitShort}`}
+                  </Text>
+                )}
+              </View>
             </View>
-          </View>
 
-          <TouchableOpacity
-            onPress={() => {
-              setIsCompleted(!isCompleted);
-            }}
-          >
-            <View style={styles.icon}>
-              <Feather
-                name={isCompleted ? "check-circle" : "circle"}
-                color={"#444"}
-                size={25}
-              />
-            </View>
-          </TouchableOpacity>
-        </>
-      </TouchableHighlight>
+            <TouchableOpacity
+              onPress={() => {
+                toggleCompleted();
+              }}
+            >
+              <View style={styles.icon}>
+                <Feather
+                  name={isCompleted ? "check-circle" : "circle"}
+                  color={isCompleted ? colors.paleGreen : "#444"}
+                  size={25}
+                />
+              </View>
+            </TouchableOpacity>
+          </>
+        </TouchableHighlight>
+      </Animated.View>
     </Swipeable>
   );
 };
@@ -211,8 +349,7 @@ const CartScreen = () => {
                 </View>
               );
             })}
-          {
-            // hasCompletedIngredients && (
+          {hasCompletedIngredients && (
             <View
               style={{
                 backgroundColor: colors.backgroundColor,
@@ -247,8 +384,7 @@ const CartScreen = () => {
                 })}
               </View>
             </View>
-            // )
-          }
+          )}
         </ScrollView>
       )}
     </View>
@@ -259,6 +395,7 @@ export default CartScreen;
 
 const styles = StyleSheet.create({
   rowContainer: {
+    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -312,8 +449,9 @@ const styles = StyleSheet.create({
     // paddingHorizontal: 10,
   },
   icon: {
-    padding: Dimensions.get("screen").width * 0.05,
-
+    paddingHorizontal: Dimensions.get("screen").width * 0.05,
+    flexGrow: 1,
+    justifyContent: "center",
     // borderRadius: 25,
     // elevation: 5,
     // shadowColor: "#000",
