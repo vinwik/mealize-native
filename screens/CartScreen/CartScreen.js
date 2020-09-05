@@ -9,11 +9,11 @@ import {
   TouchableHighlight,
   Image,
   Dimensions,
-  Animated,
-  Easing,
+  // Animated,
+  // Easing,
 } from "react-native";
 
-// import Animated, { Easing } from "react-native-reanimated";
+import Animated, { Easing } from "react-native-reanimated";
 
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
@@ -30,6 +30,7 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 const CartItem = ({ filteredIngredient, relatedRecipes }) => {
   const [isCompleted, setIsCompleted] = useState(filteredIngredient.completed);
   const [translate] = useState(new Animated.Value(-66));
+  const [height] = useState(new Animated.Value(66));
   const [opacity] = useState(new Animated.Value(0));
 
   const dispatch = useDispatch();
@@ -54,38 +55,46 @@ const CartItem = ({ filteredIngredient, relatedRecipes }) => {
   );
 
   const toggleCompleted = () => {
-    Animated.parallel([
-      Animated.timing(opacity, {
-        toValue: 0,
-        easing: Easing.inOut(Easing.ease),
-        duration: 250,
-        useNativeDriver: true,
-      }),
-      Animated.timing(translate, {
-        toValue: 66,
-        easing: Easing.inOut(Easing.ease),
-        duration: 350,
-        useNativeDriver: true,
-      }),
-    ]).start(() => setIsCompleted(!isCompleted));
+    Animated.timing(height, {
+      toValue: 0,
+      easing: Easing.inOut(Easing.ease),
+      duration: 250,
+      // useNativeDriver: true,
+    }).start();
+    Animated.timing(opacity, {
+      toValue: 0,
+      easing: Easing.inOut(Easing.ease),
+      duration: 250,
+      useNativeDriver: true,
+    }).start();
+    Animated.timing(translate, {
+      toValue: 66,
+      easing: Easing.inOut(Easing.ease),
+      duration: 350,
+      useNativeDriver: true,
+    }).start(() => setIsCompleted(!isCompleted));
   };
 
   const removeItem = () => {
-    Animated.parallel([
-      Animated.timing(opacity, {
-        toValue: 0,
-        easing: Easing.inOut(Easing.ease),
-        duration: 250,
-        useNativeDriver: true,
-      }),
-      Animated.timing(translate, {
-        toValue: -66,
-        easing: Easing.inOut(Easing.ease),
+    Animated.timing(height, {
+      toValue: 0,
+      easing: Easing.inOut(Easing.ease),
+      duration: 250,
+      // useNativeDriver: true,
+    }).start();
+    Animated.timing(opacity, {
+      toValue: 0,
+      easing: Easing.inOut(Easing.ease),
+      duration: 250,
+      useNativeDriver: true,
+    }).start();
+    Animated.timing(translate, {
+      toValue: -66,
+      easing: Easing.inOut(Easing.ease),
 
-        duration: 350,
-        useNativeDriver: true,
-      }),
-    ]).start(() => dispatch(removeFromCart(filteredIngredient.id)));
+      duration: 350,
+      useNativeDriver: true,
+    }).start(() => dispatch(removeFromCart(filteredIngredient.id)));
   };
 
   useEffect(() => {
@@ -95,20 +104,24 @@ const CartItem = ({ filteredIngredient, relatedRecipes }) => {
   }, [isCompleted]);
 
   useLayoutEffect(() => {
-    Animated.parallel([
-      Animated.timing(translate, {
-        toValue: 0,
-        easing: Easing.inOut(Easing.ease),
-        duration: 250,
-        useNativeDriver: true,
-      }),
-      Animated.timing(opacity, {
-        toValue: 1,
-        easing: Easing.inOut(Easing.ease),
-        duration: 350,
-        useNativeDriver: true,
-      }),
-    ]).start();
+    Animated.timing(height, {
+      toValue: 66,
+      easing: Easing.inOut(Easing.ease),
+      duration: 250,
+      // useNativeDriver: true,
+    }).start();
+    Animated.timing(translate, {
+      toValue: 0,
+      easing: Easing.inOut(Easing.ease),
+      duration: 250,
+      // useNativeDriver: true,
+    }).start();
+    Animated.timing(opacity, {
+      toValue: 1,
+      easing: Easing.inOut(Easing.ease),
+      duration: 350,
+      // useNativeDriver: true,
+    }).start();
   }, []);
 
   return (
@@ -136,7 +149,7 @@ const CartItem = ({ filteredIngredient, relatedRecipes }) => {
                 }}
                 // onPress={() => dispatch(removeFromCart(filteredIngredient.id))}
               >
-                <Animated.View
+                <View
                   style={{
                     backgroundColor: colors.paleGreen,
                     // alignItems: "flex-end",
@@ -144,7 +157,7 @@ const CartItem = ({ filteredIngredient, relatedRecipes }) => {
                     paddingLeft: 20,
                     marginVertical: 1,
                     flex: 1,
-                    opacity: trans,
+                    // opacity: trans,
                   }}
                   // onPress={() => dispatch(removeFromCart(filteredIngredient.id))}
                 >
@@ -153,7 +166,7 @@ const CartItem = ({ filteredIngredient, relatedRecipes }) => {
                     color="#fff"
                     size={25}
                   />
-                </Animated.View>
+                </View>
               </TouchableOpacity>
             );
           }
@@ -180,7 +193,7 @@ const CartItem = ({ filteredIngredient, relatedRecipes }) => {
                 padding: 20,
                 marginVertical: 1,
                 flex: 1,
-                opacity: trans,
+                // opacity: trans,
               }}
               // onPress={() => dispatch(removeFromCart(filteredIngredient.id))}
             >
@@ -203,6 +216,7 @@ const CartItem = ({ filteredIngredient, relatedRecipes }) => {
         style={{
           transform: [{ translateX: translate }],
           opacity: opacity,
+          height: height,
         }}
       >
         <TouchableHighlight

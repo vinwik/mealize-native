@@ -39,6 +39,7 @@ export const searchRecipe = (
   const autocomplete = await AsyncStorage.getItem("autocompleteRecipe");
   const parsedAutocomplete = JSON.parse(autocomplete);
 
+  // if (parsedRecipe === null) {
   const req = firebase.database().ref(`search/` + formattedSearch);
   const snapshot = await req.once("value");
   const val = snapshot.val();
@@ -46,6 +47,7 @@ export const searchRecipe = (
   const req2 = firebase.database().ref(`autocomplete/`);
   const snapshot2 = await req2.once("value");
   const val2 = snapshot2.val();
+  // }
 
   if (parsedRecipe !== null) {
     dispatch({

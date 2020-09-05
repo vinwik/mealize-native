@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,12 +8,92 @@ import {
   TouchableOpacity,
   Dimensions,
   ImageBackground,
+  // Animated,
+  // Easing,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import { getRecipeFromFavourites } from "../../store/actions/recipeAction";
 import { removeFromFavourites } from "../../store/actions/favouritesAction";
+
+import Animated, { Easing } from "react-native-reanimated";
+
+import Swipeable from "react-native-gesture-handler/Swipeable";
+
+const HEIGHT = Dimensions.get("screen").height * 0.25;
+
+const FavouriteItem = ({ recipe }) => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  const dispatchRecipe = (recipeId) => {
+    dispatch(getRecipeFromFavourites(recipeId));
+  };
+
+  const goToRecipe = (recipe) => {
+    navigation.navigate("Recipe", {
+      recipeId: recipe.id,
+      recipeImage: recipe.image,
+      recipeTitle: recipe.title,
+    });
+  };
+  const [scale] = useState(new Animated.Value(HEIGHT));
+
+  const removeItem = () => {
+    Animated.timing(scale, {
+      toValue: 0,
+      easing: Easing.inOut(Easing.ease),
+      duration: 250,
+    }).start(() => dispatch(removeFromFavourites(recipe.id)));
+  };
+
+  return (
+    <Animated.View
+      style={{
+        height: scale,
+      }}
+    >
+      <Swipeable
+        // key={recipe.id}
+        onSwipeableRightOpen={() => removeItem()}
+        renderRightActions={(progress, dragX) => {
+          return (
+            <TouchableOpacity
+              style={{
+                flex: 1,
+              }}
+            ></TouchableOpacity>
+          );
+        }}
+      >
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.card}
+          onPress={() => {
+            dispatchRecipe(recipe.id.toString());
+            goToRecipe(recipe);
+          }}
+        >
+          <ImageBackground
+            source={{
+              uri: `https://spoonacular.com/recipeImages/${recipe.image}`,
+            }}
+            style={styles.image}
+          >
+            <View style={styles.titleWrapper}>
+              <Text style={styles.title}>
+                {recipe.title.length < 30
+                  ? recipe.title
+                  : recipe.title.substring(0, 30) + "..."}
+              </Text>
+            </View>
+          </ImageBackground>
+        </TouchableOpacity>
+      </Swipeable>
+    </Animated.View>
+  );
+};
 
 const FavouritesScreen = () => {
   const recipes = useSelector((state) => state.favourites.recipes);
@@ -35,16 +115,6 @@ const FavouritesScreen = () => {
     });
   };
 
-  const mounted = useRef();
-
-  // useEffect(() => {
-  //   if (!mounted.current) {
-  //     mounted.current = true;
-  //   } else {
-  //     goToRecipe(dispatchedId);
-  //   }
-  // }, [dispatchedId]);
-
   return (
     <View style={{ flex: 1 }}>
       {!recipes.length ? (
@@ -63,42 +133,7 @@ const FavouritesScreen = () => {
       ) : (
         <ScrollView>
           {recipes.map((recipe) => {
-            const image = { uri: `${recipe.image}` };
-
-            return (
-              <TouchableOpacity
-                key={recipe.id}
-                activeOpacity={0.8}
-                style={styles.card}
-                onPress={() => {
-                  dispatchRecipe(recipe.id.toString());
-                  goToRecipe(recipe);
-                }}
-              >
-                <ImageBackground
-                  source={{
-                    uri: `https://spoonacular.com/recipeImages/${recipe.image}`,
-                  }}
-                  style={styles.image}
-                >
-                  <TouchableOpacity style={styles.deleteButton}>
-                    <AntDesign
-                      name="close"
-                      size={30}
-                      color="black"
-                      onPress={() => dispatch(removeFromFavourites(recipe.id))}
-                    />
-                  </TouchableOpacity>
-                  <View style={styles.titleWrapper}>
-                    <Text style={styles.title}>
-                      {recipe.title.length < 30
-                        ? recipe.title
-                        : recipe.title.substring(0, 30) + "..."}
-                    </Text>
-                  </View>
-                </ImageBackground>
-              </TouchableOpacity>
-            );
+            return <FavouriteItem key={recipe.id} recipe={recipe} />;
           })}
         </ScrollView>
       )}
@@ -112,7 +147,7 @@ const styles = StyleSheet.create({
   card: {
     // margin: Dimensions.get("screen").width * 0.05,
     // width: Dimensions.get("screen").width * 0.4,
-    height: Dimensions.get("screen").height * 0.25,
+    height: HEIGHT,
     // borderRadius: 25,
   },
   image: {
