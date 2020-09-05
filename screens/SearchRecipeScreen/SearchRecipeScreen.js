@@ -51,7 +51,7 @@ const SearchRecipeScreen = ({ navigation }) => {
     }
   };
   const searchAutocompleteHandler = (autocomplete) => {
-    dispatch(searchRecipe(autocomplete, type, cuisine));
+    dispatch(searchRecipe(autocomplete, type, cuisine, intolerance, diet));
     // setSearch("");
   };
 
@@ -126,6 +126,8 @@ const SearchRecipeScreen = ({ navigation }) => {
     setAutocompleteSearch([]);
     Keyboard.dismiss();
   };
+
+  console.log(search);
 
   useBackHandler(() => {
     if (modalVisible) {
