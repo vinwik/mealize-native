@@ -85,7 +85,7 @@ const MainStackNavigator = () => {
       <Stack.Screen
         name="Recipe"
         component={RecipeScreen}
-        sharedElementsConfig={(route, otherRoute, showing) => {
+        sharedElements={(route, otherRoute, showing) => {
           const { recipeImage, recipeTitle } = route.params;
           return [
             {
